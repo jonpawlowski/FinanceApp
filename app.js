@@ -19,32 +19,20 @@ app.use(session({ secret: 'library' }));
 
 require('./src/config/passport.js')(app);
 app.use(express.static(path.join(__dirname, '/public/')));
-app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
-app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
-app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-const nav = [
-  { link: '/books', title: 'Books' },
-  { link: '/authors', title: 'Authors' }
-];
-const bookRouter = require('./src/routes/bookRoutes')(nav);
-const adminRouter = require('./src/routes/adminRoutes')(nav);
-const authRouter = require('./src/routes/authRoutes')(nav);
+const chargeRouter = require('./src/routes/chargeRoutes')();
+const analysisRouter = require('./src/routes/analysisRoutes')();
+const authRouter = require('./src/routes/authRoutes')();
 
-app.use('/books', bookRouter);
-app.use('/admin', adminRouter);
+app.use('/charges', chargeRouter);
+app.use('/analysis', analysisRouter);
 app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.render(
-    'index',
-    {
-      nav: [{ link: '/books', title: 'Books' },
-        { link: '/authors', title: 'Authors' }],
-      title: 'Library'
-    }
+    'index'
   );
 })
 
