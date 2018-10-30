@@ -25,11 +25,13 @@ app.set('view engine', 'ejs');
 const chargeRouter = require('./src/routes/chargeRoutes')();
 const analysisRouter = require('./src/routes/analysisRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
+const newChargesRouter = require('./src/routes/newChargesRoutes')();
 const { MongoClient } = require('mongodb');
 
 app.use('/charges', chargeRouter);
 app.use('/analysis', analysisRouter);
 app.use('/auth', authRouter);
+app.use('/newCharges', newChargesRouter);
 
 app.get('/', (req, res) => {
   const url = 'mongodb://localhost:27017';
@@ -49,9 +51,13 @@ app.get('/', (req, res) => {
           $gte: new Date(new Date().setDate(new Date().getDate()-7))
         }
       }).toArray();
-
+      recentCharges.sort(function compare(a, b) {
+        var dateA = new Date(a.chargeDate);
+        var dateB = new Date(b.chargeDate);
+        return dateB - dateA;
+      });
   res.render(
-    'index',
+    'test',
     {
       recentCharges
     }

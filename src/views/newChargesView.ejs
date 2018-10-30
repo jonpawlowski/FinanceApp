@@ -18,7 +18,7 @@
 
   </head>
 
-  <body>
+  <body id="page-top">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -29,7 +29,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+						<li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="/charges">All Charges</a>
             </li>
             <li class="nav-item">
@@ -50,33 +50,23 @@
       </div>
     </header>
 
-    <p class="lead">Recent Charges</p>
-    <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Vendor</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Payment Type</th>
-        <th scope="col">Comments</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%for(let i=0; i<recentCharges.length; i++) {%>
-      <tr>
-        <td><%=(recentCharges[i].chargeDate.getMonth()+1) + '/' + recentCharges[i].chargeDate.getDate() + '/'+ recentCharges[i].chargeDate.getFullYear();%></td>
-        <td><%=recentCharges[i].vendor%></td>
-        <td><%='$' + recentCharges[i].amount.toFixed(2)%></td>
-        <td><%=recentCharges[i].paymentType%></td>
-        <td><%=recentCharges[i].comments%></td>
-      </tr>
-      <%}%>
-    </tbody>
-  </table>
-  <button onclick="location.href='/newCharges';">New Charge</button>
-  <br>
-  <br>
-  <br>
+    <div class="row">
+      <br>
+      <div class="col-md-2 col-sm-3 text-center">
+        Enter a New Charge!
+        <form name="newChargesForm" action="/newCharges" method="post">
+          Charge Date: <input name="formChargeDate" required id="chargeDate" type="date"/><br/>
+          Vendor: <input name="vendor" required id="vendor"/><br/>
+          Amount: <input name="formAmount" required id="formAmount" type="number" step=".01"/><br/>
+          Payment Type: <input name="paymentType" required id="paymentType"/><br/>
+          Category: <input name="category" required id="category"/><br/>
+          Comments: <input name="comments" id="comments"/><br/>
+          <input type="submit" value="Enter New Charge" />
+        </form>
+      </div>
+    </div>
+    <hr>
+<hr>
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">

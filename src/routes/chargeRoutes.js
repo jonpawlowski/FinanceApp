@@ -18,7 +18,11 @@ function router() {
           const db = client.db(dbName);
           const col = await db.collection('charges');
           const charges = await col.find().toArray();
-
+          charges.sort(function compare(a, b) {
+            var dateA = new Date(a.chargeDate);
+            var dateB = new Date(b.chargeDate);
+            return dateB - dateA;
+          });
       res.render(
         'chargesView',
         {
@@ -30,8 +34,7 @@ function router() {
     }
     client.close();
     }());
-  });
-
+  })
   return chargeRouter;
 };
 
