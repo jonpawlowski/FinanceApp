@@ -32,7 +32,7 @@ function router() {
           const results = await col.insertOne(charge);
           debug(results);
 
-          res.redirect('charges');
+          res.redirect('/');
 
         } catch (err) {
           debug(err);

@@ -99,6 +99,33 @@
         </li>
       </ul>
 
+      <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header text-center">
+                      <h4 class="modal-title w-100 font-weight-bold">Enter a New Charge</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="col-md-2 col-sm-3 text-center">
+                    <form name="newChargesForm" action="/newCharges" method="post">
+                      Charge Date: <input name="formChargeDate" required id="chargeDate" type="date"/><br/>
+                      Vendor: <input name="vendor" required id="vendor"/><br/>
+                      Amount: <input name="formAmount" required id="formAmount" type="number" step=".01"/><br/>
+                      Payment Type: <input name="paymentType" required id="paymentType"/><br/>
+                      Category: <input name="category" required id="category"/><br/>
+                      Comments: <input name="comments" id="comments"/><br/>
+                    </div>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" class="btn btn-info">Submit</button>
+                      </div>
+                    </form>
+
+              </div>
+          </div>
+      </div>
+
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -108,9 +135,40 @@
             <div class="card-header">
               <i class="fas fa-chart-area"></i>
               Current Budget for <%=currentMonth%></div>
-            <div class="card-body">
-              <canvas id="myAreaChart" width="100%" height="30"></canvas>
+            <table id="tblChart" cellspacing="0" cellpadding="0" border="0" align="left" valign="top">
+              <tbody>
+                <tr>
+                  <td colspan="2" id="tdTop" style="height: 0.5px;"></td>
+                </tr>
+                <tr>
+                  <td id="tdLeft" style="width: 0.5px;">
+                  </td>
+                  <td>
+                    <div class="chartContainer" style="position: relative; width: 516px; height: 40px;" onselectstart="return false;">
+                      <svg id="svgChart" version="1.1" width="100%" height="100%" overflow="hidden">
+                        <defs>
+                          <clipPath id="cl1541110894732_1">
+                            <rect x="1" y="1" width="515" height="39" fill="none"></rect>
+                          </clipPath>
+                          <clipPath id="cl1541110894732_2">
+                            <rect x="-2" y="0" width="519" height="39" fill="none"></rect>
+                          </clipPath>
+                        </defs>
+                        <rect x="1.5" y="1.5" width="513" height="37" fill="#FFFFFF"></rect>
+                        <g clip-path="url(https://triad.wealthcareportal.com/Page/Dashboard#cl1541110894732_2)">
+                          <rect x="0.5" y="-0.5" width="450" height="40" display="block" fill="#62B75C" fill-opacity="1" stroke-opacity="1" stroke="#5BB155" stroke-width="0" stroke-dasharray=""></rect>
+                          <rect x="0.5001236019479667" y="-0.5" width="515" height="40" display="block" fill="#8FB7CA" fill-opacity="1" stroke-opacity="1" stroke="#85AFC2" stroke-width="0" stroke-dasharray=""></rect>
+                        </g>
+                      </svg>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+                <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
             </div>
+            <br>
             <div class="card-footer small text-muted">Last Updated <%=(recentCharges[0].chargeDate.getMonth()+1) + '/' + recentCharges[0].chargeDate.getDate() + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
           </div>
 
