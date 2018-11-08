@@ -22,6 +22,8 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="css/css-cms.css" rel="stylesheet">
+    <link href="css/css.css" rel="stylesheet">
 
   </head>
 
@@ -129,56 +131,68 @@
       <div id="content-wrapper">
 
         <div class="container-fluid">
-
-          <!-- Area Chart Example-->
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-chart-area"></i>
-              Current Budget for <%=currentMonth%></div>
-            <table id="tblChart" cellspacing="0" cellpadding="0" border="0" align="left" valign="top">
-              <tbody>
-                <tr>
-                  <td colspan="2" id="tdTop" style="height: 0.5px;"></td>
-                </tr>
-                <tr>
-                  <td id="tdLeft" style="width: 0.5px;">
-                  </td>
-                  <td>
-                    <div class="chartContainer" style="position: relative; width: 516px; height: 40px;" onselectstart="return false;">
-                      <svg id="svgChart" version="1.1" width="100%" height="100%" overflow="hidden">
-                        <defs>
-                          <clipPath id="cl1541110894732_1">
-                            <rect x="1" y="1" width="515" height="39" fill="none"></rect>
-                          </clipPath>
-                          <clipPath id="cl1541110894732_2">
-                            <rect x="-2" y="0" width="519" height="39" fill="none"></rect>
-                          </clipPath>
-                        </defs>
-                        <rect x="1.5" y="1.5" width="513" height="37" fill="#FFFFFF"></rect>
-                        <g clip-path="url(https://triad.wealthcareportal.com/Page/Dashboard#cl1541110894732_2)">
-                          <rect x="0.5" y="-0.5" width="450" height="40" display="block" fill="#62B75C" fill-opacity="1" stroke-opacity="1" stroke="#5BB155" stroke-width="0" stroke-dasharray=""></rect>
-                          <rect x="0.5001236019479667" y="-0.5" width="515" height="40" display="block" fill="#8FB7CA" fill-opacity="1" stroke-opacity="1" stroke="#85AFC2" stroke-width="0" stroke-dasharray=""></rect>
-                        </g>
-                      </svg>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                  Total spend so far: $<%=totalMonthlyCharges%>
-                  Budget Remaining: $<%=budgetRemaining%>
-                  The current on budget number is $<%=currentOnBudget%>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="text-center">
-                <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
+              Current Budget for <%=currentMonth%>
             </div>
             <br>
-            <div class="card-footer small text-muted">Last Updated <%=(recentCharges[0].chargeDate.getMonth()+1) + '/' + recentCharges[0].chargeDate.getDate() + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
+          <!-- Area Chart Example-->
+          <div class="b-dashboard-accounts-item mod_nonhsa">
+              <div class="b-dashboard-accounts-title">
+                  <div class="b-dashboard-col15">
+                      <div class="b-dashboard-accounts-name">Spending Stats - (01/01/2018-12/31/2018)</div>
+                  </div>
+              </div>
+              <div class="b-dashboard-accounts-chart">
+                <div class="b-dashboard-accounts-chart-h">
+                  <table id="tblChart" cellspacing="0" cellpadding="0" border="0" align="left" valign="top">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" id="tdTop" style="height: 0.5px;"></td>
+                      </tr>
+                      <tr>
+                        <td id="tdLeft" style="width: 0.5px;"></td>
+                        <td>
+                          <div class="chartContainer" style="position: relative; width: 516px; height: 40px;" onselectstart="return false;">
+                            <svg id="svgChart" version="1.1" width="100%" height="100%" overflow="hidden">
+                                <rect x="45" y="-0.5" width="600" height="40" display="block" fill="#62B75C" fill-opacity="1" stroke-opacity="1" stroke="#62B75C" stroke-width="0" stroke-dasharray=""></rect>
+                                <rect x="45" y="-0.5" width="100" height="40" display="block" fill="#8FB7CA" fill-opacity="1" stroke-opacity="1" stroke="#8FB7CA" stroke-width="0" stroke-dasharray=""></rect>
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="b-dashboard-accounts-info">
+                  <div class="b-dashboard-col70">
+                      <div class="b-dashboard-accounts-balance">
+                          Available<span><span>$<%=budgetRemaining%></span></span>
+                          <div class="b-dashboard-accounts-balance-circle" style="background: rgb(102, 179, 96);"></div>
+                      </div>
+                  </div>
+                  <div class="b-dashboard-col70">
+                      <div class="b-dashboard-accounts-balance">
+                        Spent<span>$<%=totalMonthlyCharges%></span>
+                        <div class="b-dashboard-accounts-balance-circle" style="background: rgb(146, 182, 199);"></div>
+                      </div>
+                  </div>
+                  <div class="b-dashboard-col70a">
+                      <div class="b-dashboard-accounts-balance">
+                        On Budget Number<span>$<%=currentOnBudget%></span>
+                      </div>
+                  </div>
+              </div>
           </div>
-
+          <div class="b-dashboard-col70b">
+              <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
+          </div>
+          <br>
+          <div class="card-footer small text-muted">Last Updated <%=(recentCharges[0].chargeDate.getMonth()+1) + '/' + recentCharges[0].chargeDate.getDate() + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
+        </div>
+        </div>
           <!-- DataTables Example -->
           <div class="card mb-3">
             <div class="card-header">

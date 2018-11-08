@@ -41,7 +41,6 @@ function router() {
 
         // Perform current budget performance
         var totalMonthlyCharges = 0;
-        var currentOnBudget = 0;
         const monthlyBudget = 2000;
         const lastOfMonth = new Date( date.getFullYear(), date.getMonth()+1, 0 );
         const numDays = lastOfMonth.getDate();
@@ -49,8 +48,9 @@ function router() {
         for (i = 0; i < monthlyCharges.length; i++) {
           totalMonthlyCharges += monthlyCharges[i].amount;
         }
-        const budgetRemaining = monthlyBudget - totalMonthlyCharges;
-        currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
+        totalMonthlyCharges = totalMonthlyCharges.toFixed(2);
+        const budgetRemaining = (monthlyBudget - totalMonthlyCharges).toFixed(2);
+        const currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
         //debug(`on Budget = ${currentOnBudget}`)
         // Get current month to display on index page
         const d = new Date();
