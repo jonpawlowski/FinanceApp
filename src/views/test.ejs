@@ -24,6 +24,9 @@
     <link href="css/sb-admin.css" rel="stylesheet">
     <link href="css/css-cms.css" rel="stylesheet">
     <link href="css/css.css" rel="stylesheet">
+    <link href="css/Payment.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/colors.css" rel="stylesheet">
 
   </head>
 
@@ -110,23 +113,57 @@
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
-                  <div class="col-md-2 col-sm-3 text-center">
+                  <div class="CardEntryContainer">
                     <form name="newChargesForm" action="/newCharges" method="post">
-                      Charge Date: <input name="formChargeDate" required id="chargeDate" type="date"/><br/>
-                      Vendor: <input name="vendor" required id="vendor"/><br/>
-                      Amount: <input name="formAmount" required id="formAmount" type="number" step=".01"/><br/>
-                      Payment Type: <input name="paymentType" required id="paymentType"/><br/>
-                      Category: <input name="category" required id="category"/><br/>
-                      Comments: <input name="comments" id="comments"/><br/>
-                    </div>
-                      <div class="modal-footer d-flex justify-content-center">
-                        <button type="submit" class="btn btn-info">Submit</button>
+                      <div class="CardEntryForm section">
+                        <div class="formsection column_2">
+                          <div class="content formcolumn">
+                            <div class="CardEntry-Field">
+                              <label for="chargeDate" style="margin-left:10px;">Charge Date:</label>
+                              <input class="FieldInputBox" name="formChargeDate" required id="formChargeDate" type="date"/>
+                            </div>
+                            <div class="CardEntry-Field">
+                              <label for="vendor" style="margin-left:10px;">Vendor:</label>
+                              <input class="FieldInputBox" name="vendor" required id="vendor" type="text"/>
+                            </div>
+                            <div class="CardEntry-Field">
+                              <label for="amount" style="margin-left:10px;">Amount:</label>
+                              <input class="FieldInputBox" name="formAmount" required id="formAmount" type="number" step=".01"/>
+                            </div>
+                            <div class="CardEntry-Field">
+                              <label for="paymentType" style="margin-left:10px;">Payment Type:</label>
+                              <input class="FieldInputBox" name="paymentType" required id="paymentType" list="paymentTypes"/>
+                                <datalist id="paymentTypes">
+                                  <option value="AmEx Platinum">
+                                  <option value="Cash">
+                                  <option value="Chase Sapphire">
+                                </datalist>
+                            </div>
+                            <div class="CardEntry-Field">
+                              <label for="category" style="margin-left:10px;">Category:</label>
+                              <select class="FieldInputBox" required name="category" id="category">
+                                <option value="Monthly">Monthly</option>
+                                <option value="One-time">One-time</option>
+                                <option value="Recurring">Recurring</option>
+                              </select>
+                            </div>
+
+                            <div class="CardEntry-Field">
+                              <label for="comments" style="margin-left:10px;">Comments:</label>
+                              <input class="FieldInputBox" name="comments" id="comments" type="text"/>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                          <button type="submit" class="btn btn-info">Submit</button>
+                        </div>
                       </div>
                     </form>
-
+                  </div>
               </div>
           </div>
-      </div>
+        </div>
 
       <div id="content-wrapper">
 
@@ -229,15 +266,6 @@
 
         </div>
         <!-- /.container-fluid -->
-
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright ©Pawlowski 2018</span>
-            </div>
-          </div>
-        </footer>
 
       </div>
       <!-- /.content-wrapper -->

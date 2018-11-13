@@ -1,0 +1,313 @@
+/********************************/
+/* Name:        Payment.css
+ * Description: Styles for payment views
+ * Revision History:
+ * *saw      05/16 415510 - rename & add styles for eChecks
+ * *saw      07/16 428773 - remove all duplicate styling
+ * *akersten 09/16 428773 - fix eChecks styles
+ ********************************
+ */
+
+.noDisp,
+.mobile .md_echeckin form .section .noDisp {
+	display: none;
+}
+
+/************
+* SavedCard - individual card in the CardGroup
+************/
+.selectable.cardlist .card.Selected {
+	border-color: #cc3443;
+	background-color: #ffccd0;
+}
+
+.selectable.cardlist .card {
+	background-color: #FFF;
+}
+
+.card .CardBrand {
+	display: inline-block;
+	margin-left: .5rem;
+	width: calc(30% - .5rem);
+}
+
+.CardBrand img {
+	margin-top: 1.25rem;
+}
+
+.card .CardInfo {
+	display: inline-block;
+	margin: 0.5rem 0 0 .5rem;
+	vertical-align: bottom;
+	width: calc(70% - 1rem);
+}
+
+	.card .CardInfo span.CardLast4DigitsValue {
+		font-size: 1.25rem;
+		display: block;
+	}
+
+	.card .CardInfo span.CardExpiration {
+		font-size: 1rem;
+		display: block;
+	}
+
+.card .PaymentName {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: calc(100% - 1.25rem);
+	width: auto;
+}
+
+.card .NameValue {
+	font-size: 1.25rem;
+}
+
+.card.addItem.SavedCard {
+	opacity: 1;
+	border: none;
+}
+
+/* If we don't have any saved payment methods, just hide this button so it isn't
+ * confusing. */
+#Card_Manual:first-of-type {
+	display: none;
+}
+
+
+/************
+* CardEntry - adding a new card to the list of saved cards
+************/
+
+.SmallInput {
+	display: inline-block;
+	width: auto;
+}
+
+.CardImageAfterField {
+	display: inline-block;
+	width: auto;
+	margin-left: .25rem;
+	vertical-align: middle;
+}
+
+.FieldInputBox {
+	display: inline-block;
+	margin-top: 0.15rem; /* Fix Edge/MyChart issue with input boxes and labels. */
+	margin-left: 10px;
+}
+
+.tbContainer {
+	margin-top: 0.15rem; /* Fix Edge/MyChart issue with input boxes and labels. */
+}
+
+
+.mobile .card .Card-SecurityCode .inline,
+.card .Card-SecurityCode .inline
+{
+	display: inline-block;
+	min-width: 0;
+	margin-right: 0.25rem;
+	margin-left: 0.25rem;
+}
+
+.card.selected .Card-SecurityCode
+{
+	display: inline;
+}
+
+.Card-SecurityCode
+{
+	width: auto;
+	float: left;
+	display: none;
+	position: relative;
+	top: -0.25rem;
+}
+
+/************
+* Specific Field Formatting
+************/
+.ExpirationDate {
+	vertical-align: top;
+}
+
+#CardEntry-ExpMM {
+	width: 2.5rem;
+	text-align: center;
+}
+
+#CardEntry-ExpYYYY {
+	width: 60px;
+	padding-left: 5px;
+	margin-bottom: .5rem; /* due to being ghosted, it doesn't have the same margin as all other fields */
+	text-align: center;
+}
+
+#ExpirationSeparator {
+	line-height: 2.5rem;
+}
+
+.mobile form .content label + input[type='text'].SecurityCode,
+.SecurityCode {
+	width: 50px;
+	min-width: 50px !important; /* Fix for MyChat's magically-expanding input fields due to min-width. */
+}
+
+#imgCheckExample {
+	margin-top: 20px;
+}
+
+#Address_Manual {
+	min-height: 0;
+}
+
+#CardEntry-BrandImage {
+	width: 45px;
+}
+
+/* Extra space to allow the info box to not get cut off by the slider... */
+#CardEntry-Nickname {
+	margin-bottom: 2rem;
+}
+
+/* When we show the submit error above the save card button, give it some extra space. */
+#SubmitError + #AddCardSubmit {
+	margin-top: 1rem;
+}
+
+/************
+* Card buttons
+************/
+/* CardButton is a button within a single card, to act on that payment method */
+.card .CardInfo .CardButtons,
+.CardButton {
+	text-align: right;
+	margin-top: -.5rem;
+}
+
+.card .CardInfo .CardButtons {
+	padding: 0px 10px;
+}
+
+.card:hover .CardButton:hover, .card .CardButton:focus {
+	opacity: 1;
+}
+
+.mobile input[type='image'].CardButton,
+.CardButton {
+	opacity: 0;
+	border: none;
+	background: none;
+	width: 1rem;
+	vertical-align: text-top;
+	position: relative;
+	top: 0.25rem;
+	display: inline-block;
+	padding: 0px;
+	margin-bottom: 0px;
+	margin-left: 0.25rem;
+}
+
+.mobile input[type='image'].CardButton {
+	opacity: .5;
+	min-height: 1rem;
+}
+
+.card:hover .CardButton {
+	opacity: .5;
+}
+
+	.card:hover .CardButton.disabled {
+		opacity: .25;
+	}
+
+.CardEntry-Field p.required::before, .CardEntry-Field span.required::before, .CardEntry-Field label.required::before, .CardEntry-Field .label.required::before {
+	margin-left: 0px;
+}
+
+#AddressEntryFields input, #AddressEntryFields select {
+	width: 60%;
+}
+
+.helptext {
+	margin-left: .62rem;
+}
+
+.CardEntry-Field.formsection {
+	margin: 0px;
+}
+
+#AccountValidationDiv {
+	min-width: calc(24.5% + 5rem);
+}
+
+/* Need that pixel-perfect alignment for this, so the info icon aligns with
+ * the info icons of the other fields (this line has two text fields). */
+html:not(.mobile) #CardEntry-AccountNumberValidation {
+	width: calc(100% - 5rem + 2px);
+}
+
+/************
+* Help Content
+************/
+
+/* Fix the opacity for the MyChart infobubble, since its card-in-a-card style does
+   not look too good. */
+
+.cardlist.selectable.selectionMade .card.popupInstructions {
+    opacity: 1;
+    min-height: 0 !important; /* let it also size properly, and not use cards.js */
+}
+
+.HelpImageAfterField {
+	margin-left: 4px;
+}
+
+.CardEntry-Field .popupinstructionsicon, .Card-SecurityCode .popupinstructionsicon {
+	width: 1.5rem;
+	padding-bottom: 5px;
+}
+
+.CardEntry-Field .popupInstructions, .Card-SecurityCode .popupInstructions
+{
+	min-width: 400px;
+}
+
+/* Fix cards that are appearing to the right from being cut off by the slider. */
+.popupinstructionsicon.onRight + .popupInstructions {
+	min-width: 350px !important;
+	width: 350px !important;
+}
+
+#divPmtMethod {
+	overflow: visible;
+}
+
+#SecurityCodeHelpContent {
+	margin-top: -100px;
+}
+
+/* #region Payment Information - Credit Card */
+
+/* Below the expiration input fields, we show the mm yyyy hint texts. */
+.pmtSubLabel {
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+	position: relative;
+	top: -0.5rem;
+}
+
+/* Below and between the expiration input fields, we have a / in line with the
+ * mm yyyy hint texts. */
+.pmtSubSeparator {
+	display: inline;
+	line-height: 1.5rem;
+	position: relative;
+	top: 2rem;
+}
+
+/* #endregion */
