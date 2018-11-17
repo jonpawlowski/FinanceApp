@@ -8,6 +8,7 @@ function router() {
   .get((req, res) => {
     const url = 'mongodb://localhost:27017';
     const dbName = 'financeApp';
+    const rectGreenWidth = 600;
 
     (async function mongo() {
       let client;
@@ -23,12 +24,7 @@ function router() {
             $gte: new Date(new Date().setDate(new Date().getDate()-7))
           }
         }).toArray();
-        // Sort charges by newest first
-        recentCharges.sort(function compare(a, b) {
-          var dateA = new Date(a.chargeDate);
-          var dateB = new Date(b.chargeDate);
-          return dateB - dateA;
-        });
+
         debug('Connected for recent charges successfully')
         // Get current monthly dollars spent as of today
         const date = new Date();
@@ -51,7 +47,8 @@ function router() {
         totalMonthlyCharges = totalMonthlyCharges.toFixed(2);
         const budgetRemaining = (monthlyBudget - totalMonthlyCharges).toFixed(2);
         const currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
-        //debug(`on Budget = ${currentOnBudget}`)
+        const rectSpentWidth = ((totalMonthlyCharges/monthlyBudget) * rectGreenWidth).toString();
+
         // Get current month to display on index page
         const d = new Date();
         const month = new Array();
@@ -69,6 +66,22 @@ function router() {
         month[11] = "December";
         const currentMonth = month[d.getMonth()];
 
+        // get today's date for max date and default value in new charges form
+        var todaysDate = new Date();
+        var dd = todaysDate.getDate();
+        var mm = todaysDate.getMonth()+1; //January is 0!
+        var yyyy = todaysDate.getFullYear();
+
+        if ( dd < 10 ) {
+          dd = '0' + dd;
+        }
+        
+        if ( mm < 10 ) {
+          mm = '0' + mm;
+        }
+
+        todaysDate = yyyy + '-' + mm + '-' + dd;
+
     res.render(
       'test',
       {
@@ -76,7 +89,9 @@ function router() {
         currentMonth,
         totalMonthlyCharges,
         budgetRemaining,
-        currentOnBudget
+        currentOnBudget,
+        rectSpentWidth,
+        todaysDate
       }
     );
     } catch(err) {

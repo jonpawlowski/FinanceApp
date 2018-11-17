@@ -34,17 +34,17 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="index.html">Pawlowski Financial App</a>
+      <a class="navbar-brand mr-1" href="/">Pawlowski Financial App</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- Navbar Search -->
+      <!-- Navbar Search   -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-          <div class="input-group-append">
+          <div class="">
             <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button>
@@ -93,7 +93,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link" href="/charges">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-fw fa-money-bill-alt"></i>
             <span>All Charges</span>
           </a>
         </li>
@@ -120,7 +120,7 @@
                           <div class="content formcolumn">
                             <div class="CardEntry-Field">
                               <label for="chargeDate" style="margin-left:10px;">Charge Date:</label>
-                              <input class="FieldInputBox" name="formChargeDate" required id="formChargeDate" type="date"/>
+                              <input class="FieldInputBox" name="formChargeDate" required id="formChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
                             </div>
                             <div class="CardEntry-Field">
                               <label for="vendor" style="margin-left:10px;">Vendor:</label>
@@ -194,7 +194,7 @@
                           <div class="chartContainer" style="position: relative; width: 516px; height: 40px;" onselectstart="return false;">
                             <svg id="svgChart" version="1.1" width="100%" height="100%" overflow="hidden">
                                 <rect x="45" y="-0.5" width="600" height="40" display="block" fill="#62B75C" fill-opacity="1" stroke-opacity="1" stroke="#62B75C" stroke-width="0" stroke-dasharray=""></rect>
-                                <rect x="45" y="-0.5" width="100" height="40" display="block" fill="#8FB7CA" fill-opacity="1" stroke-opacity="1" stroke="#8FB7CA" stroke-width="0" stroke-dasharray=""></rect>
+                                <rect x="45" y="-0.5" width=<%=rectSpentWidth%> height="40" display="block" fill="#8FB7CA" fill-opacity="1" stroke-opacity="1" stroke="#8FB7CA" stroke-width="0" stroke-dasharray=""></rect>
                             </svg>
                           </div>
                         </td>
@@ -227,8 +227,7 @@
               <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
           </div>
           <br>
-          <div class="card-footer small text-muted">Last Updated <%=(recentCharges[0].chargeDate.getMonth()+1) + '/' + recentCharges[0].chargeDate.getDate() + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
-        </div>
+          <div class="card-footer small text-muted">Last Updated <%=("0" + (recentCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + recentCharges[0].chargeDate.getDate()).slice(-2) + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
         </div>
           <!-- DataTables Example -->
           <div class="card mb-3">
@@ -237,7 +236,7 @@
               Charges for the last 7 days</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="recentChargesTables" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Date</th>
@@ -250,7 +249,7 @@
                   <tbody>
                     <%for(let i=0; i<recentCharges.length; i++) {%>
                     <tr>
-                      <td><%=(recentCharges[i].chargeDate.getMonth()+1) + '/' + recentCharges[i].chargeDate.getDate() + '/'+ recentCharges[i].chargeDate.getFullYear();%></td>
+                      <td><%=("0" + (recentCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + recentCharges[i].chargeDate.getDate()).slice(-2) + '/'+ recentCharges[i].chargeDate.getFullYear();%></td>
                       <td><%=recentCharges[i].vendor%></td>
                       <td><%='$' + recentCharges[i].amount.toFixed(2)%></td>
                       <td><%=recentCharges[i].paymentType%></td>
@@ -261,7 +260,7 @@
                 </table>
               </div>
             </div>
-            <div class="card-footer small text-muted">Last Updated <%=(recentCharges[0].chargeDate.getMonth()+1) + '/' + recentCharges[0].chargeDate.getDate() + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
+            <div class="card-footer small text-muted">Last Updated <%=("0" + (recentCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + recentCharges[0].chargeDate.getDate()).slice(-2) + '/'+ recentCharges[0].chargeDate.getFullYear();%></div>
           </div>
 
         </div>
@@ -315,6 +314,8 @@
     <!-- Demo scripts for this page-->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/datetime-moment.js"></script>
 
   </body>
 
