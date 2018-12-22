@@ -75,7 +75,7 @@ function router() {
         if ( dd < 10 ) {
           dd = '0' + dd;
         }
-        
+
         if ( mm < 10 ) {
           mm = '0' + mm;
         }
@@ -83,7 +83,7 @@ function router() {
         todaysDate = yyyy + '-' + mm + '-' + dd;
 
     res.render(
-      'test',
+      'index',
       {
         recentCharges,
         currentMonth,
