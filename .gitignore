@@ -12,3 +12,7 @@ pids
 
 # Dependency directories
 node_modules
+
+# Config Files
+config.js
+config.json

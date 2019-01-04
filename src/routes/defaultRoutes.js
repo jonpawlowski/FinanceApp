@@ -6,8 +6,8 @@ const defaultRouter = express.Router();
 function router() {
   defaultRouter.route('/')
   .get((req, res) => {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'financeApp';
+    const url = global.gConfig.databaseurl;
+    const dbName = global.gConfig.database;
     const rectGreenWidth = 600;
 
     (async function mongo() {

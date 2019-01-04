@@ -13,8 +13,8 @@ function router() {
     })
     .post((req, res) => {
       const { formChargeDate, vendor, formAmount, paymentType, category, comments } = req.body;
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'financeApp';
+      const url = global.gConfig.databaseurl;
+      const dbName = global.gConfig.database;
 
       (async function addUser() {
         let client;

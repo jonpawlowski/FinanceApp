@@ -9,7 +9,10 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const app = express();
-const port = process.env.PORT || 3000;
+process.env.NODE_ENV = 'development';
+//process.env.NODE_ENV = 'production';
+
+const config = require('./src/config/config.js');
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
@@ -34,6 +37,6 @@ app.use('/analysis', analysisRouter);
 app.use('/auth', authRouter);
 app.use('/newCharges', newChargesRouter);
 
-app.listen(port, function(){
-  debug(`listening on port ${chalk.green(port)}`);
+app.listen(global.gConfig.node_port, function(){
+  debug(`listening on port ${chalk.green(global.gConfig.node_port)}`);
 });

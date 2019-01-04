@@ -6,8 +6,8 @@ const chargeRouter = express.Router();
 function router() {
   chargeRouter.route('/')
     .get((req, res) => {
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'financeApp';
+      const url = global.gConfig.databaseurl;
+      const dbName = global.gConfig.database;
 
       (async function mongo() {
         let client;
