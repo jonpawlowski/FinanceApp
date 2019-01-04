@@ -12,7 +12,7 @@ function router() {
 
     })
     .post((req, res) => {
-      const { formChargeDate, vendor, formAmount, paymentType, category, comments } = req.body;
+      const { formChargeDate, vendor, formAmount, comments, paymentType, category } = req.body;
       const url = global.gConfig.databaseurl;
       const dbName = global.gConfig.database;
 
