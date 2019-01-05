@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const app = express();
-process.env.NODE_ENV = 'development';
+//process.env.NODE_ENV = 'development';
 //process.env.NODE_ENV = 'production';
 
 const config = require('./src/config/config.js');

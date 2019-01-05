@@ -27,7 +27,7 @@ function router() {
           const col = db.collection('charges');
           const chargeDate = new Date(formChargeDate);
           const amount = parseFloat(formAmount);
-          const charge = { formChargeDate, vendor, formAmount, comments, paymentType, category };
+          const charge = { chargeDate, vendor, amount, paymentType, category, comments };
 
           const results = await col.insertOne(charge);
           debug(results);
