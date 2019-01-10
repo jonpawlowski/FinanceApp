@@ -44,6 +44,7 @@ function router() {
         for (i = 0; i < monthlyCharges.length; i++) {
           totalMonthlyCharges += monthlyCharges[i].amount;
         }
+        
         totalMonthlyCharges = totalMonthlyCharges.toFixed(2);
         const budgetRemaining = (monthlyBudget - totalMonthlyCharges).toFixed(2);
         const currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
