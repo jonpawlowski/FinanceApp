@@ -25,7 +25,7 @@ function router() {
           const db = client.db(dbName);
           const col = db.collection('charges');
           //process.env.TZ = 'UTC';
-          const chargeDate = new Date(formChargeDate).toUTCString();
+          const chargeDate = new Date(formChargeDate);
           console.log("ChargeDate is ==> " + chargeDate);
           const amount = parseFloat(formAmount);
           const charge = { chargeDate, vendor, amount, paymentType, category, comments };
