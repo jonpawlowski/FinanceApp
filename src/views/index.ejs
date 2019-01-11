@@ -132,12 +132,11 @@
                             </div>
                             <div class="CardEntry-Field">
                               <label for="paymentType" style="margin-left:10px;">Payment Type:</label>
-                              <input class="FieldInputBox" name="paymentType" required id="paymentType" list="paymentTypes"/>
-                                <datalist id="paymentTypes">
-                                  <option value="AmEx Platinum">
-                                  <option value="Cash">
-                                  <option value="Chase Sapphire">
-                                </datalist>
+                              <select class="FieldInputBox" required name="paymentType" id="paymentType">
+                                <option value="AmEx Platinum">AmEx Platinum</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Chase Sapphire">Chase Sapphire</option>
+                              </select>
                             </div>
                             <div class="CardEntry-Field">
                               <label for="category" style="margin-left:10px;">Category:</label>
