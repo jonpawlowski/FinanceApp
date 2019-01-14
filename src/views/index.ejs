@@ -124,7 +124,12 @@
                             </div>
                             <div class="CardEntry-Field">
                               <label for="vendor" style="margin-left:10px;">Vendor:</label>
-                              <input class="FieldInputBox" name="vendor" required id="vendor" type="text"/>
+                              <input class="FieldInputBox" name="vendor" required id="vendor" type="text" list="vendors"/>
+                                <datalist id="vendors">
+                                  <%for(let i=0; i<vendorList.length; i++) {%>
+                                    <option value=<%=vendorList[i]%>>
+                                  <%}%>
+                                </datalist>
                             </div>
                             <div class="CardEntry-Field">
                               <label for="amount" style="margin-left:10px;">Amount:</label>

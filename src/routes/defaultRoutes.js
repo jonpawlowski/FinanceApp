@@ -9,12 +9,12 @@ function router() {
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
     const rectGreenWidth = 600;
+    var fs = require('fs');
 
     (async function mongo() {
       let client;
       try {
         client = await MongoClient.connect(url);
-        debug('Connected correctly to server for index retrieval');
 
         const db = client.db(dbName);
         const col = await db.collection('charges');
@@ -25,7 +25,6 @@ function router() {
           }
         }).toArray();
 
-        debug('Connected for recent charges successfully')
         // Get current monthly dollars spent as of today
         const date = new Date();
         const monthlyCharges = await col.find({
@@ -35,6 +34,22 @@ function router() {
           }
         }).toArray();
 
+        // Get vendor list for auto-complete in the form
+        // Wrote it to a file because I couldn't figure out how to assign it to a variable
+        await col.distinct("vendor", {}, function(err,vendors){
+          const vendorJSON = JSON.stringify(vendors);
+          //console.log("Vendor JSON is " + vendorJSON);
+          fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
+            if(err) console.log('error', err);
+          });
+        });
+
+        const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+        vendorList.sort(function(a, b) {
+          return a.toLowerCase().localeCompare(b.toLowerCase());
+        });
+
+        console.log("First vendor is " + vendorList[0]);
         // Perform current budget performance
         var totalMonthlyCharges = 0;
         const monthlyBudget = 2000;
@@ -44,7 +59,7 @@ function router() {
         for (i = 0; i < monthlyCharges.length; i++) {
           totalMonthlyCharges += monthlyCharges[i].amount;
         }
-        
+
         totalMonthlyCharges = totalMonthlyCharges.toFixed(2);
         const budgetRemaining = (monthlyBudget - totalMonthlyCharges).toFixed(2);
         const currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
@@ -92,7 +107,8 @@ function router() {
         budgetRemaining,
         currentOnBudget,
         rectSpentWidth,
-        todaysDate
+        todaysDate,
+        vendorList
       }
     );
     } catch(err) {
