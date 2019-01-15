@@ -17,7 +17,13 @@ function router() {
 
           const db = client.db(dbName);
           const col = await db.collection('charges');
-          const charges = await col.find().toArray();
+
+          const charges = await col.find({
+            "chargeDate" : {
+              $lt: new Date(),
+              $gte: new Date(new Date().setDate(new Date().getDate()-180))
+            }
+          }).toArray();
           charges.sort(function compare(a, b) {
             var dateA = new Date(a.chargeDate);
             var dateB = new Date(b.chargeDate);
