@@ -31,6 +31,9 @@ function router() {
           "chargeDate" : {
             $lt: new Date(),
             $gte: new Date(date.getFullYear(), date.getMonth(), 1)
+          },
+          "category" : {
+            $eq: "Monthly"
           }
         }).toArray();
 
