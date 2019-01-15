@@ -101,6 +101,16 @@ function router() {
 
         todaysDate = yyyy + '-' + mm + '-' + dd;
 
+        var monthlyFillColor;
+        if (Number(totalMonthlyCharges) > Number(currentOnBudget)) {
+          // over budget color
+          monthlyFillColor = "#FF0000";
+        }
+        else {
+          // under budget color
+          monthlyFillColor = "#8FB7CA";
+        }
+
     res.render(
       'index',
       {
@@ -111,7 +121,8 @@ function router() {
         currentOnBudget,
         rectSpentWidth,
         todaysDate,
-        vendorList
+        vendorList,
+        monthlyFillColor
       }
     );
     } catch(err) {
