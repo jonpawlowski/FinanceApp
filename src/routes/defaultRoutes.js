@@ -44,12 +44,12 @@ function router() {
           });
         });
 
+        //Get vendor list from file and sort for easier reading
         const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
         vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
 
-        console.log("First vendor is " + vendorList[0]);
         // Perform current budget performance
         var totalMonthlyCharges = 0;
         const monthlyBudget = 2000;
