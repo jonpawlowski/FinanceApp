@@ -138,6 +138,8 @@
                                 <option value="AmEx Platinum">AmEx Platinum</option>
                                 <option value="Cash">Cash</option>
                                 <option value="Chase Sapphire">Chase Sapphire</option>
+                                <option value="Credit">Credit</option>
+                                <option value="Debit">Debit</option>
                               </select>
                             </div>
                             <div class="CardEntry-Field">
@@ -267,6 +269,9 @@
                     <%}}%>
                   </tbody>
                 </table>
+                <div>
+                    <a href="" class="btn btn-info" data-toggle="modal" data-target="#">Edit Charge</a>
+                </div>
               </div>
             </div>
             <div class="card-footer small text-muted">Last Updated <%if (recentCharges.length==0) { "N/A" } else {("0" + (recentCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + recentCharges[0].chargeDate.getDate()).slice(-2) + '/'+ recentCharges[0].chargeDate.getFullYear();}%></div>
