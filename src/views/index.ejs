@@ -19,6 +19,7 @@
 
     <!-- Page level plugin CSS-->
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="vendor/datatables/jquery.dataTables.min.css" rel"stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
@@ -27,6 +28,7 @@
     <link href="css/Payment.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
     <link href="css/colors.css" rel="stylesheet">
+    <link href="css/select.bootstrap.min.css" rel="stylesheet">
 
   </head>
 
@@ -168,6 +170,74 @@
           </div>
         </div>
 
+        <!-- Modal popup for editing of an existing charge -->
+        <div class="modal fade" id="modalEditChargeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Edit Charge</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="CardEntryContainer">
+                      <form name="editChargesForm" action="#" method="post">
+                        <div class="CardEntryForm section">
+                          <div class="formsection column_2">
+                            <div class="content formcolumn">
+                              <div class="CardEntry-Field">
+                                <label for="chargeDate" style="margin-left:10px;">Charge Date:</label>
+                                <input class="FieldInputBox" name="formChargeDate" required id="formChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
+                              </div>
+                              <div class="CardEntry-Field">
+                                <label for="vendor" style="margin-left:10px;">Vendor:</label>
+                                <input class="FieldInputBox" name="vendor" required id="vendor" type="text" list="vendors"/>
+                                  <datalist id="vendors">
+                                    <%for(let i=0; i<vendorList.length; i++) {%>
+                                      <option><%=vendorList[i]%></option>
+                                    <%}%>
+                                  </datalist>
+                              </div>
+                              <div class="CardEntry-Field">
+                                <label for="amount" style="margin-left:10px;">Amount:</label>
+                                <input class="FieldInputBox" name="formAmount" required id="formAmount" type="number" step=".01"/>
+                              </div>
+                              <div class="CardEntry-Field">
+                                <label for="paymentType" style="margin-left:10px;">Payment Type:</label>
+                                <select class="FieldInputBox" required name="paymentType" id="paymentType">
+                                  <option value="AmEx Platinum">AmEx Platinum</option>
+                                  <option value="Cash">Cash</option>
+                                  <option value="Chase Sapphire">Chase Sapphire</option>
+                                  <option value="Credit">Credit</option>
+                                  <option value="Debit">Debit</option>
+                                </select>
+                              </div>
+                              <div class="CardEntry-Field">
+                                <label for="category" style="margin-left:10px;">Category:</label>
+                                <select class="FieldInputBox" required name="category" id="category">
+                                  <option value="Monthly">Monthly</option>
+                                  <option value="One-time">One-time</option>
+                                  <option value="Recurring">Recurring</option>
+                                </select>
+                              </div>
+
+                              <div class="CardEntry-Field">
+                                <label for="comments" style="margin-left:10px;">Comments:</label>
+                                <input class="FieldInputBox" name="comments" id="comments" type="text"/>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="modal-footer d-flex justify-content-center">
+                            <button type="submit" class="btn btn-info">Submit</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -239,7 +309,7 @@
               Charges for the last 7 days</div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="recentChargesTables" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="recentChargesTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Date</th>
@@ -270,7 +340,7 @@
                   </tbody>
                 </table>
                 <div>
-                    <a href="" class="btn btn-info" data-toggle="modal" data-target="#">Edit Charge</a>
+                    <a href="" id="editButton" class="btn btn-info" data-toggle="modal" data-target="#modalEditChargeForm">Edit Charge</a>
                 </div>
               </div>
             </div>
@@ -286,6 +356,17 @@
     </div>
     <!-- /#wrapper -->
 
+    <section class="circle-chart">
+  <label class="circle-chart__label">Chart label</label>
+  <svg viewbox="0 0 35.83098862 35.83098862" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+<circle class="circle-chart__background" stroke="#efefef" stroke-width="4" fill="none" cx="17.91549431" cy="17.91549431" r="15.91549431" />
+      <circle class="circle-chart__circle" stroke="#00acc1" stroke-width="4" stroke-dasharray="50,100" stroke-linecap="none" fill="none" cx="17.91549431" cy="17.91549431" r="15.91549431" />
+      <g class="circle-chart__info">
+        <text class="circle-chart__percent" x="16.91549431" y="16.5" alignment-baseline="central" text-anchor="middle" font-size="8">50%</text>
+        <text class="circle-chart__subline" x="16.91549431" y="21.5" alignment-baseline="central" text-anchor="middle" font-size="2">chart message!</text>
+      </g>
+    </svg>
+</section>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
@@ -330,6 +411,7 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/datetime-moment.js"></script>
+    <script src="vendor/datatables/dataTables.select.min.js"></script>
 
   </body>
 

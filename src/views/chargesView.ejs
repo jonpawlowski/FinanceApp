@@ -123,7 +123,7 @@
                   <tbody>
                     <%for(let i=0; i<charges.length; i++) {%>
                     <tr>
-                      <td><%=(charges[i].chargeDate.getMonth()+1) + '/' + charges[i].chargeDate.getDate() + '/'+ charges[i].chargeDate.getFullYear();%></td>
+                      <td><%=("0" + (charges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + charges[i].chargeDate.getDate()).slice(-2) + '/'+ charges[i].chargeDate.getFullYear();%></td>
                       <td><%=charges[i].vendor%></td>
                       <td><%='$' + charges[i].amount.toFixed(2)%></td>
                       <td><%=charges[i].paymentType%></td>

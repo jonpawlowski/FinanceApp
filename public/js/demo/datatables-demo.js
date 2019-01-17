@@ -1,9 +1,22 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
-  $.fn.allChargesTable.moment('MM/DD/YYYY');
-  $('#recentChargesTables').DataTable(
-    {
-        "order": [[ 0, "desc" ]]
-    }
-  );
-});
+  $('#allChargesTable').DataTable( {
+    "columnDefs": [
+      { "type": "date", "targets": 0 }
+    ],
+    "order": [[ 0, "desc" ]],
+    "lengthMenu": [[50, 75, 100, -1], [50, 75, 100, "All"]],
+    "pageLength": 50,
+    select: true
+  });
+
+  // Recent Charges Table
+  $('#recentChargesTable').DataTable( {
+    "order": [[ 0, "desc" ]],
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    select: {
+          style: 'single'
+        }
+  } );
+
+} );
