@@ -25,15 +25,12 @@ function router() {
           }
         }).toArray();
 
-        // Get current monthly dollars spent as of today
+        // Get current dollars to the budget spent as of today
         const date = new Date();
         const monthlyCharges = await col.find({
           "chargeDate" : {
             $lt: new Date(),
             $gte: new Date(date.getFullYear(), date.getMonth(), 1)
-          },
-          "category" : {
-            $eq: "Monthly"
           }
         }).toArray();
 
@@ -55,18 +52,38 @@ function router() {
 
         // Perform current budget performance
         var totalMonthlyCharges = 0;
+        var allMonthlyCharges = 0;
         const monthlyBudget = 2000;
         const lastOfMonth = new Date( date.getFullYear(), date.getMonth()+1, 0 );
         const numDays = lastOfMonth.getDate();
 
+        // Calculate charges against Monthly Spending Budget
         for (i = 0; i < monthlyCharges.length; i++) {
-          totalMonthlyCharges += monthlyCharges[i].amount;
+          if (monthlyCharges[i].category == 'Monthly') {
+            totalMonthlyCharges += monthlyCharges[i].amount;
+            console.log("current monthly charge is $" + totalMonthlyCharges);
+          }
         }
+
+        console.log("Monthly Budget is $" + totalMonthlyCharges);
+
+        // Calculate total monthly spending
+        for (i = 0; i < monthlyCharges.length; i++) {
+          if (monthlyCharges[i].paymentType == 'Credit') {
+            allMonthlyCharges -= monthlyCharges[i].amount;
+          } else {
+            allMonthlyCharges += monthlyCharges[i].amount;
+          }
+        }
+
+        console.log("Total Monthly Spend is $" + allMonthlyCharges);
+        // Final total monthly spend calculation
+        allMonthlyCharges = allMonthlyCharges - totalMonthlyCharges;
 
         totalMonthlyCharges = totalMonthlyCharges.toFixed(2);
         const budgetRemaining = (monthlyBudget - totalMonthlyCharges).toFixed(2);
         const currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
-        const rectSpentWidth = ((totalMonthlyCharges/monthlyBudget) * rectGreenWidth).toString();
+        const rectSpentWidth = ((totalMonthlyCharges/monthlyBudget) * 100).toString();
 
         // Get current month to display on index page
         const d = new Date();
@@ -122,7 +139,8 @@ function router() {
         rectSpentWidth,
         todaysDate,
         vendorList,
-        monthlyFillColor
+        monthlyFillColor,
+        allMonthlyCharges
       }
     );
     } catch(err) {

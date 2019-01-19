@@ -29,7 +29,6 @@
     <link href="css/common.css" rel="stylesheet">
     <link href="css/colors.css" rel="stylesheet">
     <link href="css/select.bootstrap.min.css" rel="stylesheet">
-    <link href="css/financeApp.css" rel="stylesheet">
 
   </head>
 
@@ -250,28 +249,34 @@
             <br>
           <!-- Area Chart Example-->
           <div class="b-dashboard-accounts-item mod_nonhsa">
-            <div class = "row">
-              <div class="column"> <!-- Monthly Budget Stats Column -->
-                <div class="b-dashboard-accounts-title">
+              <div class="b-dashboard-accounts-title">
                   <div class="b-dashboard-col15">
-                      <div class="b-dashboard-accounts-name">Monthly Budget</div>
+                      <div class="b-dashboard-accounts-name">Spending Stats</div>
                   </div>
+              </div>
+              <div class="b-dashboard-accounts-chart">
+                <div class="b-dashboard-accounts-chart-h">
+                  <table id="tblChart" cellspacing="0" cellpadding="0" border="0" align="left" valign="top">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" id="tdTop" style="height: 0.5px;"></td>
+                      </tr>
+                      <tr>
+                        <td id="tdLeft" style="width: 0.5px;"></td>
+                        <td>
+                          <div class="chartContainer" style="position: relative; width: 516px; height: 40px;" onselectstart="return false;">
+                            <svg id="svgChart" version="1.1" width="100%" height="100%" overflow="hidden">
+                                <rect x="45" y="-0.5" width="600" height="40" display="block" fill="#62B75C" fill-opacity="1" stroke-opacity="1" stroke="#62B75C" stroke-width="0" stroke-dasharray=""></rect>
+                                <rect x="45" y="-0.5" width="<%=rectSpentWidth%>" height="40" display="block" fill="<%=monthlyFillColor%>" fill-opacity="1" stroke-opacity="1" stroke="#8FB7CA" stroke-width="0" stroke-dasharray=""></rect>
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <br>
-                <!-- Circle Chart for monthly budget -->
-                <section class="circle-chart">
-                  <label class="circle-chart__label">Chart label</label>
-                  <svg viewbox="0 0 35.83098862 35.83098862" width="75%" height="200" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="circle-chart__background" stroke="#efefef" stroke-width="4" fill="none" cx="0" cy="17.91549431" r="15.91549431" />
-                    <circle class="circle-chart__circle" stroke="<%=monthlyFillColor%>" stroke-width="4" stroke-dasharray="<%=rectSpentWidth%>,100" stroke-linecap="none" fill="none" cx="0" cy="17.91549431" r="15.91549431" />
-                    <g class="circle-chart__info">
-                      <text class="circle-chart__percent" x="0" y="16.5" alignment-baseline="central" text-anchor="middle" font-size="6">$<%=budgetRemaining%></text>
-                      <text class="circle-chart__subline" x="0" y="21.5" alignment-baseline="central" text-anchor="middle" font-size="2">Budget Remaining</text>
-                    </g>
-                  </svg>
-                </section>
-                <br>
-                <div class="b-dashboard-accounts-info">
+              </div>
+              <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
                       <div class="b-dashboard-accounts-balance">
                           Available<span><span>$<%=budgetRemaining%></span></span>
@@ -289,45 +294,8 @@
                         On Budget Number<span>$<%=currentOnBudget%></span>
                       </div>
                   </div>
-                </div>
-            </div>
-              <div class = "column"> <!-- Total Monthly Spend -->
-                <div class="b-dashboard-accounts-title">
-                  <div class="b-dashboard-col15">
-                      <div class="b-dashboard-accounts-name">Total Monthly Spend</div>
-                  </div>
-                </div>
-                <br>
-                <!-- Circle Chart for monthly budget -->
-                <section class="circle-chart">
-                  <label class="circle-chart__label">Chart label</label>
-                  <svg viewbox="0 0 35.83098862 35.83098862" width="75%" height="200" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="circle-chart__background" stroke="#efefef" stroke-width="4" fill="none" cx="0" cy="17.91549431" r="15.91549431" />
-                    <circle class="circle-chart__circle" stroke="<%=monthlyFillColor%>" stroke-width="4" stroke-dasharray="<%=rectSpentWidth%>,100" stroke-linecap="none" fill="none" cx="0" cy="17.91549431" r="15.91549431" />
-                    <g class="circle-chart__info">
-                      <text class="circle-chart__percent" x="0" y="16.5" alignment-baseline="central" text-anchor="middle" font-size="6">$<%=budgetRemaining%></text>
-                      <text class="circle-chart__subline" x="0" y="21.5" alignment-baseline="central" text-anchor="middle" font-size="2">Budget Remaining</text>
-                    </g>
-                  </svg>
-                </section>
-                <br>
-                <div class="b-dashboard-accounts-info">
-                  <div class="b-dashboard-col70">
-                      <div class="b-dashboard-accounts-balance">
-                          Total Monthly Spend<span><span>$<%=allMonthlyCharges%></span></span>
-                          <div class="b-dashboard-accounts-balance-circle" style="background: rgb(102, 179, 96);"></div>
-                      </div>
-                  </div>
-                  <div class="b-dashboard-col70">
-                      <div class="b-dashboard-accounts-balance">
-                        Spent<span>$<%=totalMonthlyCharges%></span>
-                        <div class="b-dashboard-accounts-balance-circle" style="background: rgb(146, 182, 199);"></div>
-                      </div>
-                  </div>
-                </div>
-              </div> <!-- add other column -->
-            </div>
-          </div> <!-- Spending stats table -->
+              </div>
+          </div>
           <div class="b-dashboard-col70b">
               <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
           </div>
