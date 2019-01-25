@@ -258,7 +258,7 @@
                   </div>
                 </div>
                 <br>
-                <!-- Circle Chart for monthly budget -->
+                <!-- Circle Chart for monthly budget
                 <section class="circle-chart">
                   <label class="circle-chart__label">Chart label</label>
                   <svg viewbox="0 0 35.83098862 35.83098862" width="75%" height="200" xmlns="http://www.w3.org/2000/svg">
@@ -269,7 +269,11 @@
                       <text class="circle-chart__subline" x="0" y="21.5" alignment-baseline="central" text-anchor="middle" font-size="2">Budget Remaining</text>
                     </g>
                   </svg>
-                </section>
+                </section>-->
+              <!--   <div class="chart-container" style="position: relative; height:40vh; width:80vw"> -->
+              <div id='d1' style="position:relative; top:0px; left:50px">
+                  <canvas id="monthlyBudgetChart" width="400" height="400"></canvas>
+              </div>
                 <br>
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
@@ -299,7 +303,9 @@
                 </div>
                 <br>
                 <!-- Circle Chart for monthly budget -->
-                  <canvas id="totalMonthlyChart"></canvas>
+                  <div id='d2' style="position:relative; top:0px; left:50px">
+                    <canvas id="totalMonthlyChart" width="500" height="400"></canvas>
+                  </div>
                 <br>
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
@@ -414,9 +420,9 @@
 
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-    <!-- <script src="js/piechart.js"></script> -->
+    <!-- script to create total monthly doughnut chart -->
     <script>
-    var htmlChart = new Chart(document.getElementById("totalMonthlyChart"), {
+    var htmlChart01 = new Chart(document.getElementById("totalMonthlyChart"), {
         type: 'doughnut',
         data: {
           labels: ["Monthly", "Recurring", "One-time"],
@@ -424,9 +430,29 @@
             {
               label: "Dollars",
               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
-              data: [<%=chartMonthlyCharges%>,<%=chartRecurringCharges%>,<%=chartOneTimeCharges%>]
+              data: [<%=chartMonthlyCharges.toFixed(2)%>,<%=chartRecurringCharges.toFixed(2)%>,<%=chartOneTimeCharges.toFixed(2)%>]
             }
           ]
+        },
+        options: {
+          responsive: false
+        }
+    });
+
+    var htmlChart02 = new Chart(document.getElementById("monthlyBudgetChart"), {
+        type: 'doughnut',
+        data: {
+          labels: ["Total Spend", "Available"],
+          datasets: [
+            {
+              label: "Dollars",
+              backgroundColor: ["<%=monthlyFillColor%>", "#3e95cd"],
+              data: ["<%=totalMonthlyCharges%>","<%=budgetRemaining%>"]
+            }
+          ]
+        },
+        options: {
+          responsive: false
         }
     });
     </script>
