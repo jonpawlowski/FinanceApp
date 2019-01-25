@@ -53,7 +53,10 @@ function router() {
         // Perform current budget performance
         var totalMonthlyCharges = 0;
         var allMonthlyCharges = 0;
-        const monthlyBudget = 2000;
+        var chartMonthlyCharges = 0;
+        var chartRecurringCharges = 0;
+        var chartOneTimeCharges = 0;
+        //const monthlyBudget = 2000;
         const lastOfMonth = new Date( date.getFullYear(), date.getMonth()+1, 0 );
         const numDays = lastOfMonth.getDate();
 
@@ -61,11 +64,8 @@ function router() {
         for (i = 0; i < monthlyCharges.length; i++) {
           if (monthlyCharges[i].category == 'Monthly') {
             totalMonthlyCharges += monthlyCharges[i].amount;
-            console.log("current monthly charge is $" + totalMonthlyCharges);
           }
         }
-
-        console.log("Monthly Budget is $" + totalMonthlyCharges);
 
         // Calculate total monthly spending
         for (i = 0; i < monthlyCharges.length; i++) {
@@ -74,16 +74,26 @@ function router() {
           } else {
             allMonthlyCharges += monthlyCharges[i].amount;
           }
+          if (monthlyCharges[i].category == 'Monthly') {
+            chartMonthlyCharges += monthlyCharges[i].amount;
+          }
+          if (monthlyCharges[i].category == 'Recurring') {
+            chartRecurringCharges += monthlyCharges[i].amount;
+          }
+          if (monthlyCharges[i].category == 'One-time') {
+            chartOneTimeCharges += monthlyCharges[i].amount;
+          }
         }
 
-        console.log("Total Monthly Spend is $" + allMonthlyCharges);
+        //chartMonthlyCharges = chartMonthlyCharges.toFixed(2);
+        //chartRecurringCharges = chartMonthlyCharges.toFixed(2);
+        //chartOneTimeCharges = chartMonthlyCharges.toFixed(2);
         // Final total monthly spend calculation
-        allMonthlyCharges = allMonthlyCharges - totalMonthlyCharges;
-
-        totalMonthlyCharges = totalMonthlyCharges.toFixed(2);
-        const budgetRemaining = (monthlyBudget - totalMonthlyCharges).toFixed(2);
-        const currentOnBudget = ((monthlyBudget/numDays) * date.getDate()).toFixed(2);
-        const rectSpentWidth = ((totalMonthlyCharges/monthlyBudget) * 100).toString();
+        allMonthlyCharges = allMonthlyCharges.toFixed(2); //all monthly charges
+        totalMonthlyCharges = totalMonthlyCharges.toFixed(2);  //anything that goes against the monthly budget
+        const budgetRemaining = (global.gConfig.budget - totalMonthlyCharges).toFixed(2);
+        const currentOnBudget = ((global.gConfig.budget/numDays) * date.getDate()).toFixed(2);
+        const rectSpentWidth = ((totalMonthlyCharges/global.gConfig.budget) * 100).toString();
 
         // Get current month to display on index page
         const d = new Date();
@@ -140,7 +150,10 @@ function router() {
         todaysDate,
         vendorList,
         monthlyFillColor,
-        allMonthlyCharges
+        allMonthlyCharges,
+        chartMonthlyCharges,
+        chartRecurringCharges,
+        chartOneTimeCharges
       }
     );
     } catch(err) {
@@ -150,6 +163,7 @@ function router() {
     }());
   });
   return defaultRouter;
+  module.exports = { chartMonthlyCharges, chartRecurringCharges, chartOneTimeCharges };
 };
 
 module.exports = router;

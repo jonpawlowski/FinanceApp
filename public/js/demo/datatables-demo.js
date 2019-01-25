@@ -6,8 +6,7 @@ $(document).ready(function() {
     ],
     "order": [[ 0, "desc" ]],
     "lengthMenu": [[50, 75, 100, -1], [50, 75, 100, "All"]],
-    "pageLength": 50,
-    select: true
+    "pageLength": 50
   });
 
   // Recent Charges Table
