@@ -439,6 +439,11 @@
         }
     });
 
+    var newBudgetRemaining = 0;
+
+    if (parseFloat(<%=budgetRemaining%>) > 0) {
+      newBudgetRemaining = <%=budgetRemaining%>;
+    }
     var htmlChart02 = new Chart(document.getElementById("monthlyBudgetChart"), {
         type: 'doughnut',
         data: {
@@ -447,7 +452,7 @@
             {
               label: "Dollars",
               backgroundColor: ["<%=monthlyFillColor%>", "#3e95cd"],
-              data: ["<%=totalMonthlyCharges%>","<%=budgetRemaining%>"]
+              data: [<%=totalMonthlyCharges%>,newBudgetRemaining]
             }
           ]
         },
