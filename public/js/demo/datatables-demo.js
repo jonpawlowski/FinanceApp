@@ -13,9 +13,19 @@ $(document).ready(function() {
   $('#recentChargesTable').DataTable( {
     "order": [[ 0, "desc" ]],
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-    select: {
-          style: 'single'
+    responsive: {
+      details: {
+        display: $.fn.dataTable.Responsive.display.modal( {
+          header: function ( row ) {
+            var data = row.data();
+            return 'Details for '+data[0]+' '+data[1];
+          }
+        } ),
+          renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+            tableClass: 'table'
+          } )
         }
-  } );
+      }
+    } );
 
 } );

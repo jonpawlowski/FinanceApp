@@ -7,7 +7,7 @@ function router() {
   analysisRouter.route('/')
     .get((req, res) => {
       res.render(
-        'analysisView'
+        'analysisView_month'
       );
   });
 
