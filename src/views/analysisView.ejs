@@ -23,6 +23,9 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
 
+    <!-- Bootstrap Datepicker CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css"/>
+
   </head>
 
   <body id="page-top">
@@ -102,10 +105,14 @@
       <div id="content-wrapper">
 
         <div class="container-fluid">
-          <!-- Breadcrumbs-->
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Coming Soon</li>
-          </ol>
+          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="monthlyAnalysisForm" action="/analysis" method="post">
+            <legend>Monthly Analysis</legend>
+            <label class="control-label" for="date">Date</label>
+            <input class="form-control" required id="date" name="date" placeholder="MM/YYY" type="text"/>
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+          </form>
         </div>
         <!-- /.container-fluid -->
 
@@ -163,10 +170,26 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
 
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+
     <!-- Demo scripts for this page-->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
-
+    <script>
+      $(document).ready(function(){
+        var date_input=$('input[name="date"]'); //our date input has the name "date"
+        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        var options={
+          format: "MM yyyy",
+          minViewMode: 1,
+          autoclose: true,
+          startDate: new Date(new Date().getFullYear(), '0', '01'),
+          endDate: new Date(new Date().getFullYear()+1, '11', '31')
+        };
+        date_input.datepicker(options);
+      })
+    </script>
   </body>
 
 </html>
