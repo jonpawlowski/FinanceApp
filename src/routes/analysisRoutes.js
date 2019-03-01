@@ -34,7 +34,7 @@ function router() {
         const monthlyCharges = await col.find({
           "chargeDate" : {
             $lt: new Date( analysisYear, analysisMonth, 0 ),
-            $gte: new Date( analysisYear, analysisMonth-1, 1)
+            $gte: new Date( analysisYear, analysisMonth, 1)
           }
         }).toArray();
 
