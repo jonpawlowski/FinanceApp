@@ -48,7 +48,11 @@ function router() {
         // Calculate charges against Monthly Spending Budget
         for (i = 0; i < monthlyCharges.length; i++) {
           if (monthlyCharges[i].category == 'Monthly') {
-            totalMonthlyCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              totalMonthlyCharges -= monthlyCharges[i].amount;
+            } else {
+              totalMonthlyCharges += monthlyCharges[i].amount;
+            }
           }
         }
 
