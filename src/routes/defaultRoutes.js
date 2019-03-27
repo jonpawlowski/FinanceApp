@@ -142,6 +142,19 @@ function router() {
           monthlyFillColor = "#8FB7CA";
         }
 
+        // Show green bubble if ahead for the month
+        var totalMonthlyFillColor;
+        if (Number(allMonthlyCharges) < 0) {
+          // ahead for the month so show green and make number positive
+          totalMonthlyFillColor = "background: rgb(102, 179, 96);";
+          allMonthlyCharges = (allMonthlyCharges * -1);
+          allMonthlyCharges = allMonthlyCharges.toFixed(2);
+        }
+        else {
+          // behind for the month so show red
+          totalMonthlyFillColor = "background: rgb(255,0,0);";
+        }
+
     res.render(
       'index',
       {
@@ -157,7 +170,8 @@ function router() {
         allMonthlyCharges,
         chartMonthlyCharges,
         chartRecurringCharges,
-        chartOneTimeCharges
+        chartOneTimeCharges,
+        totalMonthlyFillColor
       }
     );
     } catch(err) {
