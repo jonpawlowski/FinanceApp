@@ -18,12 +18,12 @@ function router() {
 
         const db = client.db(dbName);
         const col = await db.collection('charges');
-        const recentCharges = await col.find({
+        /*const recentCharges = await col.find({
           "chargeDate" : {
             $lt: new Date(),
             $gte: new Date(new Date().setDate(new Date().getDate()-7))
           }
-        }).toArray();
+        }).toArray();*/
 
         // Get current dollars to the budget spent as of today
         const date = new Date();
@@ -89,10 +89,6 @@ function router() {
           }
         }
 
-        //chartMonthlyCharges = chartMonthlyCharges.toFixed(2);
-        //chartRecurringCharges = chartMonthlyCharges.toFixed(2);
-        //chartOneTimeCharges = chartMonthlyCharges.toFixed(2);
-        // Final total monthly spend calculation
         allMonthlyCharges = allMonthlyCharges.toFixed(2); //all monthly charges
         totalMonthlyCharges = totalMonthlyCharges.toFixed(2);  //anything that goes against the monthly budget
         const budgetRemaining = (global.gConfig.budget - totalMonthlyCharges).toFixed(2);
@@ -158,7 +154,7 @@ function router() {
     res.render(
       'index',
       {
-        recentCharges,
+        monthlyCharges,
         currentMonth,
         totalMonthlyCharges,
         budgetRemaining,
