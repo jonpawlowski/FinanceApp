@@ -260,19 +260,6 @@
                   </div>
                 </div>
                 <br>
-                <!-- Circle Chart for monthly budget
-                <section class="circle-chart">
-                  <label class="circle-chart__label">Chart label</label>
-                  <svg viewbox="0 0 35.83098862 35.83098862" width="75%" height="200" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="circle-chart__background" stroke="#efefef" stroke-width="4" fill="none" cx="0" cy="17.91549431" r="15.91549431" />
-                    <circle class="circle-chart__circle" stroke="<%=monthlyFillColor%>" stroke-width="4" stroke-dasharray="<%=rectSpentWidth%>,100" stroke-linecap="none" fill="none" cx="0" cy="17.91549431" r="15.91549431" />
-                    <g class="circle-chart__info">
-                      <text class="circle-chart__percent" x="0" y="16.5" alignment-baseline="central" text-anchor="middle" font-size="6">$<%=budgetRemaining%></text>
-                      <text class="circle-chart__subline" x="0" y="21.5" alignment-baseline="central" text-anchor="middle" font-size="2">Budget Remaining</text>
-                    </g>
-                  </svg>
-                </section>-->
-              <!--   <div class="chart-container" style="position: relative; height:40vh; width:80vw"> -->
               <div id='d1' style="position:relative; top:0px; left:50px">
                   <canvas id="monthlyBudgetChart" width="400" height="400"></canvas>
               </div>
@@ -446,7 +433,7 @@
         }
     });
 
-    var newBudgetRemaining = 0;
+    var newBudgetRemaining = 0.00;
 
     if (parseFloat(<%=budgetRemaining%>) > 0) {
       newBudgetRemaining = <%=budgetRemaining%>;
@@ -464,7 +451,9 @@
           ]
         },
         options: {
-          responsive: false
+          responsive: false,
+          scaleLabel:
+        function(label){return  ' $' + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
         }
     });
     </script>
