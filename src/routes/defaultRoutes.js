@@ -18,12 +18,6 @@ function router() {
 
         const db = client.db(dbName);
         const col = await db.collection('charges');
-        /*const recentCharges = await col.find({
-          "chargeDate" : {
-            $lt: new Date(),
-            $gte: new Date(new Date().setDate(new Date().getDate()-7))
-          }
-        }).toArray();*/
 
         // Get current dollars to the budget spent as of today
         const date = new Date();

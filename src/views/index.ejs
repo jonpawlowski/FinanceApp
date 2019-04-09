@@ -21,7 +21,7 @@
 
     <!-- Page level plugin CSS-->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="vendor/datatables/jquery.dataTables.min.css" rel="stylesheet">
+    <!--<link href="vendor/datatables/jquery.dataTables.min.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
@@ -36,7 +36,7 @@
   </head>
 
   <body id="page-top">
-
+    <% include ./functions.ejs %>
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
       <a class="navbar-brand mr-1" href="/">Pawlowski Financial App</a>
@@ -311,7 +311,7 @@
               <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
           </div>
           <br>
-          <div class="card-footer small text-muted">Last Updated <%if (monthlyCharges.length==0) { "N/A" } else {("0" + (monthlyCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[0].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[0].chargeDate.getFullYear();}%></div>
+          <div class="card-footer small text-muted">Last Generated <%=new Date() %></div>
         </div>
           <!-- DataTables Example -->
           <div class="card mb-3">
@@ -352,7 +352,7 @@
                 </table>
               </div>
             </div>
-            <div class="card-footer small text-muted">Last Updated <%if (monthlyCharges.length==0) { "N/A" } else {("0" + (monthlyCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[0].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[0].chargeDate.getFullYear();}%></div>
+            <div class="card-footer small text-muted">Last Updated <%if (monthlyCharges.length==0) {%> N/A <%} else {("0" + (monthlyCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[0].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[0].chargeDate.getFullYear();}%></div>
           </div>
 
         </div>
@@ -368,25 +368,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Logout?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.js"></script>
@@ -407,7 +388,7 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
 
-    <!-- Demo scripts for this page-->
+    <!-- Datatables scripts for this page-->
     <script src="js/demo/datatables-demo.js"></script>
     <!--<script src="js/demo/chart-area-demo.js"></script>-->
     <script src="js/moment.min.js"></script>
@@ -416,7 +397,7 @@
 
     <!-- script to create total monthly doughnut chart -->
     <script>
-    var htmlChart01 = new Chart(document.getElementById("totalMonthlyChart"), {
+      var htmlChart01 = new Chart(document.getElementById("totalMonthlyChart"), {
         type: 'doughnut',
         data: {
           labels: ["Monthly", "Recurring", "One-time"],
@@ -431,14 +412,15 @@
         options: {
           responsive: false
         }
-    });
+      });
 
-    var newBudgetRemaining = 0.00;
+      var newBudgetRemaining = 0.00;
 
-    if (parseFloat(<%=budgetRemaining%>) > 0) {
-      newBudgetRemaining = <%=budgetRemaining%>;
-    }
-    var htmlChart02 = new Chart(document.getElementById("monthlyBudgetChart"), {
+      if (parseFloat(<%=budgetRemaining%>) > 0) {
+        newBudgetRemaining = <%=budgetRemaining%>;
+      }
+
+      var htmlChart02 = new Chart(document.getElementById("monthlyBudgetChart"), {
         type: 'doughnut',
         data: {
           labels: ["Total Spend", "Available"],
@@ -455,7 +437,7 @@
           scaleLabel:
         function(label){return  ' $' + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
         }
-    });
+      });
     </script>
 
   </body>
