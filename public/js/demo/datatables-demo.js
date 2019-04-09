@@ -14,15 +14,6 @@ $(document).ready(function() {
     "order": [[ 0, "desc" ]],
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     responsive: true,
-    select: {
-            style:    'os',
-            selector: 'td.select-checkbox'
-        },
-        buttons: [
-            { extend: "create", editor: editor },
-            { extend: "edit",   editor: editor },
-            { extend: "remove", editor: editor }
-        ]
     } );
 
 } );
