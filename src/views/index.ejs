@@ -106,7 +106,7 @@
         </li>
       </ul>
 
-      <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalNewChargeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header text-center">
@@ -226,7 +226,7 @@
 
                               <div class="CardEntry-Field">
                                 <label for="editComments" style="margin-left:10px;">Comments:</label>
-                                <input class="FieldInputBox" name="editComments" id="editComments" type="text"/>
+                                <input class="FieldInputBox" name="editComments" id="editComments" value="Tokie" type="text"/>
                               </div>
 
                             </div>
@@ -308,7 +308,7 @@
             </div>
           </div> <!-- Spending stats table -->
           <div class="b-dashboard-col70b">
-              <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">Enter Charge</a>
+              <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalNewChargeForm">Enter Charge</a>
           </div>
           <br>
           <div class="card-footer small text-muted">Last Generated <%= new Date() %></div>
@@ -327,6 +327,7 @@
                       <th>Vendor</th>
                       <th>Amount</th>
                       <th>Payment Type</th>
+                      <th>Category</th>
                       <th>Comments</th>
                     </tr>
                   </thead>
@@ -345,6 +346,7 @@
                       <td><%=monthlyCharges[i].vendor%></td>
                       <td><%='$' + monthlyCharges[i].amount.toFixed(2)%></td>
                       <td><%=monthlyCharges[i].paymentType%></td>
+                        <td><%=monthlyCharges[i].category%></td>
                       <td><%=monthlyCharges[i].comments%></td>
                     </tr>
                     <%}}%>
@@ -383,6 +385,7 @@
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="vendor/datatables/dataTables.responsive.min.js"></script>
+    <script src="vendor/datatables/dataTables.buttons.min.js"></script>
     <script src="vendor/bootstrap/js/responsive.bootstrap.min.js"></script>
 
     <!-- Custom scripts for all pages-->
@@ -393,7 +396,7 @@
     <!--<script src="js/demo/chart-area-demo.js"></script>-->
     <script src="js/moment.min.js"></script>
     <script src="js/datetime-moment.js"></script>
-    <!--<script src="vendor/datatables/dataTables.select.min.js"></script> -->
+    <script src="vendor/datatables/dataTables.select.min.js"></script>
 
     <!-- script to create total monthly doughnut chart -->
     <script>

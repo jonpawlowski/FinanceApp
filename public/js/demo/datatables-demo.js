@@ -9,11 +9,30 @@ $(document).ready(function() {
     "pageLength": 50
   });
 
+/*
   // Recent Charges Table
   $('#recentChargesTable').DataTable( {
     "order": [[ 0, "desc" ]],
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     responsive: true,
     } );
+
+} );
+*/
+// Testing new table
+  $('#recentChargesTable').DataTable( {
+    "order": [[ 0, "desc" ]],
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    dom: 'Bfrtip',
+    select: true,
+    buttons: [
+      {
+          text: 'Edit Charge',
+          action: function ( e, dt, node, config ) {
+            $('#modalEditChargeForm').modal('show');
+          }
+      }
+    ]
+  } );
 
 } );
