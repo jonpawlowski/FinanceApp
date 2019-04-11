@@ -21,7 +21,10 @@ $(document).ready(function() {
 */
 // Testing new table
   $('#recentChargesTable').DataTable( {
-    dom: 'flrtipB',
+    dom: '<"row"<"col-sm-3"l><"col-sm-6"><"col-sm-3"f>>' +
+    '<"row"<"col-sm-12"tr>>' +
+    '<"row"<"col-sm-5"i><"col-sm-7"p>>' +
+    '<"row"<"col-sm-12"B>>',
     select: {
             style: 'single'
         },
@@ -34,6 +37,7 @@ $(document).ready(function() {
         ],
     buttons: [
       {
+          extend: 'selected',
           text: 'Edit Charge',
           className: 'btn btn-info',
           action: function ( e, dt, node, config ) {
