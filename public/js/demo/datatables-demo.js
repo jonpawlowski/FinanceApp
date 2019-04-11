@@ -21,9 +21,7 @@ $(document).ready(function() {
 */
 // Testing new table
   $('#recentChargesTable').DataTable( {
-    "order": [[ 0, "desc" ]],
-    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-    dom: 'Bfrtip',
+    dom: 'flrtipB',
     select: {
             style: 'single'
         },
@@ -65,8 +63,17 @@ $(document).ready(function() {
             //alert(' Date is ' + formatEditDateTable);
             $('#modalEditChargeForm').modal('show');
           }
+      },
+      {
+          text: 'Enter Charge',
+          className: 'btn btn-info',
+          action: function ( e, dt, node, config ) {
+            $('#modalEditChargeForm').modal('show');
+          }
       }
-    ]
+    ],
+    "order": [[ 0, "desc" ]],
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
   } );
 
 } );
