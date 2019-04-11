@@ -72,7 +72,7 @@ $(document).ready(function() {
           text: 'Enter Charge',
           className: 'btn btn-info',
           action: function ( e, dt, node, config ) {
-            $('#modalEditChargeForm').modal('show');
+            $('#modalNewChargeForm').modal('show');
           }
       }
     ],
