@@ -184,17 +184,18 @@
                         </button>
                     </div>
                     <div class="CardEntryContainer">
-                      <form name="editChargesForm" action="#" method="post">
+                      <form name="editChargesForm" action="/editCharges" method="post">
                         <div class="CardEntryForm section">
                           <div class="formsection column_2">
                             <div class="content formcolumn">
+                              <input type="hidden" id="editFormId" name="editFormId"/>
                               <div class="CardEntry-Field">
-                                <label for="editChargeDate" style="margin-left:10px;">Charge Date:</label>
-                                <input class="FieldInputBox" name="editChargeDate" required id="editChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
+                                <label for="editFormChargeDate" style="margin-left:10px;">Charge Date:</label>
+                                <input class="FieldInputBox" name="editFormChargeDate" required id="editFormChargeDate" type="date" max="<%=todaysDate%>"/>
                               </div>
                               <div class="CardEntry-Field">
-                                <label for="editVendor" style="margin-left:10px;">Vendor:</label>
-                                <input class="FieldInputBox" name="editVendor" required id="editVendor" type="text" list="editVendors"/>
+                                <label for="editFormVendor" style="margin-left:10px;">Vendor:</label>
+                                <input class="FieldInputBox" name="editFormVendor" required id="editFormVendor" type="text" list="editVendors"/>
                                   <datalist id="editVendors">
                                     <%for(let i=0; i<vendorList.length; i++) {%>
                                       <option><%=vendorList[i]%></option>
@@ -202,12 +203,12 @@
                                   </datalist>
                               </div>
                               <div class="CardEntry-Field">
-                                <label for="editAmount" style="margin-left:10px;">Amount:</label>
-                                <input class="FieldInputBox" name="editAmount" required id="editAmount" type="number" step=".01"/>
+                                <label for="editFormAmount" style="margin-left:10px;">Amount:</label>
+                                <input class="FieldInputBox" name="editFormAmount" required id="editFormAmount" type="number" step=".01"/>
                               </div>
                               <div class="CardEntry-Field">
-                                <label for="editPaymentType" style="margin-left:10px;">Payment Type:</label>
-                                <select class="FieldInputBox" required name="editPaymentType" id="editPaymentType">
+                                <label for="editFormPaymentType" style="margin-left:10px;">Payment Type:</label>
+                                <select class="FieldInputBox" required name="editFormPaymentType" id="editFormPaymentType">
                                   <option value="AmEx Platinum">AmEx Platinum</option>
                                   <option value="Cash">Cash</option>
                                   <option value="Chase Sapphire">Chase Sapphire</option>
@@ -216,8 +217,8 @@
                                 </select>
                               </div>
                               <div class="CardEntry-Field">
-                                <label for="editCategory" style="margin-left:10px;">Category:</label>
-                                <select class="FieldInputBox" required name="editCategory" id="editCategory">
+                                <label for="editFormCategory" style="margin-left:10px;">Category:</label>
+                                <select class="FieldInputBox" required name="editFormCategory" id="editFormCategory">
                                   <option value="Monthly">Monthly</option>
                                   <option value="One-time">One-time</option>
                                   <option value="Recurring">Recurring</option>
@@ -225,14 +226,14 @@
                               </div>
 
                               <div class="CardEntry-Field">
-                                <label for="editComments" style="margin-left:10px;">Comments:</label>
-                                <input class="FieldInputBox" name="editComments" id="editComments" value="Tokie" type="text"/>
+                                <label for="editFormComments" style="margin-left:10px;">Comments:</label>
+                                <input class="FieldInputBox" name="editFormComments" id="editFormComments" type="text"/>
                               </div>
 
                             </div>
                           </div>
                           <div class="modal-footer d-flex justify-content-center">
-                            <button type="submit" class="btn btn-info" id="btnEdit">Submit</button>
+                            <button type="Submit" class="btn btn-info" id="btnEdit">Submit</button>
                           </div>
                         </div>
                       </form>
@@ -323,6 +324,7 @@
                 <table class="table table-striped table-bordered nowrap" id="recentChargesTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Date</th>
                       <th>Vendor</th>
                       <th>Amount</th>
@@ -341,7 +343,8 @@
                       <td></td>
                     <%} else {%>
                     <%for(let i=0; i<monthlyCharges.length; i++) {%>
-                    <tr id="<%=monthlyCharges[i]._id%>" data-value="<%=monthlyCharges[i]._id%>">
+                    <tr>
+                      <td><%=monthlyCharges[i]._id%></td>
                       <td><%=("0" + (monthlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[i].chargeDate.getFullYear();%></td>
                       <td><%=monthlyCharges[i].vendor%></td>
                       <td><%='$' + monthlyCharges[i].amount.toFixed(2)%></td>

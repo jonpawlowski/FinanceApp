@@ -9,8 +9,6 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const app = express();
-//process.env.NODE_ENV = 'development';
-//process.env.NODE_ENV = 'production';
 
 const config = require('./src/config/config.js');
 
@@ -30,12 +28,14 @@ const chargeRouter = require('./src/routes/chargeRoutes')();
 const analysisRouter = require('./src/routes/analysisRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
 const newChargesRouter = require('./src/routes/newChargesRoutes')();
+const editChargesRouter = require('./src/routes/editChargesRoutes')();
 
 app.use('/', defaultRouter);
 app.use('/charges', chargeRouter);
 app.use('/analysis', analysisRouter);
 app.use('/auth', authRouter);
 app.use('/newCharges', newChargesRouter);
+app.use('/editCharges', editChargesRouter);
 
 app.listen(global.gConfig.node_port, function(){
   debug(`listening on port ${chalk.green(global.gConfig.node_port)}`);
