@@ -8,7 +8,7 @@ function router() {
 
     .get((req, res) => {
       const pageTitle = 'analysis';
-      
+
       res.render(
         'analysisView',
         {
@@ -22,6 +22,7 @@ function router() {
     const currentMonth = requestDate.substring(0, requestDate.indexOf(' '));
     const analysisYear = requestDate.substring((requestDate.indexOf(' ') + 1));
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
+    const pageTitle = 'analysis';
 
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
@@ -111,7 +112,8 @@ function router() {
           chartMonthlyCharges,
           chartRecurringCharges,
           chartOneTimeCharges,
-          monthlyFillColor
+          monthlyFillColor,
+          pageTitle
         }
       );
     } catch(err) {
