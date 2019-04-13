@@ -7,8 +7,13 @@ function router() {
   analysisRouter.route('/')
 
     .get((req, res) => {
+      const pageTitle = 'analysis';
+      
       res.render(
-        'analysisView'
+        'analysisView',
+        {
+          pageTitle
+        }
       );
     })
 

@@ -9,6 +9,8 @@ function router() {
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
     const rectGreenWidth = 600;
+    const pageTitle = 'index';
+
     var fs = require('fs');
 
     (async function mongo() {
@@ -161,7 +163,8 @@ function router() {
         chartMonthlyCharges,
         chartRecurringCharges,
         chartOneTimeCharges,
-        totalMonthlyFillColor
+        totalMonthlyFillColor,
+        pageTitle
       }
     );
     } catch(err) {

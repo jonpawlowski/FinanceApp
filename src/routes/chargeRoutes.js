@@ -8,6 +8,7 @@ function router() {
     .get((req, res) => {
       const url = global.gConfig.databaseurl;
       const dbName = global.gConfig.database;
+      const pageTitle = 'charges';
 
       (async function mongo() {
         let client;
@@ -32,7 +33,8 @@ function router() {
       res.render(
         'chargesView',
         {
-          charges
+          charges,
+          pageTitle
         }
       );
     } catch(err) {

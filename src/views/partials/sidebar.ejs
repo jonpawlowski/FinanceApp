@@ -1,0 +1,20 @@
+<!-- Sidebar -->
+<!-- Check to see which page is active coming from routes variable pageTitle. -->
+<ul class="sidebar navbar-nav">
+  <li class=<%if (pageTitle == 'index') {%> "nav-item active" <%} else { %> "nav-item" <%}%>>
+    <a class="nav-link" href="/">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Financial Dashboard</span>
+    </a>
+   <li class=<%if (pageTitle == 'charges') {%> "nav-item active" <%} else { %> "nav-item" <%}%>>
+    <a class="nav-link" href="/charges">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>All Charges</span>
+    </a>
+  </li>
+  <li class=<%if (pageTitle == 'analysis') {%> "nav-item active" <%} else { %> "nav-item" <%}%>>
+    <a class="nav-link" href="/analysis">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Financial Analysis</span></a>
+  </li>
+</ul>

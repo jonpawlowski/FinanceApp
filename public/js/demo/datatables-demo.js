@@ -9,19 +9,9 @@ $(document).ready(function() {
     "pageLength": 50
   });
 
-/*
-  // Recent Charges Table
-  $('#recentChargesTable').DataTable( {
-    "order": [[ 0, "desc" ]],
-    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-    responsive: true,
-    } );
-
-} );
-*/
 // Testing new table
   $('#recentChargesTable').DataTable( {
-    order: [[ 1, "desc" ]],
+    order: [[ 1, 'desc' ], [ 2, 'asc' ]],
     lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
     dom: '<"row"<"col-sm-3"l><"col-sm-6"><"col-sm-3"f>>' +
     '<"row"<"col-sm-12"tr>>' +
@@ -58,6 +48,7 @@ $(document).ready(function() {
             // convert date to proper format for html input type date YYYY-MM-DD
             var formatEditDateTable = editDateTable.substring(6) + '-' + editDateTable.substring(0,2) + '-' + editDateTable.substring(3,5);
 
+            // assign the values from selected row to appropriate elements in the modal form
             document.getElementById('editFormId').value = editID;
             document.getElementById('editFormChargeDate').value = formatEditDateTable;
             document.getElementById('editFormVendor').value = editVendorTable;
