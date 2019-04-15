@@ -36,6 +36,7 @@
   </head>
 
   <body id="page-top">
+    <%- include('partials/functions') %>
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -224,19 +225,19 @@
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
                       <div class="b-dashboard-accounts-balance">
-                          Available<span><span>$<%=budgetRemaining%></span></span>
+                          Available<span><span><%= currencyFormatted(budgetRemaining) %></span></span>
                           <div class="b-dashboard-accounts-balance-circle" style="background: rgb(102, 179, 96);"></div>
                       </div>
                   </div>
                   <div class="b-dashboard-col70">
                       <div class="b-dashboard-accounts-balance">
-                        Spent<span>$<%=totalMonthlyCharges%></span>
+                        Spent<span><%= currencyFormatted(totalMonthlyCharges) %></span>
                         <div class="b-dashboard-accounts-balance-circle" style="background: rgb(146, 182, 199);"></div>
                       </div>
                   </div>
                   <div class="b-dashboard-col70">
                       <div class="b-dashboard-accounts-balance">
-                        On Budget Number<span>$<%=currentOnBudget%></span>
+                        On Budget Number<span><%= currencyFormatted(currentOnBudget) %></span>
                       </div>
                   </div>
                 </div>
@@ -256,7 +257,7 @@
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
                       <div class="b-dashboard-accounts-balance">
-                          Total Monthly Spend<span><span>$<%=allMonthlyCharges%></span></span>
+                          Total Monthly Spend<span><span><%= currencyFormatted(allMonthlyCharges) %></span></span>
                           <div class="b-dashboard-accounts-balance-circle" style="<%=totalMonthlyFillColor%>"></div>
                       </div>
                   </div>
@@ -300,7 +301,7 @@
                       <td><%=monthlyCharges[i]._id%></td>
                       <td><%=("0" + (monthlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[i].chargeDate.getFullYear();%></td>
                       <td><%=monthlyCharges[i].vendor%></td>
-                      <td><%='$' + monthlyCharges[i].amount.toFixed(2)%></td>
+                      <td><%= currencyFormatted(monthlyCharges[i].amount) %></td>
                       <td><%=monthlyCharges[i].paymentType%></td>
                       <td><%=monthlyCharges[i].category%></td>
                       <td><%=monthlyCharges[i].comments%></td>
@@ -354,8 +355,12 @@
     <script src="js/datetime-moment.js"></script>
     <script src="vendor/datatables/dataTables.select.min.js"></script>
 
+    <script>
+
+    </script>
     <!-- script to create total monthly doughnut chart -->
     <script>
+
       var htmlChart01 = new Chart(document.getElementById("totalMonthlyChart"), {
         type: 'doughnut',
         data: {
@@ -369,7 +374,18 @@
           ]
         },
         options: {
-          responsive: false
+          responsive: false,
+          tooltips: {
+            mode: 'label',
+            label: 'mylabel',
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var currency = data['datasets'][0]['data'][tooltipItem['index']];
+                currency = '$' + currency.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                return data.labels[tooltipItem.index] + ": " + currency;
+              },
+            },
+          }
         }
       });
 
@@ -393,12 +409,20 @@
         },
         options: {
           responsive: false,
-          scaleLabel:
-        function(label){return  ' $' + label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
+          tooltips: {
+            mode: 'label',
+            label: 'mylabel',
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var currency = data['datasets'][0]['data'][tooltipItem['index']];
+                currency = '$' + currency.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                return data.labels[tooltipItem.index] + ": " + currency;
+              },
+            },
+          }
         }
       });
     </script>
-
   </body>
 
 </html>
