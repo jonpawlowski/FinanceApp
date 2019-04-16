@@ -211,12 +211,7 @@
           <!-- Area Chart Example-->
           <div class="b-dashboard-accounts-item mod_nonhsa">
             <div class = "row">
-              <div class="column"> <!-- Monthly Budget Stats Column -->
-                <div class="b-dashboard-accounts-title">
-                  <div class="b-dashboard-col15">
-                      <div class="b-dashboard-accounts-name">Monthly Budget</div>
-                  </div>
-                </div>
+              <div class="column">
                 <br>
               <div id='d1' style="position:relative; top:0px; left:50px">
                   <canvas id="monthlyBudgetChart" width="400" height="400"></canvas>
@@ -242,12 +237,7 @@
                   </div>
                 </div>
             </div>
-              <div class = "column"> <!-- Total Monthly Spend -->
-                <div class="b-dashboard-accounts-title">
-                  <div class="b-dashboard-col15">
-                      <div class="b-dashboard-accounts-name">Total Monthly Spend</div>
-                  </div>
-                </div>
+              <div class = "column">
                 <br>
                 <!-- Circle Chart for monthly budget -->
                   <div id='d2' style="position:relative; top:0px; left:50px">
@@ -272,7 +262,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Charges for the Month</div>
+              Charges for the Month of <%=currentMonth%></div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-striped table-bordered nowrap" id="recentChargesTable" width="100%" cellspacing="0">
@@ -374,6 +364,12 @@
           ]
         },
         options: {
+          title: {
+            display: true,
+            fontSize: 24,
+            fontFamily: "Helvetica Neue",
+            text: 'Total Monthly Spend'
+          },
           responsive: false,
           tooltips: {
             mode: 'label',
@@ -408,6 +404,12 @@
           ]
         },
         options: {
+          title: {
+            display: true,
+            fontSize: 24,
+            fontFamily: "Helvetica Neue",
+            text: 'Monthly Budget'
+          },
           responsive: false,
           tooltips: {
             mode: 'label',
