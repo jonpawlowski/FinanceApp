@@ -75,13 +75,25 @@ function router() {
             allMonthlyCharges += monthlyCharges[i].amount;
           }
           if (monthlyCharges[i].category == 'Monthly') {
-            chartMonthlyCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              chartMonthlyCharges -= monthlyCharges[i].amount;
+            } else {
+              chartMonthlyCharges += monthlyCharges[i].amount;
+            }
           }
           if (monthlyCharges[i].category == 'Recurring') {
-            chartRecurringCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              chartRecurringCharges -= monthlyCharges[i].amount;
+            } else {
+              chartRecurringCharges += monthlyCharges[i].amount;
+            }
           }
           if (monthlyCharges[i].category == 'One-time') {
-            chartOneTimeCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              chartOneTimeCharges -= monthlyCharges[i].amount;
+            } else {
+              chartOneTimeCharges += monthlyCharges[i].amount;
+            }
           }
         }
 
