@@ -1,0 +1,77 @@
+<!-- script to create total monthly doughnut chart -->
+<script>
+
+  var htmlChart01 = new Chart(document.getElementById("totalMonthlyChart"), {
+    type: 'doughnut',
+    data: {
+      labels: ["Monthly", "Recurring", "One-time"],
+      datasets: [
+        {
+          label: "Dollars",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+          data: [<%=chartMonthlyCharges.toFixed(2)%>,<%=chartRecurringCharges.toFixed(2)%>,<%=chartOneTimeCharges.toFixed(2)%>]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        fontSize: 24,
+        fontFamily: "Helvetica Neue",
+        text: 'Total Monthly Spend'
+      },
+      responsive: false,
+      tooltips: {
+        mode: 'label',
+        label: 'mylabel',
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var currency = data['datasets'][0]['data'][tooltipItem['index']];
+            currency = '$' + currency.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+            return data.labels[tooltipItem.index] + ": " + currency;
+          },
+        },
+      }
+    }
+  });
+
+  var newBudgetRemaining = 0.00;
+
+  if (parseFloat(<%=budgetRemaining%>) > 0) {
+    newBudgetRemaining = <%=budgetRemaining%>;
+  }
+
+  var htmlChart02 = new Chart(document.getElementById("monthlyBudgetChart"), {
+    type: 'doughnut',
+    data: {
+      labels: ["Total Spent", "Available"],
+      datasets: [
+        {
+          label: "Dollars",
+          backgroundColor: ["<%=monthlyFillColor%>", "#66B360"],
+          data: [<%=totalMonthlyCharges%>,newBudgetRemaining]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        fontSize: 24,
+        fontFamily: "Helvetica Neue",
+        text: 'Monthly Budget'
+      },
+      responsive: false,
+      tooltips: {
+        mode: 'label',
+        label: 'mylabel',
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var currency = data['datasets'][0]['data'][tooltipItem['index']];
+            currency = '$' + currency.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+            return data.labels[tooltipItem.index] + ": " + currency;
+          },
+        },
+      }
+    }
+  });
+</script>

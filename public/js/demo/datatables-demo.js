@@ -1,4 +1,4 @@
-// Call the dataTables jQuery plugin
+// All charges table shown on the /charges page
 $(document).ready(function() {
   $('#allChargesTable').DataTable( {
     "columnDefs": [
@@ -9,7 +9,7 @@ $(document).ready(function() {
     "pageLength": 50
   });
 
-// Testing new table
+// Recent charges table shown on the home page
   $('#recentChargesTable').DataTable( {
     order: [[ 1, 'desc' ], [ 2, 'asc' ]],
     lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
