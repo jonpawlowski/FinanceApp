@@ -40,7 +40,7 @@ function router() {
         const monthlyCharges = await col.find({
           "chargeDate" : {
             $lt: new Date( analysisYear, analysisMonth, 1),
-            $gte: new Date( analysisYear, analysisMonth - 1 , 0 )
+            $gte: new Date( analysisYear, analysisMonth - 1 , 1 )
           }
         }).toArray();
 
@@ -70,13 +70,25 @@ function router() {
             allMonthlyCharges += monthlyCharges[i].amount;
           }
           if (monthlyCharges[i].category == 'Monthly') {
-            chartMonthlyCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              chartMonthlyCharges -= monthlyCharges[i].amount;
+            } else {
+              chartMonthlyCharges += monthlyCharges[i].amount;
+            }
           }
           if (monthlyCharges[i].category == 'Recurring') {
-            chartRecurringCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              chartRecurringCharges -= monthlyCharges[i].amount;
+            } else {
+              chartRecurringCharges += monthlyCharges[i].amount;
+            }
           }
           if (monthlyCharges[i].category == 'One-time') {
-            chartOneTimeCharges += monthlyCharges[i].amount;
+            if (monthlyCharges[i].paymentType == 'Credit') {
+              chartOneTimeCharges -= monthlyCharges[i].amount;
+            } else {
+              chartOneTimeCharges += monthlyCharges[i].amount;
+            }
           }
         }
 
@@ -100,6 +112,19 @@ function router() {
           monthlyFillColor = "#8FB7CA";
         }
 
+        // Show green bubble if ahead for the month
+        var totalMonthlyFillColor;
+        if (Number(allMonthlyCharges) < 0) {
+          // ahead for the month so show green and make number positive
+          totalMonthlyFillColor = "background: rgb(102, 179, 96);";
+          allMonthlyCharges = (allMonthlyCharges * -1);
+          allMonthlyCharges = allMonthlyCharges.toFixed(2);
+        }
+        else {
+          // behind for the month so show red
+          totalMonthlyFillColor = "background: rgb(255,0,0);";
+        }
+
       res.render(
         'analysisView_month',
         {
@@ -113,7 +138,8 @@ function router() {
           chartRecurringCharges,
           chartOneTimeCharges,
           monthlyFillColor,
-          pageTitle
+          pageTitle,
+          totalMonthlyFillColor
         }
       );
     } catch(err) {
