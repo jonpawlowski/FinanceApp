@@ -37,6 +37,8 @@
 
   <body id="page-top">
 
+    <%- include('partials/functions') %>
+
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
       <a class="navbar-brand mr-1" href="/">Pawlowski Financial App</a>
@@ -77,11 +79,6 @@
           <div class="b-dashboard-accounts-item mod_nonhsa">
             <div class = "row">
               <div class="column"> <!-- Monthly Budget Stats Column -->
-                <div class="b-dashboard-accounts-title">
-                  <div class="b-dashboard-col15">
-                      <div class="b-dashboard-accounts-name">Monthly Budget</div>
-                  </div>
-                </div>
                 <br>
               <div id='d1' style="position:relative; top:0px; left:50px">
                   <canvas id="monthlyBudgetChart" width="400" height="400"></canvas>
@@ -103,11 +100,6 @@
                 </div>
             </div>
               <div class = "column"> <!-- Total Monthly Spend -->
-                <div class="b-dashboard-accounts-title">
-                  <div class="b-dashboard-col15">
-                      <div class="b-dashboard-accounts-name">Total Monthly Spend</div>
-                  </div>
-                </div>
                 <br>
                 <!-- Circle Chart for monthly budget -->
                   <div id='d2' style="position:relative; top:0px; left:50px">
@@ -117,14 +109,8 @@
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
                       <div class="b-dashboard-accounts-balance">
-                          Total Monthly Spend<span><span>$<%=allMonthlyCharges%></span></span>
+                          Total Monthly Spend<span><span><%= currencyFormatted(allMonthlyCharges) %></span></span>
                           <div class="b-dashboard-accounts-balance-circle" style="background: rgb(102, 179, 96);"></div>
-                      </div>
-                  </div>
-                  <div class="b-dashboard-col70">
-                      <div class="b-dashboard-accounts-balance">
-                        Spent<span>$<%=totalMonthlyCharges%></span>
-                        <div class="b-dashboard-accounts-balance-circle" style="background: rgb(146, 182, 199);"></div>
                       </div>
                   </div>
                 </div>
@@ -140,33 +126,39 @@
             Charges for the Month of <%=currentMonth%></div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-striped table-bordered nowrap" id="recentChargesTable" width="100%" cellspacing="0">
+              <table class="table table-striped table-bordered nowrap" id="analysisViewChargesTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
+                    <th>ID</th>
                     <th>Date</th>
                     <th>Vendor</th>
                     <th>Amount</th>
                     <th>Payment Type</th>
+                    <th>Category</th>
                     <th>Comments</th>
                   </tr>
                 </thead>
                 <tbody>
                   <%if (monthlyCharges.length==0) {%>
                   <tr>
-                    <td>None</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <th>None</th>
+                    <th>None</th>
+                    <th>None</th>
+                    <th>None</th>
+                    <th>None</th>
+                    <th>None</th>
+                    <th>None</th>
                   <%} else {%>
-                  <%for(let i=0; i<monthlyCharges.length; i++) {%>
-                  <tr id="<%=monthlyCharges[i]._id%>" data-value="<%=monthlyCharges[i]._id%>">
-                    <td><%=("0" + (monthlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[i].chargeDate.getFullYear();%></td>
-                    <td><%=monthlyCharges[i].vendor%></td>
-                    <td><%='$' + monthlyCharges[i].amount.toFixed(2)%></td>
-                    <td><%=monthlyCharges[i].paymentType%></td>
-                    <td><%=monthlyCharges[i].comments%></td>
-                  </tr>
+                    <%for(let i=0; i<monthlyCharges.length; i++) {%>
+                    <tr>
+                      <td><%=monthlyCharges[i]._id%></td>
+                      <td><%=("0" + (monthlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[i].chargeDate.getFullYear();%></td>
+                      <td><%=monthlyCharges[i].vendor%></td>
+                      <td><%= currencyFormatted(monthlyCharges[i].amount) %></td>
+                      <td><%=monthlyCharges[i].paymentType%></td>
+                      <td><%=monthlyCharges[i].category%></td>
+                      <td><%=monthlyCharges[i].comments%></td>
+                    </tr>
                   <%}}%>
                 </tbody>
               </table>
@@ -220,6 +212,7 @@
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="vendor/datatables/dataTables.responsive.min.js"></script>
+    <script src="vendor/datatables/dataTables.buttons.min.js"></script>
     <script src="vendor/bootstrap/js/responsive.bootstrap.min.js"></script>
 
     <!-- Custom scripts for all pages-->
@@ -227,52 +220,12 @@
 
     <!-- Demo scripts for this page-->
     <script src="js/demo/datatables-demo.js"></script>
-    <!--<script src="js/demo/chart-area-demo.js"></script>-->
     <script src="js/moment.min.js"></script>
     <script src="js/datetime-moment.js"></script>
-    <!--<script src="vendor/datatables/dataTables.select.min.js"></script> -->
+    <script src="vendor/datatables/dataTables.select.min.js"></script>
 
-    <!-- script to create total monthly doughnut chart -->
-    <script>
-    var htmlChart01 = new Chart(document.getElementById("totalMonthlyChart"), {
-        type: 'doughnut',
-        data: {
-          labels: ["Monthly", "Recurring", "One-time"],
-          datasets: [
-            {
-              label: "Dollars",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
-              data: [<%=chartMonthlyCharges.toFixed(2)%>,<%=chartRecurringCharges.toFixed(2)%>,<%=chartOneTimeCharges.toFixed(2)%>]
-            }
-          ]
-        },
-        options: {
-          responsive: false
-        }
-    });
-
-    var newBudgetRemaining = 0;
-
-    if (parseFloat(<%=budgetRemaining%>) > 0) {
-      newBudgetRemaining = <%=budgetRemaining%>;
-    }
-    var htmlChart02 = new Chart(document.getElementById("monthlyBudgetChart"), {
-        type: 'doughnut',
-        data: {
-          labels: ["Total Spent", "Available"],
-          datasets: [
-            {
-              label: "Dollars",
-              backgroundColor: ["<%=monthlyFillColor%>", "#3e95cd"],
-              data: [<%=totalMonthlyCharges%>,newBudgetRemaining]
-            }
-          ]
-        },
-        options: {
-          responsive: false
-        }
-    });
-    </script>
+    <!-- Script to create total monthly doughnut chart. located in ejs partial monthlyCharts.ejs -->
+    <%- include('partials/monthlyCharts') %>
 
   </body>
 
