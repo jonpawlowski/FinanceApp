@@ -9,6 +9,9 @@ function router() {
     .get((req, res) => {
       const pageTitle = 'analysis';
 
+      // Clear out session variable
+      req.session.destroy();
+
       res.render(
         'analysisView',
         {
@@ -18,14 +21,15 @@ function router() {
     })
 
   .post((req, res) => {
-    //console.log("Request Date is: " + req.session.date);
-    var RequestDate;
-    if (req.session.date) {
-      requestDate = req.session.date;
+
+    var requestDate;
+    if (req.session.analysisRequestDate) {
+      requestDate = req.session.analysisRequestDate;
     } else {
       requestDate = req.body.date.toString();
+      req.session['analysisRequestDate'] = req.body.date.toString();
     }
-    //console.log("Request Date is: " + requestDate);
+
     const currentMonth = requestDate.substring(0, requestDate.indexOf(' '));
     const analysisYear = requestDate.substring((requestDate.indexOf(' ') + 1));
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
@@ -166,25 +170,25 @@ function router() {
           totalMonthlyFillColor = "background: rgb(255,0,0);";
         }
 
-      res.render(
-        'analysisView_month',
-        {
-          currentMonth,
-          allMonthlyCharges,
-          totalMonthlyCharges,
-          budgetRemaining,
-          currentOnBudget,
-          monthlyCharges,
-          chartMonthlyCharges,
-          chartRecurringCharges,
-          chartOneTimeCharges,
-          monthlyFillColor,
-          pageTitle,
-          totalMonthlyFillColor,
-          todaysDate,
-          vendorList
-        }
-      );
+        res.render(
+          'analysisView_month',
+          {
+            currentMonth,
+            allMonthlyCharges,
+            totalMonthlyCharges,
+            budgetRemaining,
+            currentOnBudget,
+            monthlyCharges,
+            chartMonthlyCharges,
+            chartRecurringCharges,
+            chartOneTimeCharges,
+            monthlyFillColor,
+            pageTitle,
+            totalMonthlyFillColor,
+            todaysDate,
+            vendorList
+          }
+        );
     } catch(err) {
       debug(err.stack);
     }

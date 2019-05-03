@@ -24,7 +24,7 @@ function router() {
 
           const db = client.db(dbName);
           const col = db.collection('charges');
-          //process.env.TZ = 'UTC';
+
           const chargeDate = new Date(formChargeDate);
           //console.log("ChargeDate is ==> " + chargeDate);
           const amount = parseFloat(formAmount);
@@ -33,16 +33,17 @@ function router() {
 
           const results = await col.insertOne(charge);
           debug(results);
-          //console.log("Referred page is " + req.headers.referer);
+
+          //Grab referrer page to redirect page to originating page. I needed to do some magic here
+          //in order to make a post request back to the Analysis page.
           const pageReferrer = req.headers.referer;
 
           if (pageReferrer.includes("analysis")) {
-            req.session['date'] = 'April 2019';
             res.redirect(307, '/analysis');
-            //console.log("*******Analysis Page");
+          } else if (pageReferrer.includes("charges")) {
+            res.redirect('/charges');
           } else {
             res.redirect('/');
-            //console.log("***********Home Page");
           }
 
         } catch (err) {
