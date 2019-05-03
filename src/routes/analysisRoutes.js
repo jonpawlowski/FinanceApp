@@ -18,7 +18,14 @@ function router() {
     })
 
   .post((req, res) => {
-    const requestDate = req.body.date.toString();
+    //console.log("Request Date is: " + req.session.date);
+    var RequestDate;
+    if (req.session.date) {
+      requestDate = req.session.date;
+    } else {
+      requestDate = req.body.date.toString();
+    }
+    //console.log("Request Date is: " + requestDate);
     const currentMonth = requestDate.substring(0, requestDate.indexOf(' '));
     const analysisYear = requestDate.substring((requestDate.indexOf(' ') + 1));
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
@@ -26,6 +33,8 @@ function router() {
 
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
+
+    var fs = require('fs');
 
     (async function monthlyAnalysis() {
       let client;
@@ -43,6 +52,22 @@ function router() {
             $gte: new Date( analysisYear, analysisMonth - 1 , 1 )
           }
         }).toArray();
+
+        // Get vendor list for auto-complete in the form
+        // Wrote it to a file because I couldn't figure out how to assign it to a variable
+        await col.distinct("vendor", {}, function(err,vendors){
+          const vendorJSON = JSON.stringify(vendors);
+          //console.log("Vendor JSON is " + vendorJSON);
+          fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
+            if(err) console.log('error', err);
+          });
+        });
+
+        //Get vendor list from file and sort for easier reading
+        const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+        vendorList.sort(function(a, b) {
+          return a.toLowerCase().localeCompare(b.toLowerCase());
+        });
 
         // Perform final budget performance
         var totalMonthlyCharges = 0;
@@ -102,6 +127,22 @@ function router() {
         const currentOnBudget = ((global.gConfig.budget/numDays) * date.getDate()).toFixed(2);
         const rectSpentWidth = ((totalMonthlyCharges/global.gConfig.budget) * 100).toString();
 
+        // get today's date for max date and default value in new charges form
+        var todaysDate = new Date();
+        var dd = todaysDate.getDate();
+        var mm = todaysDate.getMonth()+1; //January is 0!
+        var yyyy = todaysDate.getFullYear();
+
+        if ( dd < 10 ) {
+          dd = '0' + dd;
+        }
+
+        if ( mm < 10 ) {
+          mm = '0' + mm;
+        }
+
+        todaysDate = yyyy + '-' + mm + '-' + dd;
+
         var monthlyFillColor;
         if (Number(totalMonthlyCharges) > Number(currentOnBudget)) {
           // over budget color
@@ -139,7 +180,9 @@ function router() {
           chartOneTimeCharges,
           monthlyFillColor,
           pageTitle,
-          totalMonthlyFillColor
+          totalMonthlyFillColor,
+          todaysDate,
+          vendorList
         }
       );
     } catch(err) {

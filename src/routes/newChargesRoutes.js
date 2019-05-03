@@ -33,8 +33,17 @@ function router() {
 
           const results = await col.insertOne(charge);
           debug(results);
+          //console.log("Referred page is " + req.headers.referer);
+          const pageReferrer = req.headers.referer;
 
-          res.redirect('/');
+          if (pageReferrer.includes("analysis")) {
+            req.session['date'] = 'April 2019';
+            res.redirect(307, '/analysis');
+            //console.log("*******Analysis Page");
+          } else {
+            res.redirect('/');
+            //console.log("***********Home Page");
+          }
 
         } catch (err) {
           debug(err);
