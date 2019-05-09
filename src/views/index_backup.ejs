@@ -8,18 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" type="image/png" href="src/config/category_payment_commercial.png">
 
-    <title>Pawlowski Financial App</title>
+    <title id="index">Pawlowski Financial App</title>
 
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/responsive.bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-    <link href="vendor/datatables/jquery.dataTables.min.css" rel"stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!--<link href="vendor/datatables/jquery.dataTables.min.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
@@ -29,92 +31,191 @@
     <link href="css/common.css" rel="stylesheet">
     <link href="css/colors.css" rel="stylesheet">
     <link href="css/select.bootstrap.min.css" rel="stylesheet">
+    <link href="css/financeApp.css" rel="stylesheet">
 
   </head>
 
   <body id="page-top">
+    <%- include('partials/functions') %>
 
-    <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <table class="table table-condensed table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>option</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type="text" value="John"/></td>
-                                <td>
-                                    <input type="text" value="sap"/></td>
-                                <td><a href="">edit</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="text" value="sam"/></td>
-                                <td>
-                                    <input type="text" value="smith"/></td>
-                                <td><a href="">edit</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-            <div class="modal fade" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">EDIT</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                <input type="text" class="input-sm" id="txtfname" />
-                            </p>
-                            <p>
-                                <input type="text" class="input-sm" id="txtlname" />
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" id="btnsubmit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
+      <a class="navbar-brand mr-1" href="/">Pawlowski Financial App</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" formaction="#">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Navbar Search   -->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+            <button class="btn btn-primary" type="button"></button>
+              <i class="fas fa-search"></i>
         </div>
+      </form>
 
-        <script src="vendor/jquery/jquery.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <%- include('partials/navbar') %>
 
-        <script type="text/javascript">
-            $(function () {
-                var prefname; // fname textbox
-                var prelname; //lname textbox
-                $('table tbody tr td').on('click', function () {
-                    event.preventDefault();
-                    prefname = $(this).closest('tr').find(":text:eq(0)");
-                    prelname = $(this).closest('tr').find(":text:eq(1)");
-                    $("#txtfname").val($(prefname).val());
-                    $("#txtlname").val($(prelname).val());
-                    $("#myModal").modal("show");
-                });
-                //save change button click evnet
-                $("#btnsubmit").click(function () {
-                    $(prefname).val($("#txtfname").val());
-                    $(prelname).val($("#txtlname").val());
-                    $("#myModal").modal("hide");
-                })
-            });
-        </script>
+    </nav>
+
+    <div id="wrapper">
+
+      <%- include('partials/sidebar') %>
+
+      <%- include('partials/modals') %>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-chart-area"></i>
+              Current Budget for <%=currentMonth%>
+            </div>
+            <br>
+          <!-- Area Chart Example-->
+          <div class="b-dashboard-accounts-item mod_nonhsa">
+            <div class = "row">
+              <div class="column">
+                <br>
+              <div id='d1' style="position:relative; top:0px; left:50px">
+                  <canvas id="monthlyBudgetChart" width="400" height="400"></canvas>
+              </div>
+                <br>
+                <div class="b-dashboard-accounts-info">
+                  <div class="b-dashboard-col70">
+                      <div class="b-dashboard-accounts-balance">
+                          Available<span><span><%= currencyFormatted(budgetRemaining) %></span></span>
+                          <div class="b-dashboard-accounts-balance-circle" style="background: rgb(102, 179, 96);"></div>
+                      </div>
+                  </div>
+                  <div class="b-dashboard-col70">
+                      <div class="b-dashboard-accounts-balance">
+                        Spent<span><%= currencyFormatted(totalMonthlyCharges) %></span>
+                        <div class="b-dashboard-accounts-balance-circle" style="background: rgb(146, 182, 199);"></div>
+                      </div>
+                  </div>
+                  <div class="b-dashboard-col70">
+                      <div class="b-dashboard-accounts-balance">
+                        On Budget Number<span><%= currencyFormatted(currentOnBudget) %></span>
+                      </div>
+                  </div>
+                </div>
+            </div>
+              <div class = "column">
+                <br>
+                <!-- Circle Chart for monthly budget -->
+                  <div id='d2' style="position:relative; top:0px; left:50px">
+                    <canvas id="totalMonthlyChart" width="500" height="400"></canvas>
+                  </div>
+                <br>
+                <div class="b-dashboard-accounts-info">
+                  <div class="b-dashboard-col70">
+                      <div class="b-dashboard-accounts-balance">
+                          Total Monthly Spend<span><span><%= currencyFormatted(allMonthlyCharges) %></span></span>
+                          <div class="b-dashboard-accounts-balance-circle" style="<%=totalMonthlyFillColor%>"></div>
+                      </div>
+                  </div>
+                </div>
+              </div> <!-- add other column -->
+            </div>
+          </div>
+          <br>
+          <div class="card-footer small text-muted">Last Generated <%= new Date() %></div>
+        </div>
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Charges for the Month of <%=currentMonth%></div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered nowrap" id="recentChargesTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Date</th>
+                      <th>Vendor</th>
+                      <th>Amount</th>
+                      <th>Payment Type</th>
+                      <th>Category</th>
+                      <th>Comments</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%if (monthlyCharges.length==0) {%>
+                    <tr>
+                      <td>None</td>
+                      <td>None</td>
+                      <td>None</td>
+                      <td>None</td>
+                      <td>None</td>
+                      <td>None</td>
+                      <td>None</td>
+                    <%} else {%>
+                    <%for(let i=0; i<monthlyCharges.length; i++) {%>
+                    <tr>
+                      <td><%=monthlyCharges[i]._id%></td>
+                      <td><%=("0" + (monthlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[i].chargeDate.getFullYear();%></td>
+                      <td><%=monthlyCharges[i].vendor%></td>
+                      <td><%= currencyFormatted(monthlyCharges[i].amount) %></td>
+                      <td><%=monthlyCharges[i].paymentType%></td>
+                      <td><%=monthlyCharges[i].category%></td>
+                      <td><%=monthlyCharges[i].comments%></td>
+                    </tr>
+                    <%}}%>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Last Updated <%if (monthlyCharges.length==0) {%> N/A <%} else {("0" + (monthlyCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[0].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[0].chargeDate.getFullYear();}%></div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.js"></script>
+
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="vendor/datatables/dataTables.responsive.min.js"></script>
+    <script src="vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="vendor/bootstrap/js/responsive.bootstrap.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+
+    <!-- Datatables scripts for this page-->
+    <script src="js/demo/datatables-demo.js"></script>
+    <!--<script src="js/demo/chart-area-demo.js"></script>-->
+    <script src="js/moment.min.js"></script>
+    <script src="js/datetime-moment.js"></script>
+    <script src="vendor/datatables/dataTables.select.min.js"></script>
+
+    <!-- script to create total monthly doughnut chart. located in ejs partial monthlyCharts.ejs -->
+    <%- include('partials/monthlyCharts') %>
+
   </body>
 
 </html>

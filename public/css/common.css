@@ -1,4 +1,4 @@
-/* Font Inclusion */
+/* Font Inclusion
 @font-face {
 	font-family: 'Source Sans Pro';
 	src: url('../../fonts/sourcesanspro-semibold-webfont.eot');
@@ -32,32 +32,22 @@
 	font-style: italic;
 }
 
-@font-face {
-	font-family: 'Source Sans Pro';
-	src: url('../../fonts/sourcesanspro-regular-webfont.eot');
-	src: url('../../fonts/sourcesanspro-regular-webfont.woff2') format('woff2'),
-		 url('../../fonts/sourcesanspro-regular-webfont.woff') format('woff'),
-		 url('../../fonts/sourcesanspro-regular-webfont.ttf') format('truetype'),
-		 url('../../fonts/sourcesanspro-regular-webfont.svg#source_sans_proregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-/* End Fonts */
+End Fonts */
 
-* {
+/* {
 	box-sizing: border-box;
 	margin: 0;
 	max-width: 100%;
 	padding: 0;
 }
 
-html {
+/*html {
 	font-family: Source Sans Pro, Calibri, Arial, sans-serif;
 	font-size: 13pt;
 	height: 100%;
 }
 
-body {
+/**body {
 	height: 100%;
 	line-height: 1.25rem;
 	min-width: 1280px;
@@ -70,8 +60,8 @@ body.scrollDisabled {
 }
 
 body.PUpage {
-	min-width: 0; /* Just size it automatically in popups */
-}
+	min-width: 0;
+}*/
 
 #content {
 	position: relative;
@@ -172,9 +162,9 @@ ul.twocolumn li {
 	width: 50%;
 }
 
-div {
+/*div {
 	width: 150%;
-}
+}*/
 
 strong {
 	font-weight: bold;
@@ -353,7 +343,6 @@ h1,
 h2,
 h3,
 h4,
-.header,
 .sectionheader,
 .formsection > legend {
 	display: block;

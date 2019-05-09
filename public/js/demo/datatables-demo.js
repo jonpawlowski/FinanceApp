@@ -2,9 +2,16 @@
 $(document).ready(function() {
   $('#allChargesTable').DataTable( {
     "columnDefs": [
-      { "type": "date", "targets": 0 }
+      { "type": "date",
+      "targets": 1
+      },
+      {
+          "targets": [ 0 ],
+          "visible": false,
+          "searchable": false
+      }
     ],
-    "order": [[ 0, "desc" ]],
+    "order": [[ 1, "desc" ]],
     "lengthMenu": [[50, 75, 100, -1], [50, 75, 100, "All"]],
     "pageLength": 50
   });
@@ -60,13 +67,6 @@ $(document).ready(function() {
             //alert(' Date is ' + formatEditDateTable);
             $('#modalEditChargeForm').modal('show');
           }
-      },
-      {
-          text: 'Enter Charge',
-          className: 'btn btn-info',
-          action: function ( e, dt, node, config ) {
-            $('#modalNewChargeForm').modal('show');
-          }
       }
     ]
   } );
@@ -121,13 +121,6 @@ $(document).ready(function() {
 
               //alert(' Date is ' + formatEditDateTable);
               $('#modalEditChargeForm').modal('show');
-            }
-        },
-        {
-            text: 'Enter Charge',
-            className: 'btn btn-info',
-            action: function ( e, dt, node, config ) {
-              $('#modalNewChargeForm').modal('show');
             }
         }
       ]

@@ -1,0 +1,35 @@
+<!-- Side Navbar -->
+<nav class="side-navbar">
+  <div class="side-navbar-wrapper">
+    <!-- Sidebar Header    -->
+    <div class="sidenav-header d-flex align-items-center justify-content-center">
+      <!-- User Info-->
+      <div class="sidenav-header-inner text-center"><img src="jp/img/finance-app-icon.jpg" alt="person" class="img-fluid rounded-circle">
+        <h2 class="h5">P Financial App</h2>
+      </div>
+      <!-- Small Brand information, appears on minimized sidebar-->
+      <div class="sidenav-header-logo"><a href="/" class="brand-small text-center"> <strong>PFA</strong><strong class="text-primary">D</strong></a></div>
+    </div>
+    <!-- Sidebar Navigation Menus-->
+    <div class="main-menu">
+      <h5 class="sidenav-heading">Main</h5>
+      <ul id="side-main-menu" class="side-menu list-unstyled">
+        <li class=<%if (pageTitle == 'index') {%> "active" <%}%>><a href="/"> <i class="icon-home"></i>Current Financials</a></li>
+        <li class=<%if (pageTitle == 'charges') {%> "active" <%}%>><a href="/charges"> <i class="icon-form"></i>All Charges</a></li>
+        <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"><i class="icon-interface-windows"></i>Financial Analysis</a>
+          <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+            <li class=<%if (pageTitle == 'analysis') {%> "active" <%}%>><a href="/analysis">Monthly Analysis</a></li>
+            <li><a href="#">Charges Analysis</a></li>
+            <li><a href="#">Yearly Analysis</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="admin-menu">
+      <h5 class="sidenav-heading">Actions</h5>
+      <ul id="side-admin-menu" class="side-menu list-unstyled">
+        <li> <button class="btn btn-info ml-2" data-toggle="modal" data-target="#modalNewChargeForm">New Charge</button></li>
+      </ul>
+    </div>
+  </div>
+</nav>

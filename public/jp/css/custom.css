@@ -1,0 +1,36 @@
+/* your styles go here */
+.b-dashboard-col70 {
+  vertical-align:top;
+  display:inline-block;
+  width:70%;
+  margin-left: 0px;
+}
+
+.b-dashboard-accounts-balance {
+  position:relative;
+  padding-left:0px;
+  font-size:17px;
+}
+
+.b-dashboard-accounts-balance-circle {
+  background-color:#fff;
+  width:21px;
+  height:21px;
+  left:3px;
+  top:4px;
+  position:absolute;
+  -webkit-border-radius:18px;
+  -moz-border-radius:18px;
+  border-radius:18px;
+}
+
+.b-dashboard-accounts-balance span {
+  margin-left:8px;
+  font-size:22px;
+  letter-spacing:1px;
+  display:inline-block;
+  }
+
+  .b-dashboard-accounts-balance span span {
+    margin-left:0;
+  }
