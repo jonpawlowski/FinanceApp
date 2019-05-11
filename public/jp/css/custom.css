@@ -34,3 +34,10 @@
   .b-dashboard-accounts-balance span span {
     margin-left:0;
   }
+
+  .chart{
+  vertical-align: middle;
+  margin: 0 auto;
+  position: relative;
+  display: inline-block;
+}
