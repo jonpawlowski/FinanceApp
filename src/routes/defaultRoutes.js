@@ -29,6 +29,34 @@ function router() {
             $gte: new Date(date.getFullYear(), date.getMonth(), 1)
           }
         }).toArray();
+        /*console.log("******** about to aggregrate");
+        const topVendors = await col.aggregate(
+          [
+	           {
+	            $match: {
+                "chargeDate": {
+                  $gte: new Date(date.getFullYear(), date.getMonth(), 1),
+                  $lt: new Date()
+                }
+              }
+            },
+            {
+              $group:
+              {
+                _id: { vendor: "$vendor" },
+                totalAmount: { $sum: "$amount" }
+              }
+            }
+          ]
+        ).toArray();
+
+        //console.log("***********First vendor is " + topVendors[0]._id.vendor.toString());
+        topVendors.sort((a, b) => parseFloat(b.totalAmount) - parseFloat(a.totalAmount));
+
+        for (i = 0; i < topVendors.length; i++) {
+          console.log("****** Vendor " + i + " is " + topVendors[i]._id.vendor);
+          console.log("****** Vendor " + i + " amount is " + topVendors[i].totalAmount);
+        }*/
 
         // Get vendor list for auto-complete in the form
         // Wrote it to a file because I couldn't figure out how to assign it to a variable
@@ -52,6 +80,7 @@ function router() {
         var chartMonthlyCharges = 0;
         var chartRecurringCharges = 0;
         var chartOneTimeCharges = 0;
+        var vendorAmounts = [];
 
         const lastOfMonth = new Date( date.getFullYear(), date.getMonth()+1, 0 );
         const numDays = lastOfMonth.getDate();
@@ -59,6 +88,7 @@ function router() {
         // Calculate charges against Monthly Spending Budget
         for (i = 0; i < monthlyCharges.length; i++) {
           if (monthlyCharges[i].category == 'Monthly') {
+            vendorAmounts.push(monthlyCharges[i]);
             if (monthlyCharges[i].paymentType == 'Credit') {
               totalMonthlyCharges -= monthlyCharges[i].amount;
             } else {
@@ -67,7 +97,23 @@ function router() {
           }
         }
 
-        // Calculate total monthly spending
+        //Calculate the top 5 vendors based on spending amount
+        var topVendors = [];
+        vendorAmounts.reduce(function (res, value) {
+          if (!res[value.vendor]) {
+            res[value.vendor] = {
+              amount: 0,
+              vendor: value.vendor
+            };
+            topVendors.push(res[value.vendor])
+          }
+          res[value.vendor].amount += value.amount
+          return res;
+        }, {});
+        //Sort by the most spent
+        topVendors.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
+
+        //Calculate monthly spending
         for (i = 0; i < monthlyCharges.length; i++) {
           if (monthlyCharges[i].paymentType == 'Credit') {
             allMonthlyCharges -= monthlyCharges[i].amount;
@@ -176,7 +222,8 @@ function router() {
         chartRecurringCharges,
         chartOneTimeCharges,
         totalMonthlyFillColor,
-        pageTitle
+        pageTitle,
+        topVendors
       }
     );
     } catch(err) {

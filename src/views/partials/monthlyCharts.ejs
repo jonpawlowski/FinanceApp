@@ -63,31 +63,20 @@
     }
   });
 
-  /*var htmlChart03 = new Chart(document.getElementById("topVendorsChart"), {
-    type: 'line',
+  var htmlChart03 = new Chart(document.getElementById('topVendorChart'), {
+    type: 'horizontalBar',
     data: {
-      labels: ["Vendor", "Amount"],
+      labels: ["<%=topVendors[0].vendor%>", "<%=topVendors[1].vendor%>", "<%=topVendors[2].vendor%>", "<%=topVendors[3].vendor%>", "<%=topVendors[4].vendor%>"],
       datasets: [
         {
-          label: "Dollars",
-          backgroundColor: ["#3e95cd", "#8e5ea2"],
-          data: [<%=chartMonthlyCharges.toFixed(2)%>,<%=chartRecurringCharges.toFixed(2)%>,<%=chartOneTimeCharges.toFixed(2)%>]
+          label: "Top 5 Vendors by $ Spent",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [<%=topVendors[0].amount%>, <%=topVendors[1].amount%>, <%=topVendors[2].amount%>, <%=topVendors[3].amount%>, <%=topVendors[4].amount%>]
         }
       ]
     },
     options: {
-      responsive: false,
-      tooltips: {
-        mode: 'label',
-        label: 'mylabel',
-        callbacks: {
-          label: function(tooltipItem, data) {
-            var currency = data['datasets'][0]['data'][tooltipItem['index']];
-            currency = '$' + currency.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-            return data.labels[tooltipItem.index] + ": " + currency;
-          },
-        },
-      }
+      legend: { display: false }
     }
-  });*/
+});
 </script>
