@@ -136,11 +136,6 @@ function router() {
           }
         }
 
-        //const allVendors = JSON.parse(topVendors.vendor.replace(/'/g, '"'));
-
-        for (i = 0; i < 5; i++) {
-          console.log("****** Vendor " + i + " is " + topVendors[i].vendor);
-        }
         //Calculate monthly spending
         for (i = 0; i < monthlyCharges.length; i++) {
           if (monthlyCharges[i].paymentType == 'Credit') {
