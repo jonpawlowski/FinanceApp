@@ -120,14 +120,14 @@ function router() {
           var currentVendor = topVendors[i].vendor;
           if (currentVendor.indexOf(" ") > -1) {
             currentVendor = currentVendor.split(" ");
-            modifiedVendor = "[\'";
+            modifiedVendor = "[\"";
             for (j = 0; j < currentVendor.length; j++) {
 
               if ((j + 1) == currentVendor.length) {
-                modifiedVendor = modifiedVendor + currentVendor[j] + "\']";
+                modifiedVendor = modifiedVendor + currentVendor[j] + "\"]";
                 topVendors[i].vendor = modifiedVendor;
               } else {
-                modifiedVendor = modifiedVendor + currentVendor[j] + "\', \'";
+                modifiedVendor = modifiedVendor + currentVendor[j] + "\", \"";
               }
             }
 
