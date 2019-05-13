@@ -76,7 +76,19 @@
       ]
     },
     options: {
-      legend: { display: false }
+      legend: { display: false },
+      responsive: false,
+      tooltips: {
+        mode: 'label',
+        label: 'mylabel',
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var currency = data['datasets'][0]['data'][tooltipItem['index']];
+            currency = '$' + currency.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+            return data.labels[tooltipItem.index] + ": " + currency;
+          },
+        },
+      }
     }
 });
 </script>
