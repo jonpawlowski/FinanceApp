@@ -32,7 +32,17 @@ function router() {
           const results = await col.updateOne( { "_id": ObjectID(editFormId) }, { $set: { "chargeDate": formatEditChargeDate, "vendor": editFormVendor, "amount": formatEditFormAmount, "paymentType": editFormPaymentType, "category": editFormCategory, "comments": editFormComments } } );
           debug(results);
 
-          res.redirect('/');
+          //Grab referrer page to redirect page to originating page. I needed to do some magic here
+          //in order to make a post request back to the Analysis page.
+          const pageReferrer = req.headers.referer;
+
+          if (pageReferrer.includes("analysis")) {
+            res.redirect(307, '/analysis');
+          } else if (pageReferrer.includes("charges")) {
+            res.redirect('/charges');
+          } else {
+            res.redirect('/');
+          }
 
         } catch (err) {
           debug(err);

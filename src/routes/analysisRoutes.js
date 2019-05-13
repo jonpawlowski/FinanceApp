@@ -79,6 +79,7 @@ function router() {
         var chartMonthlyCharges = 0;
         var chartRecurringCharges = 0;
         var chartOneTimeCharges = 0;
+        var vendorAmounts = [];
 
         // Calculate charges against Monthly Spending Budget
         for (i = 0; i < monthlyCharges.length; i++) {
@@ -86,8 +87,48 @@ function router() {
             if (monthlyCharges[i].paymentType == 'Credit') {
               totalMonthlyCharges -= monthlyCharges[i].amount;
             } else {
+              // add charge to be evaluated for top 5 vendors
+              vendorAmounts.push(monthlyCharges[i]);
               totalMonthlyCharges += monthlyCharges[i].amount;
             }
+          }
+        }
+
+        //Calculate the top 5 vendors based on spending amount
+        var topVendors = [];
+        vendorAmounts.reduce(function (res, value) {
+          if (!res[value.vendor]) {
+            res[value.vendor] = {
+              amount: 0,
+              vendor: value.vendor
+            };
+            topVendors.push(res[value.vendor])
+          }
+          res[value.vendor].amount += value.amount
+          return res;
+        }, {});
+        //Sort by the most spent
+        topVendors.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
+
+        // Format any top vendors to display properly in the line chart
+        var modifiedVendor; // temp variable to build vendor string
+        for (i = 0; i < 5; i++) {
+          var currentVendor = topVendors[i].vendor;
+          if (currentVendor.indexOf(" ") > -1) {
+            currentVendor = currentVendor.split(" ");
+            modifiedVendor = "[\"";
+            for (j = 0; j < currentVendor.length; j++) {
+
+              if ((j + 1) == currentVendor.length) {
+                modifiedVendor = modifiedVendor + currentVendor[j] + "\"]";
+                topVendors[i].vendor = modifiedVendor;
+              } else {
+                modifiedVendor = modifiedVendor + currentVendor[j] + "\", \"";
+              }
+            }
+
+          } else {
+            topVendors[i].vendor = "\"" + topVendors[i].vendor + "\"";
           }
         }
 
@@ -186,7 +227,8 @@ function router() {
             pageTitle,
             totalMonthlyFillColor,
             todaysDate,
-            vendorList
+            vendorList,
+            topVendors
           }
         );
     } catch(err) {
