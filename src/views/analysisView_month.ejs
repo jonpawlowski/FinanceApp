@@ -55,8 +55,8 @@
               <div class="card income text-center">
                 <strong class="text-primary">Current Budget for <%=currentMonth%></strong>
                 <br>
-                <div style="position:relative; margin: 0px auto;">
-                    <canvas id="monthlyBudgetChart" width="400" height="400"></canvas>
+                <div class="chart">
+                    <canvas id="monthlyBudgetChart" width="350" height="350"></canvas>
                 </div>
                 <br>
                 <div class="b-dashboard-col70">
@@ -77,9 +77,9 @@
                 <strong class="text-primary">Total Monthly Spending</strong>
                 <br>
                 <!-- Circle Chart for monthly budget -->
-                  <div style="position:relative; margin: 0px auto;">
-                    <canvas id="totalMonthlyChart" width="500" height="400"></canvas>
-                  </div>
+                <div class="chart">
+                  <canvas id="totalMonthlyChart" width="350" height="350"></canvas>
+                </div>
                 <br>
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
@@ -92,16 +92,12 @@
             </div>
             <div class="col-lg-4">
               <!-- Monthly Usage-->
-              <div class="card data-usage text-center">
+              <div class="card income text-center">
                 <strong class="text-primary">Top 5 Vendors</strong>
                 <br>
-                <div class="row d-flex align-items-center">
-                  <div class="col-sm-6">
-                    <div id="progress-circle" class="d-flex align-items-center justify-content-center"></div>
-                  </div>
-                  <div class="col-sm-6"><strong class="text-primary">80.56 Gb</strong><small>Current Plan</small><span>100 Gb Monthly</span></div>
+                <div class="chart">
+                  <canvas id="topVendorChart" width="350px" height="450px"></canvas>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
               </div>
             </div>
           </div>
