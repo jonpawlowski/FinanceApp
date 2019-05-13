@@ -66,7 +66,7 @@
   var htmlChart03 = new Chart(document.getElementById('topVendorChart'), {
     type: 'bar',
     data: {
-      labels: ["<%=topVendors[0].vendor.toString()%>", "<%=topVendors[1].vendor.toString()%>", "<%=topVendors[2].vendor.toString()%>", "<%=topVendors[3].vendor.toString()%>", "<%=topVendors[4].vendor.toString()%>"],
+      labels: [<%-topVendors[0].vendor%>, <%-topVendors[1].vendor%>, <%-topVendors[2].vendor%>, <%-topVendors[3].vendor%>, <%-topVendors[4].vendor%>],
       datasets: [
         {
           label: "Top 5 Vendors by $ Spent",

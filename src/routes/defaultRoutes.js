@@ -114,6 +114,33 @@ function router() {
         //Sort by the most spent
         topVendors.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
 
+        // Format any top vendors to display properly in the line chart
+        var modifiedVendor; // temp variable to build vendor string
+        for (i = 0; i < 5; i++) {
+          var currentVendor = topVendors[i].vendor;
+          if (currentVendor.indexOf(" ") > -1) {
+            currentVendor = currentVendor.split(" ");
+            modifiedVendor = "[\'";
+            for (j = 0; j < currentVendor.length; j++) {
+
+              if ((j + 1) == currentVendor.length) {
+                modifiedVendor = modifiedVendor + currentVendor[j] + "\']";
+                topVendors[i].vendor = modifiedVendor;
+              } else {
+                modifiedVendor = modifiedVendor + currentVendor[j] + "\', \'";
+              }
+            }
+
+          } else {
+            topVendors[i].vendor = "\"" + topVendors[i].vendor + "\"";
+          }
+        }
+
+        //const allVendors = JSON.parse(topVendors.vendor.replace(/'/g, '"'));
+
+        for (i = 0; i < 5; i++) {
+          console.log("****** Vendor " + i + " is " + topVendors[i].vendor);
+        }
         //Calculate monthly spending
         for (i = 0; i < monthlyCharges.length; i++) {
           if (monthlyCharges[i].paymentType == 'Credit') {
