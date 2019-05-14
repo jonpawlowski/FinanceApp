@@ -4,7 +4,7 @@
     <!-- Sidebar Header    -->
     <div class="sidenav-header d-flex align-items-center justify-content-center">
       <!-- User Info-->
-      <div class="sidenav-header-inner text-center"><img src="jp/img/finance-app-icon.jpg" alt="person" class="img-fluid rounded-circle">
+      <div class="sidenav-header-inner text-center"><img src="../jp/img/finance-app-icon.jpg" alt="person" class="img-fluid rounded-circle">
         <h2 class="h5">P Financial App</h2>
       </div>
       <!-- Small Brand information, appears on minimized sidebar-->
@@ -17,10 +17,10 @@
         <li class=<%if (pageTitle == 'index') {%> "active" <%}%>><a href="/"> <i class="icon-home"></i>Current Financials</a></li>
         <li class=<%if (pageTitle == 'charges') {%> "active" <%}%>><a href="/charges"> <i class="icon-form"></i>All Charges</a></li>
         <li><a href="#exampledropdownDropdown" aria-expanded=<%if (pageTitle == 'analysis') {%> "true" <%} else {%> "false" <%}%> data-toggle="collapse"><i class="icon-interface-windows"></i>Financial Analysis</a>
-          <ul id="exampledropdownDropdown" class=<%if (pageTitle == 'analysis') {%> "collapse list-unstyled show" <%} else {%> "collapse list-unstyled" <%}%>>
-            <li class=<%if (pageTitle == 'analysis') {%> "active" <%}%>><a href="/analysis">Monthly Analysis</a></li>
-            <li><a href="#">Charges Analysis</a></li>
-            <li><a href="#">Yearly Analysis</a></li>
+          <ul id="exampledropdownDropdown" class=<%if (pageTitle.includes('Analysis')) {%> "collapse list-unstyled show" <%} else {%> "collapse list-unstyled" <%}%>>
+            <li class=<%if (pageTitle == 'monthlyAnalysis') {%> "active" <%}%>><a href="/analysis/monthlyAnalysis">Monthly Analysis</a></li>
+            <li class=<%if (pageTitle == 'chargesAnalysis') {%> "active" <%}%>><a href="/analysis/chargesAnalysis">Charges Analysis</a></li>
+            <li class=<%if (pageTitle == 'yearlyAnalysis') {%> "active" <%}%>><a href="/analysis/yearlyAnalysis">Yearly Analysis</a></li>
           </ul>
         </li>
       </ul>

@@ -39,7 +39,7 @@ function router() {
           const pageReferrer = req.headers.referer;
 
           if (pageReferrer.includes("analysis")) {
-            res.redirect(307, '/analysis');
+            res.redirect(307, '/monthlyAnalysis');
           } else if (pageReferrer.includes("charges")) {
             res.redirect('/charges');
           } else {

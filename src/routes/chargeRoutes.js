@@ -4,6 +4,12 @@ const debug = require('debug')('app:chargeRoutes');
 const chargeRouter = express.Router();
 
 function router() {
+  chargeRouter.route('/newCharges')
+  .get((req, res) => {
+    res.render(
+      'signIn'
+    );
+  })
   chargeRouter.route('/')
     .get((req, res) => {
       const url = global.gConfig.databaseurl;
@@ -25,7 +31,7 @@ function router() {
 
       todaysDate = yyyy + '-' + mm + '-' + dd;
       var fs = require('fs');
-      
+
       (async function mongo() {
         let client;
         try {
