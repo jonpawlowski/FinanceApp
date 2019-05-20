@@ -51,18 +51,47 @@
       <div id="wrapper">
 
         <div id="content-wrapper">
-
+          <%if (pageTitle == "monthlyAnalysis") {%>
           <div class="container-fluid">
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="monthlyAnalysisForm" action="/analysis/monthlyAnalysis" method="post">
               <legend>Monthly Analysis</legend>
               <label class="control-label" for="date">Date</label>
-              <input class="form-control" required id="date" name="date" placeholder="MM/YYY" type="text"/>
+              <input class="form-control" required id="date" name="date" placeholder="MM/YYYY" type="text"/>
               <div class="modal-footer d-flex justify-content-center">
                 <button type="submit" class="btn btn-info">Submit</button>
               </div>
             </form>
           </div>
           <!-- /.container-fluid -->
+          <%} else if (pageTitle == "yearlyAnalysis") {%>
+            <div class="container-fluid">
+              <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="monthlyAnalysisForm" action="/analysis/yearlyAnalysis" method="post">
+                <legend>Yearly Analysis</legend>
+                <label class="control-label" for="date">Date</label>
+                <input class="form-control" required id="date" name="date" placeholder="YYYY" type="text"/>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.container-fluid -->
+          <%} else {%>
+            <div class="container-fluid">
+              <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="monthlyAnalysisForm" action="/analysis/yearlyAnalysis" method="post">
+                <legend>Charges Analysis</legend>
+                <label class="control-label" for="date">Date</label>
+                <select class="FieldInputBox" required name="vendorList" id="vendorList">
+                  <option value="Monthly">Monthly</option>
+                  <option value="One-time">One-time</option>
+                  <option value="Recurring">Recurring</option>
+                </select>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.container-fluid -->
+          <%}%>
         </div>
         <!-- /.content-wrapper -->
 
@@ -95,15 +124,29 @@
 
     <script>
       $(document).ready(function(){
+        var currentURL = document.location.href;
+        var dateOptions = {};
+        if (currentURL.includes("monthlyAnalysis")) {
+          dateOptions = {
+            format: "MM yyyy",
+            minViewMode: 1,
+            autoclose: true,
+            startDate: new Date(new Date().getFullYear(), '0', '01'),
+            endDate: "0d"
+          };
+        } else {
+          dateOptions = {
+            format: " yyyy",
+            minViewMode: 2,
+            autoclose: true,
+            startDate: '2019',
+            endDate: new Date().getFullYear().toString()
+          };
+        }
+
         var date_input=$('input[name="date"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-        var options={
-          format: "MM yyyy",
-          minViewMode: 1,
-          autoclose: true,
-          startDate: new Date(new Date().getFullYear(), '0', '01'),
-          endDate: "0d"
-        };
+        var options=dateOptions;
         date_input.datepicker(options);
       })
     </script>
