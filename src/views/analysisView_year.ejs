@@ -53,7 +53,7 @@
             <div class="col-lg-4">
               <!-- Income-->
               <div class="card income text-center">
-                <strong class="text-primary">Current Budget for <%=currentMonth%></strong>
+                <strong class="text-primary">Average Budget Analysis for <%=requestDate%></strong>
                 <br>
                 <div class="chart">
                     <canvas id="monthlyBudgetChart" width="350" height="350"></canvas>
@@ -74,7 +74,7 @@
             <div class="col-lg-4">
               <!-- Total Monthly Spending-->
               <div class="card income text-center">
-                <strong class="text-primary">Total Monthly Spending</strong>
+                <strong class="text-primary">Total Spending for <%=requestDate%></strong>
                 <br>
                 <!-- Circle Chart for monthly budget -->
                 <div class="chart">
@@ -83,7 +83,7 @@
                 <br>
                 <div class="b-dashboard-accounts-info">
                   <div class="b-dashboard-col70">
-                      <div class="b-dashboard-accounts-balance">Total Monthly Spend<span><span><%= currencyFormatted(allMonthlyCharges) %></span></span>
+                      <div class="b-dashboard-accounts-balance">Total Yearly Spend<span><span><%= currencyFormatted(allMonthlyCharges) %></span></span>
                       <div class="b-dashboard-accounts-balance-circle" style="<%=totalMonthlyFillColor%>"></div>
                     </div>
                   </div>
@@ -110,7 +110,7 @@
           <div class="row d-flex align-items-md-stretch">
             <div class="col-lg-12">
               <div class="card to-do">
-                <strong class="text-primary ml-3">Charges for the Month of <%=currentMonth%></strong>
+                <strong class="text-primary ml-3">Charges for all of <%=requestDate%> </strong>
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered nowrap" id="recentChargesTable" width="100%" cellspacing="0">
@@ -126,7 +126,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <%if (monthlyCharges.length==0) {%>
+                        <%if (yearlyCharges.length==0) {%>
                         <tr>
                           <td>None</td>
                           <td>None</td>
@@ -136,22 +136,22 @@
                           <td>None</td>
                           <td>None</td>
                         <%} else {%>
-                        <%for(let i=0; i<monthlyCharges.length; i++) {%>
+                        <%for(let i=0; i<yearlyCharges.length; i++) {%>
                         <tr>
-                          <td><%=monthlyCharges[i]._id%></td>
-                          <td><%=("0" + (monthlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[i].chargeDate.getFullYear();%></td>
-                          <td><%=monthlyCharges[i].vendor%></td>
-                          <td><%= currencyFormatted(monthlyCharges[i].amount) %></td>
-                          <td><%=monthlyCharges[i].paymentType%></td>
-                          <td><%=monthlyCharges[i].category%></td>
-                          <td><%=monthlyCharges[i].comments%></td>
+                          <td><%=yearlyCharges[i]._id%></td>
+                          <td><%=("0" + (yearlyCharges[i].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + yearlyCharges[i].chargeDate.getDate()).slice(-2) + '/'+ yearlyCharges[i].chargeDate.getFullYear();%></td>
+                          <td><%=yearlyCharges[i].vendor%></td>
+                          <td><%= currencyFormatted(yearlyCharges[i].amount) %></td>
+                          <td><%=yearlyCharges[i].paymentType%></td>
+                          <td><%=yearlyCharges[i].category%></td>
+                          <td><%=yearlyCharges[i].comments%></td>
                         </tr>
                         <%}}%>
                       </tbody>
                     </table>
                   </div>
                 </div>
-                <!--<div class="card-footer small text-muted">Last Updated <%if (monthlyCharges.length==0) {%> N/A <%} else {("0" + (monthlyCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + monthlyCharges[0].chargeDate.getDate()).slice(-2) + '/'+ monthlyCharges[0].chargeDate.getFullYear();}%></div>-->
+                <div class="card-footer small text-muted">Last Updated <%if (yearlyCharges.length==0) {%> N/A <%} else {("0" + (yearlyCharges[0].chargeDate.getMonth()+1)).slice(-2) + '/' + ("0" + yearlyCharges[0].chargeDate.getDate()).slice(-2) + '/'+ yearlyCharges[0].chargeDate.getFullYear();}%></div>
               </div>
             </div>
           </div>
@@ -196,5 +196,6 @@
     <script src="../jp/js/front.js"></script>
     <!-- script to create total monthly doughnut chart. located in ejs partial monthlyCharts.ejs -->
     <%- include('partials/monthlyCharts') %>
+
   </body>
 </html>

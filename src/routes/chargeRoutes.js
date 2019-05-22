@@ -42,6 +42,8 @@ function router() {
 
         if (pageReferrer.includes("monthlyAnalysis")) {
           res.redirect(307, '/analysis/monthlyAnalysis');
+        } else if (pageReferrer.includes("yearlyAnalysis")) {
+          res.redirect(307, '/analysis/yearlyAnalysis');
         } else if (pageReferrer.includes("charges")) {
           res.redirect('/charges');
         } else {
@@ -79,9 +81,11 @@ function router() {
         //Grab referrer page to redirect page to originating page. I needed to do some magic here
         //in order to make a post request back to the Analysis page.
         const pageReferrer = req.headers.referer;
-
+        console.log("****** Page Referrer is " + pageReferrer);
         if (pageReferrer.includes("monthlyAnalysis")) {
           res.redirect(307, '/analysis/monthlyAnalysis');
+        } else if (pageReferrer.includes("yearlyAnalysis")) {
+          res.redirect(307, '/analysis/yearlyAnalysis');
         } else if (pageReferrer.includes("charges")) {
           res.redirect('/charges');
         } else {

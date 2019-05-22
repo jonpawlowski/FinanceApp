@@ -33,7 +33,7 @@ function router() {
     const currentMonth = requestDate.substring(0, requestDate.indexOf(' '));
     const analysisYear = requestDate.substring((requestDate.indexOf(' ') + 1));
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
-    const pageTitle = 'analysis';
+    const pageTitle = 'monthlyAnalysis';
 
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
@@ -246,7 +246,7 @@ function router() {
       req.session.destroy();
 
       res.render(
-        'analysisView',
+        'analysisView_charges',
         {
           pageTitle
         }
@@ -266,7 +266,7 @@ function router() {
     const currentMonth = requestDate.substring(0, requestDate.indexOf(' '));
     const analysisYear = requestDate.substring((requestDate.indexOf(' ') + 1));
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
-    const pageTitle = 'analysis';
+    const pageTitle = 'chargesAnalysis';
 
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
@@ -496,17 +496,14 @@ function router() {
       req.session['analysisRequestDate'] = req.body.date.toString();
     }
 
-    const currentMonth = requestDate.substring(0, requestDate.indexOf(' '));
-    const analysisYear = requestDate.substring((requestDate.indexOf(' ') + 1));
-    const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
-    const pageTitle = 'analysis';
+    const pageTitle = 'yearlyAnalysis';
 
     const url = global.gConfig.databaseurl;
     const dbName = global.gConfig.database;
 
     var fs = require('fs');
 
-    (async function monthlyAnalysis() {
+    (async function yearlyAnalysis() {
       let client;
       try {
         client = await MongoClient.connect(url);
@@ -514,12 +511,12 @@ function router() {
         const db = client.db(dbName);
         const col = await db.collection('charges');
 
-        // Get current dollars to the budget spent as of today
+        // Get all charges for the specified year
         const date = new Date();
-        const monthlyCharges = await col.find({
+        const yearlyCharges = await col.find({
           "chargeDate" : {
-            $lt: new Date( analysisYear, analysisMonth, 1),
-            $gte: new Date( analysisYear, analysisMonth - 1 , 1 )
+            $lt: new Date(),
+            $gte: new Date( requestDate, 0 , 1 )
           }
         }).toArray();
 
@@ -547,15 +544,15 @@ function router() {
         var chartOneTimeCharges = 0;
         var vendorAmounts = [];
 
-        // Calculate charges against Monthly Spending Budget
-        for (i = 0; i < monthlyCharges.length; i++) {
-          if (monthlyCharges[i].category == 'Monthly') {
-            if (monthlyCharges[i].paymentType == 'Credit') {
-              totalMonthlyCharges -= monthlyCharges[i].amount;
+        // Calculate yearly charges against Monthly Spending Budget
+        for (i = 0; i < yearlyCharges.length; i++) {
+          if (yearlyCharges[i].category == 'Monthly') {
+            if (yearlyCharges[i].paymentType == 'Credit') {
+              totalMonthlyCharges -= yearlyCharges[i].amount;
             } else {
               // add charge to be evaluated for top 5 vendors
-              vendorAmounts.push(monthlyCharges[i]);
-              totalMonthlyCharges += monthlyCharges[i].amount;
+              vendorAmounts.push(yearlyCharges[i]);
+              totalMonthlyCharges += yearlyCharges[i].amount;
             }
           }
         }
@@ -599,31 +596,31 @@ function router() {
         }
 
         // Calculate total monthly spending
-        for (i = 0; i < monthlyCharges.length; i++) {
-          if (monthlyCharges[i].paymentType == 'Credit') {
-            allMonthlyCharges -= monthlyCharges[i].amount;
+        for (i = 0; i < yearlyCharges.length; i++) {
+          if (yearlyCharges[i].paymentType == 'Credit') {
+            allMonthlyCharges -= yearlyCharges[i].amount;
           } else {
-            allMonthlyCharges += monthlyCharges[i].amount;
+            allMonthlyCharges += yearlyCharges[i].amount;
           }
-          if (monthlyCharges[i].category == 'Monthly') {
-            if (monthlyCharges[i].paymentType == 'Credit') {
-              chartMonthlyCharges -= monthlyCharges[i].amount;
+          if (yearlyCharges[i].category == 'Monthly') {
+            if (yearlyCharges[i].paymentType == 'Credit') {
+              chartMonthlyCharges -= yearlyCharges[i].amount;
             } else {
-              chartMonthlyCharges += monthlyCharges[i].amount;
+              chartMonthlyCharges += yearlyCharges[i].amount;
             }
           }
-          if (monthlyCharges[i].category == 'Recurring') {
-            if (monthlyCharges[i].paymentType == 'Credit') {
-              chartRecurringCharges -= monthlyCharges[i].amount;
+          if (yearlyCharges[i].category == 'Recurring') {
+            if (yearlyCharges[i].paymentType == 'Credit') {
+              chartRecurringCharges -= yearlyCharges[i].amount;
             } else {
-              chartRecurringCharges += monthlyCharges[i].amount;
+              chartRecurringCharges += yearlyCharges[i].amount;
             }
           }
-          if (monthlyCharges[i].category == 'One-time') {
-            if (monthlyCharges[i].paymentType == 'Credit') {
-              chartOneTimeCharges -= monthlyCharges[i].amount;
+          if (yearlyCharges[i].category == 'One-time') {
+            if (yearlyCharges[i].paymentType == 'Credit') {
+              chartOneTimeCharges -= yearlyCharges[i].amount;
             } else {
-              chartOneTimeCharges += monthlyCharges[i].amount;
+              chartOneTimeCharges += yearlyCharges[i].amount;
             }
           }
         }
@@ -631,18 +628,21 @@ function router() {
         // Final total monthly spend calculation
         allMonthlyCharges = allMonthlyCharges.toFixed(2); //all monthly charges
         totalMonthlyCharges = totalMonthlyCharges.toFixed(2);  //anything that goes against the monthly budget
-        const budgetRemaining = (global.gConfig.budget - totalMonthlyCharges).toFixed(2);
+
         // Calculate number of days in the month
-        const lastOfMonth = new Date( analysisYear, analysisMonth, 0 );
-        const numDays = lastOfMonth.getDate();
-        const currentOnBudget = ((global.gConfig.budget/numDays) * date.getDate()).toFixed(2);
-        const rectSpentWidth = ((totalMonthlyCharges/global.gConfig.budget) * 100).toString();
+        //const lastOfMonth = new Date( analysisYear, analysisMonth, 0 );
+        //const numDays = lastOfMonth.getDate();
+        //var currentOnBudget = 1500.00;
 
         // get today's date for max date and default value in new charges form
         var todaysDate = new Date();
         var dd = todaysDate.getDate();
         var mm = todaysDate.getMonth()+1; //January is 0!
         var yyyy = todaysDate.getFullYear();
+
+        // Calculate the yearly budget analysis based on current month
+        const currentOnBudget = global.gConfig.budget * mm;
+        const budgetRemaining = (currentOnBudget - totalMonthlyCharges).toFixed(2);
 
         if ( dd < 10 ) {
           dd = '0' + dd;
@@ -678,14 +678,12 @@ function router() {
         }
 
         res.render(
-          'analysisView_month',
+          'analysisView_year',
           {
-            currentMonth,
             allMonthlyCharges,
             totalMonthlyCharges,
             budgetRemaining,
-            currentOnBudget,
-            monthlyCharges,
+            yearlyCharges,
             chartMonthlyCharges,
             chartRecurringCharges,
             chartOneTimeCharges,
@@ -694,7 +692,8 @@ function router() {
             totalMonthlyFillColor,
             todaysDate,
             vendorList,
-            topVendors
+            topVendors,
+            requestDate
           }
         );
     } catch(err) {
