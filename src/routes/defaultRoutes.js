@@ -29,6 +29,7 @@ function router() {
             $gte: new Date(date.getFullYear(), date.getMonth(), 1)
           }
         }).toArray();
+
         /*console.log("******** about to aggregrate");
         const topVendors = await col.aggregate(
           [
@@ -97,9 +98,9 @@ function router() {
             }
           }
         }
-
         //Calculate the top 5 vendors based on spending amount
         var topVendors = [];
+
         vendorAmounts.reduce(function (res, value) {
           if (!res[value.vendor]) {
             res[value.vendor] = {
@@ -111,6 +112,19 @@ function router() {
           res[value.vendor].amount += value.amount
           return res;
         }, {});
+
+        // if the vendor list is less than 5, pad the array so the monthly chart will show properly
+        if (topVendors.length < 5) {
+
+          var startPadding = topVendors.length;
+
+          for (i = startPadding; i < 5; i++) {
+            var tempVendor = "NoData" + i.toString();
+            var paddingToAdd = {vendor: tempVendor, amount: 0.00};
+            topVendors.push(paddingToAdd);
+          }
+        }
+
         //Sort by the most spent
         topVendors.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
 
@@ -118,11 +132,11 @@ function router() {
         var modifiedVendor; // temp variable to build vendor string
         for (i = 0; i < 5; i++) {
           var currentVendor = topVendors[i].vendor;
+          // if the string has a space, split the string for proper formatting
           if (currentVendor.indexOf(" ") > -1) {
             currentVendor = currentVendor.split(" ");
             modifiedVendor = "[\"";
             for (j = 0; j < currentVendor.length; j++) {
-
               if ((j + 1) == currentVendor.length) {
                 modifiedVendor = modifiedVendor + currentVendor[j] + "\"]";
                 topVendors[i].vendor = modifiedVendor;
@@ -132,6 +146,7 @@ function router() {
             }
 
           } else {
+            // add quotes to vendor string
             topVendors[i].vendor = "\"" + topVendors[i].vendor + "\"";
           }
         }
