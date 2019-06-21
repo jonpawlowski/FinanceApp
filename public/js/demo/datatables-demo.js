@@ -61,7 +61,7 @@ $(document).ready(function() {
 // Recent charges table shown on the home page
   $('#recentChargesTable').DataTable( {
     order: [[ 1, 'desc' ], [ 2, 'asc' ]],
-    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    lengthMenu: [[25, 50, 75, -1], [25, 50, 75, "All"]],
     dom: '<"row"<"col-sm-3"l><"col-sm-6"><"col-sm-3"f>>' +
     '<"row"<"col-sm-12"tr>>' +
     '<"row"<"col-sm-5"i><"col-sm-7"p>>' +
