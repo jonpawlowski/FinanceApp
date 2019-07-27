@@ -109,6 +109,23 @@ $(document).ready(function() {
             //alert(' Date is ' + formatEditDateTable);
             $('#modalEditChargeForm').modal('show');
           }
+      },
+      {
+          extend: 'selected',
+          text: 'Delete Charge',
+          className: 'btn btn-info',
+          action: function ( e, dt, node, config ) {
+            const deleteID = this.row('.selected').data()[0];
+            const deleteDateTable = this.row('.selected').data()[1];
+            const deleteVendorTable = this.row('.selected').data()[2];
+
+            var confirmDelete = confirm("Are you sure you want to delete the charge on " + deleteDateTable + " at " + deleteVendorTable + "?");
+            if (confirmDelete == true) {
+              txt = "You pressed OK!";
+            } else {
+              txt = "You pressed Cancel!";
+            }
+          }
       }
     ]
   } );
