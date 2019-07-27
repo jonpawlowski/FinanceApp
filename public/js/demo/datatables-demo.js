@@ -119,7 +119,7 @@ $(document).ready(function() {
             const deleteDateTable = this.row('.selected').data()[1];
             const deleteVendorTable = this.row('.selected').data()[2];
 
-            var confirmDelete = confirm("Are you sure you want to delete the charge on " + deleteDateTable + " at " + deleteVendorTable + "?");
+            var confirmDelete = confirm("ID is " + deleteID + "Are you sure you want to delete the charge on " + deleteDateTable + " from " + deleteVendorTable + "?");
             if (confirmDelete == true) {
               txt = "You pressed OK!";
             } else {
