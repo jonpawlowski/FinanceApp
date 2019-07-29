@@ -98,6 +98,45 @@ function router() {
     }());
   })
 
+  chargeRouter.route('/deleteCharges')
+
+  .post((req, res) => {
+    const { deleteFormId, deleteFormChargeDate, deleteFormVendor, deleteFormAmount, deleteFormPaymentType, deleteFormCategory, deleteFormComments } = req.body;
+    const url = global.gConfig.databaseurl;
+    const dbName = global.gConfig.database;
+
+    (async function deleteCharge() {
+      let client;
+      try {
+        client = await MongoClient.connect(url);
+        debug('Connected correctly to server');
+
+        const db = client.db(dbName);
+        const col = db.collection('charges');
+
+        const results = await col.deleteOne( { "_id": ObjectID(deleteFormId) } );
+        debug(results);
+
+        //Grab referrer page to redirect page to originating page. I needed to do some magic here
+        //in order to make a post request back to the Analysis page.
+        const pageReferrer = req.headers.referer;
+        console.log("****** Page Referrer is " + pageReferrer);
+        if (pageReferrer.includes("monthlyAnalysis")) {
+          res.redirect(307, '/analysis/monthlyAnalysis');
+        } else if (pageReferrer.includes("yearlyAnalysis")) {
+          res.redirect(307, '/analysis/yearlyAnalysis');
+        } else if (pageReferrer.includes("charges")) {
+          res.redirect('/charges');
+        } else {
+          res.redirect('/');
+        }
+
+      } catch (err) {
+        debug(err);
+      }
+    }());
+  })
+
   chargeRouter.route('/')
     .get((req, res) => {
       const url = global.gConfig.databaseurl;

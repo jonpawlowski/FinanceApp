@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-  </div>
+  </div> <!-- End modal for new charges -->
 
   <!-- Modal popup for editing of an existing charge -->
   <div class="modal fade" id="modalEditChargeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -133,4 +133,74 @@
               </div>
           </div>
       </div>
-    </div>
+    </div><!-- End modal for updating charges -->
+
+    <!-- Modal popup for the deletion of an existing charge -->
+    <div class="modal fade" id="modalDeleteChargeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Delete Charge</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="CardEntryContainer">
+                  <form name="editChargesForm" action="/charges/deleteCharges" method="post">
+                    <div class="CardEntryForm section">
+                      <div class="formsection column_2">
+                        <div class="content formcolumn">
+                          <input type="hidden" id="deleteFormId" name="deleteFormId" readonly/>
+                          <div class="CardEntry-Field">
+                            <label for="deleteFormChargeDate" style="margin-left:10px;">Charge Date:</label>
+                            <input class="FieldInputBox" name="deleteFormChargeDate" required id="deleteFormChargeDate" type="date" max="<%=todaysDate%>" readonly/>
+                          </div>
+                          <div class="CardEntry-Field">
+                            <label for="deleteFormVendor" style="margin-left:10px;">Vendor:</label>
+                            <input class="FieldInputBox" name="deleteFormVendor" required id="deleteFormVendor" type="text" list="editVendors" readonly/>
+                              <datalist id="deleteVendors">
+                                <%for(let i=0; i<vendorList.length; i++) {%>
+                                  <option><%=vendorList[i]%></option>
+                                <%}%>
+                              </datalist>
+                          </div>
+                          <div class="CardEntry-Field">
+                            <label for="deleteFormAmount" style="margin-left:10px;">Amount:</label>
+                            <input class="FieldInputBox" name="deleteFormAmount" required id="deleteFormAmount" type="number" step=".01" readonly/>
+                          </div>
+                          <div class="CardEntry-Field">
+                            <label for="deleteFormPaymentType" style="margin-left:10px;">Payment Type:</label>
+                            <select class="FieldInputBox" required name="deleteFormPaymentType" id="deleteFormPaymentType" disabled="true">
+                              <option value="AmEx Platinum">AmEx Platinum</option>
+                              <option value="Cash">Cash</option>
+                              <option value="Chase Sapphire">Chase Sapphire</option>
+                              <option value="Credit">Credit</option>
+                              <option value="Debit">Debit</option>
+                            </select>
+                          </div>
+                          <div class="CardEntry-Field">
+                            <label for="deleteFormCategory" style="margin-left:10px;">Category:</label>
+                            <select class="FieldInputBox" required name="deleteFormCategory" id="deleteFormCategory" disabled="true">
+                              <option value="Monthly">Monthly</option>
+                              <option value="One-time">One-time</option>
+                              <option value="Recurring">Recurring</option>
+                            </select>
+                          </div>
+
+                          <div class="CardEntry-Field">
+                            <label for="deleteFormComments" style="margin-left:10px;">Comments:</label>
+                            <input class="FieldInputBox" name="deleteFormComments" id="deleteFormComments" type="text" readonly/>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="Submit" class="btn btn-info" id="btnEdit">Delete</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-info">Cancel</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+      </div><!-- End modal for deleting charges -->

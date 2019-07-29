@@ -118,13 +118,28 @@ $(document).ready(function() {
             const deleteID = this.row('.selected').data()[0];
             const deleteDateTable = this.row('.selected').data()[1];
             const deleteVendorTable = this.row('.selected').data()[2];
+            var deleteAmountTable = this.row('.selected').data()[3];
+            const deletePaymentTypeTable = this.row('.selected').data()[4];
+            const deleteCategoryTable = this.row('.selected').data()[5];
+            const deleteCommentsTable = this.row('.selected').data()[6];
 
-            var confirmDelete = confirm("ID is " + deleteID + "Are you sure you want to delete the charge on " + deleteDateTable + " from " + deleteVendorTable + "?");
-            if (confirmDelete == true) {
-              txt = "You pressed OK!";
-            } else {
-              txt = "You pressed Cancel!";
-            }
+            // remove $ and convert to amount to number
+            deleteAmountTable = deleteAmountTable.substring(1, deleteAmountTable.length);
+            deleteAmountTable = parseFloat(deleteAmountTable);
+
+            // convert date to proper format for html input type date YYYY-MM-DD
+            var formatDeleteDateTable = deleteDateTable.substring(6) + '-' + deleteDateTable.substring(0,2) + '-' + deleteDateTable.substring(3,5);
+
+            // assign the values from selected row to appropriate elements in the modal form
+            document.getElementById('deleteFormId').value = deleteID;
+            document.getElementById('deleteFormChargeDate').value = formatDeleteDateTable;
+            document.getElementById('deleteFormVendor').value = deleteVendorTable;
+            document.getElementById('deleteFormAmount').value = deleteAmountTable;
+            document.getElementById('deleteFormPaymentType').value = deletePaymentTypeTable;
+            document.getElementById('deleteFormCategory').value = deleteCategoryTable;
+            document.getElementById('deleteFormComments').value = deleteCommentsTable;
+
+            $('#modalDeleteChargeForm').modal('show');
           }
       }
     ]
