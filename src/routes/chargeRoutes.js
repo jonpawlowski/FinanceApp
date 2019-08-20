@@ -1,31 +1,29 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const mongoDB = require('../config/mongodb.js');
 const debug = require('debug')('app:chargeRoutes');
 const chargeRouter = express.Router();
 const ObjectID = require('mongodb').ObjectID;
+//const utilities = require('../config/utils.js');
 
 function router() {
   chargeRouter.route('/newCharges')
-  .get((req, res) => {
-      res.render(
-      'newChargesView'
-    );
-
-  })
+  // .get((req, res) => {
+  //     res.render(
+  //     'newChargesView'
+  //   );
+  //
+  // })
 
   .post((req, res) => {
     const { formChargeDate, vendor, formAmount, comments, paymentType, category } = req.body;
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
 
-    (async function addUser() {
+    (async function addCharge() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-        debug('Connected correctly to server');
-
-        const db = client.db(dbName);
-        const col = db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);
 
         const chargeDate = new Date(formChargeDate);
         //console.log("ChargeDate is ==> " + chargeDate);
@@ -60,17 +58,14 @@ function router() {
 
   .post((req, res) => {
     const { editFormId, editFormChargeDate, editFormVendor, editFormAmount, editFormPaymentType, editFormCategory, editFormComments } = req.body;
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
 
     (async function updateCharge() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-        debug('Connected correctly to server');
-
-        const db = client.db(dbName);
-        const col = db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);
 
         const formatEditChargeDate = new Date(editFormChargeDate);
         const formatEditFormAmount = parseFloat(editFormAmount);
@@ -102,17 +97,14 @@ function router() {
 
   .post((req, res) => {
     const { deleteFormId, deleteFormChargeDate, deleteFormVendor, deleteFormAmount, deleteFormPaymentType, deleteFormCategory, deleteFormComments } = req.body;
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
 
     (async function deleteCharge() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-        debug('Connected correctly to server');
-
-        const db = client.db(dbName);
-        const col = db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);
 
         const results = await col.deleteOne( { "_id": ObjectID(deleteFormId) } );
         debug(results);
@@ -139,9 +131,9 @@ function router() {
 
   chargeRouter.route('/')
     .get((req, res) => {
-      const url = global.gConfig.databaseurl;
-      const dbName = global.gConfig.database;
+
       const pageTitle = 'charges';
+
       // get today's date for max date and default value in new charges form
       var todaysDate = new Date();
       var dd = todaysDate.getDate();
@@ -157,17 +149,16 @@ function router() {
       }
 
       todaysDate = yyyy + '-' + mm + '-' + dd;
-      var fs = require('fs');
 
-      (async function mongo() {
+      (async function getCharges() {
         let client;
         try {
-          client = await MongoClient.connect(url);
-          debug('Connected correctly to server for charge retrieval');
+          // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+          client = mongoDB.get();
+          const db = client.db(global.gConfig.database);
+          const col = db.collection(global.gConfig.collection);
 
-          const db = client.db(dbName);
-          const col = await db.collection('charges');
-
+          // Get charges from the last 180 days
           const charges = await col.find({
             "chargeDate" : {
               $lt: new Date(),
@@ -181,21 +172,21 @@ function router() {
           });
 
           // Get vendor list for auto-complete in the form
-          // Wrote it to a file because I couldn't figure out how to assign it to a variable
-          await col.distinct("vendor", {}, function(err,vendors){
-            const vendorJSON = JSON.stringify(vendors);
-            //console.log("Vendor JSON is " + vendorJSON);
-            fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
-              if(err) console.log('error', err);
-            });
-          });
+          const allVendors = await col.find({
+            "chargeDate" : {
+              $lt: new Date(),
+              $gte: new Date(new Date().setDate(new Date().getDate()-365))
+            }
+          }).project({ _id : 0, vendor : 1 }).toArray();
+          //const vendorList = utilities.getVendorsList(col);
+          const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-          //Get vendor list from file and sort for easier reading
-          const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+          // Sort the vendor list alphabetically
           vendorList.sort(function(a, b) {
             return a.toLowerCase().localeCompare(b.toLowerCase());
           });
 
+      // render the charges page
       res.render(
         'chargesView',
         {
@@ -208,7 +199,6 @@ function router() {
     } catch(err) {
       debug(err.stack);
     }
-    client.close();
     }());
   })
 

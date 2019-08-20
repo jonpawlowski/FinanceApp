@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const mongoDB = require('../config/mongodb.js');
 const debug = require('debug')('app:analysisRoutes');
 const analysisRouter = express.Router();
 
@@ -35,18 +35,13 @@ function router() {
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
     const pageTitle = 'monthlyAnalysis';
 
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
-
-    var fs = require('fs');
-
     (async function monthlyAnalysis() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-
-        const db = client.db(dbName);
-        const col = await db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);
 
         // Get current dollars to the budget spent as of today
         const date = new Date();
@@ -58,17 +53,16 @@ function router() {
         }).toArray();
 
         // Get vendor list for auto-complete in the form
-        // Wrote it to a file because I couldn't figure out how to assign it to a variable
-        await col.distinct("vendor", {}, function(err,vendors){
-          const vendorJSON = JSON.stringify(vendors);
-          //console.log("Vendor JSON is " + vendorJSON);
-          fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
-            if(err) console.log('error', err);
-          });
-        });
+        const allVendors = await col.find({
+          "chargeDate" : {
+            $lt: new Date(),
+            $gte: new Date(new Date().setDate(new Date().getDate()-365))
+          }
+        }).project({ _id : 0, vendor : 1 }).toArray();
+        //const vendorList = utilities.getVendorsList(col);
+        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-        //Get vendor list from file and sort for easier reading
-        const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+        // Sort the vendor list alphabetically
         vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
@@ -234,7 +228,6 @@ function router() {
     } catch(err) {
       debug(err.stack);
     }
-    client.close();
     }());
   })
 
@@ -268,18 +261,13 @@ function router() {
     const analysisMonth = new Date(Date.parse(currentMonth +" 1, 2012")).getMonth()+1;
     const pageTitle = 'chargesAnalysis';
 
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
-
-    var fs = require('fs');
-
     (async function monthlyAnalysis() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-
-        const db = client.db(dbName);
-        const col = await db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);;
 
         // Get current dollars to the budget spent as of today
         const date = new Date();
@@ -291,17 +279,15 @@ function router() {
         }).toArray();
 
         // Get vendor list for auto-complete in the form
-        // Wrote it to a file because I couldn't figure out how to assign it to a variable
-        await col.distinct("vendor", {}, function(err,vendors){
-          const vendorJSON = JSON.stringify(vendors);
-          //console.log("Vendor JSON is " + vendorJSON);
-          fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
-            if(err) console.log('error', err);
-          });
-        });
+        const allVendors = await col.find({
+          "chargeDate" : {
+            $lt: new Date(),
+            $gte: new Date(new Date().setDate(new Date().getDate()-365))
+          }
+        }).project({ _id : 0, vendor : 1 }).toArray();
+        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-        //Get vendor list from file and sort for easier reading
-        const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+        // Sort the vendor list alphabetically
         vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
@@ -467,7 +453,6 @@ function router() {
     } catch(err) {
       debug(err.stack);
     }
-    client.close();
     }());
   })
 
@@ -498,18 +483,13 @@ function router() {
 
     const pageTitle = 'yearlyAnalysis';
 
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
-
-    var fs = require('fs');
-
     (async function yearlyAnalysis() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-
-        const db = client.db(dbName);
-        const col = await db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);;
 
         // Get all charges for the specified year
         const date = new Date();
@@ -521,17 +501,16 @@ function router() {
         }).toArray();
 
         // Get vendor list for auto-complete in the form
-        // Wrote it to a file because I couldn't figure out how to assign it to a variable
-        await col.distinct("vendor", {}, function(err,vendors){
-          const vendorJSON = JSON.stringify(vendors);
-          //console.log("Vendor JSON is " + vendorJSON);
-          fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
-            if(err) console.log('error', err);
-          });
-        });
+        const allVendors = await col.find({
+          "chargeDate" : {
+            $lt: new Date(),
+            $gte: new Date(new Date().setDate(new Date().getDate()-365))
+          }
+        }).project({ _id : 0, vendor : 1 }).toArray();
+        //const vendorList = utilities.getVendorsList(col);
+        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-        //Get vendor list from file and sort for easier reading
-        const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+        // Sort the vendor list alphabetically
         vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
@@ -699,7 +678,6 @@ function router() {
     } catch(err) {
       debug(err.stack);
     }
-    client.close();
     }());
   });
   return analysisRouter;

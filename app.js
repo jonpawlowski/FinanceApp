@@ -11,6 +11,7 @@ const session = require('express-session');
 const app = express();
 
 const config = require('./src/config/config.js');
+const mongoDB = require('./src/config/mongodb.js');
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
@@ -33,6 +34,15 @@ app.use('/charges', chargeRouter);
 app.use('/analysis', analysisRouter);
 app.use('/auth', authRouter);
 
-app.listen(global.gConfig.node_port, function(){
-  debug(`listening on port ${chalk.green(global.gConfig.node_port)}`);
+// Initiation the MongoDB connection
+mongoDB.connect( function(err) {
+  if (err) {
+    console.log('Unable to connect to Mongo.');
+    process.exit(1);
+  } else {
+    console.log("Connected successfully to MongoDB!");
+    app.listen(global.gConfig.node_port, function(){
+      debug(`listening on port ${chalk.green(global.gConfig.node_port)}`);
+    })
+  }
 });

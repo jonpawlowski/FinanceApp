@@ -1,25 +1,23 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:defaultRoutes');
 const defaultRouter = express.Router();
+const mongoDB = require('../config/mongodb.js');
+//const utilities = require('../config/utils.js');
 
 function router() {
   defaultRouter.route('/')
   .get((req, res) => {
-    const url = global.gConfig.databaseurl;
-    const dbName = global.gConfig.database;
+
     const rectGreenWidth = 600;
     const pageTitle = 'index';
-
-    var fs = require('fs');
 
     (async function mongo() {
       let client;
       try {
-        client = await MongoClient.connect(url);
-
-        const db = client.db(dbName);
-        const col = await db.collection('charges');
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);
 
         // Get current dollars to the budget spent as of today
         const date = new Date();
@@ -30,47 +28,17 @@ function router() {
           }
         }).toArray();
 
-        /*console.log("******** about to aggregrate");
-        const topVendors = await col.aggregate(
-          [
-	           {
-	            $match: {
-                "chargeDate": {
-                  $gte: new Date(date.getFullYear(), date.getMonth(), 1),
-                  $lt: new Date()
-                }
-              }
-            },
-            {
-              $group:
-              {
-                _id: { vendor: "$vendor" },
-                totalAmount: { $sum: "$amount" }
-              }
-            }
-          ]
-        ).toArray();
-
-        //console.log("***********First vendor is " + topVendors[0]._id.vendor.toString());
-        topVendors.sort((a, b) => parseFloat(b.totalAmount) - parseFloat(a.totalAmount));
-
-        for (i = 0; i < topVendors.length; i++) {
-          console.log("****** Vendor " + i + " is " + topVendors[i]._id.vendor);
-          console.log("****** Vendor " + i + " amount is " + topVendors[i].totalAmount);
-        }*/
-
         // Get vendor list for auto-complete in the form
-        // Wrote it to a file because I couldn't figure out how to assign it to a variable
-        await col.distinct("vendor", {}, function(err,vendors){
-          const vendorJSON = JSON.stringify(vendors);
-          //console.log("Vendor JSON is " + vendorJSON);
-          fs.writeFile('./src/config/vendorList.json', vendorJSON, 'utf8', function(err, result) {
-            if(err) console.log('error', err);
-          });
-        });
+        const allVendors = await col.find({
+          "chargeDate" : {
+            $lt: new Date(),
+            $gte: new Date(new Date().setDate(new Date().getDate()-365))
+          }
+        }).project({ _id : 0, vendor : 1 }).toArray();
+        //const vendorList = utilities.getVendorsList(col);
+        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-        //Get vendor list from file and sort for easier reading
-        const vendorList = JSON.parse(fs.readFileSync('./src/config/vendorList.json', 'utf8'));
+        // Sort the vendor list alphabetically
         vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
@@ -267,7 +235,6 @@ function router() {
     } catch(err) {
       debug(err.stack);
     }
-    client.close();
     }());
   });
   return defaultRouter;
