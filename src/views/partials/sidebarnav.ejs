@@ -16,7 +16,7 @@
       <ul id="side-main-menu" class="side-menu list-unstyled">
         <li class=<%if (pageTitle == 'index') {%> "active" <%}%>><a href="/"> <i class="icon-home"></i>Current Month</a></li>
         <li class=<%if (pageTitle == 'charges') {%> "active" <%}%>><a href="/charges"> <i class="icon-form"></i>All Charges</a></li>
-        <li><a href="#exampledropdownDropdown" aria-expanded=<%if (pageTitle == 'analysis') {%> "true" <%} else {%> "false" <%}%> data-toggle="collapse"><i class="icon-interface-windows"></i>Financial Analysis</a>
+        <li><a href="#exampledropdownDropdown" aria-expanded=<%if (pageTitle.includes('Analysis')) {%> "true" <%} else {%> "false" <%}%> data-toggle="collapse"><i class="icon-interface-windows"></i>Financial Analysis</a>
           <ul id="exampledropdownDropdown" class=<%if (pageTitle.includes('Analysis')) {%> "collapse list-unstyled show" <%} else {%> "collapse list-unstyled" <%}%>>
             <li class=<%if (pageTitle == 'monthlyAnalysis') {%> "active" <%}%>><a href="/analysis/monthlyAnalysis">Monthly Analysis</a></li>
             <li class=<%if (pageTitle == 'chargesAnalysis') {%> "active" <%}%>><a href="/analysis/#">Charges Analysis</a></li>
