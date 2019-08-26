@@ -51,7 +51,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-4">
-              <div class="card pie-chart-example">
+              <div class="card h-100 pie-chart-example">
                 <div class="card-header d-flex align-items-center">
                   <h4>Current Budget for <%=currentMonth%></h4>
                 </div>
@@ -60,7 +60,7 @@
                     <canvas id="monthlyBudgetChart" width="350px" height="350px" class="chart"></canvas>
                   </div>
                   <div class="card-text">
-                    <span class="dot-<%=monthlyFillColor%>"></span>Available <strong><span class="jp-left-margin"><%= currencyFormatted(budgetRemaining) %></span></strong>
+                    <span class="dot-66B334"></span>Available <strong><span class="jp-left-margin"><%= currencyFormatted(budgetRemaining) %></span></strong>
                   </div>
                   <div class="card-text">
                     <span class="dot-<%=totalSpentFillColor%>"></span>Spent <strong><span class="jp-left-margin"><%= currencyFormatted(totalMonthlyCharges) %></span></strong>
@@ -72,7 +72,7 @@
               </div>
             </div>
             <div class="col-lg-4">
-              <div class="card pie-chart-example">
+              <div class="card h-100 pie-chart-example">
                 <div class="card-header d-flex align-items-center">
                   <h4>Total Monthly Spending</h4>
                 </div>
@@ -87,12 +87,12 @@
               </div>
             </div>
             <div class="col-lg-4">
-              <div class="card line-chart-example">
+              <div class="card h-100 line-chart-example">
                 <div class="card-header d-flex align-items-center">
                   <h4>Top 5 Vendors</h4>
                 </div>
                 <div class="card-body">
-                  <canvas id="topVendorChart" width="350px" height="483px" class="chart"></canvas>
+                  <canvas id="topVendorChart" width="350px" height="450px" class="chart"></canvas>
                 </div>
               </div>
             </div>
