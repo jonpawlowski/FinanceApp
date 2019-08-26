@@ -191,24 +191,26 @@ function router() {
         var monthlyFillColor;
         if (Number(totalMonthlyCharges) > Number(currentOnBudget)) {
           // over budget color
-          monthlyFillColor = "#FF0000";
+          monthlyFillColor = "FF0000";
+          totalSpentFillColor = "FF0000";
         }
         else {
           // under budget color
-          monthlyFillColor = "#8FB7CA";
+          monthlyFillColor = "66B334";
+          totalSpentFillColor = "92B6C7"
         }
 
         // Show green bubble if ahead for the month
         var totalMonthlyFillColor;
         if (Number(allMonthlyCharges) < 0) {
           // ahead for the month so show green and make number positive
-          totalMonthlyFillColor = "background: rgb(102, 179, 96);";
+          totalMonthlyFillColor = "66B334";
           allMonthlyCharges = (allMonthlyCharges * -1);
           allMonthlyCharges = allMonthlyCharges.toFixed(2);
         }
         else {
           // behind for the month so show red
-          totalMonthlyFillColor = "background: rgb(255,0,0);";
+          totalMonthlyFillColor = "FF0000";
         }
 
     res.render(
@@ -228,6 +230,7 @@ function router() {
         chartRecurringCharges,
         chartOneTimeCharges,
         totalMonthlyFillColor,
+        totalSpentFillColor,
         pageTitle,
         topVendors
       }
