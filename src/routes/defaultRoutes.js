@@ -2,7 +2,7 @@ const express = require('express');
 const debug = require('debug')('app:defaultRoutes');
 const defaultRouter = express.Router();
 const mongoDB = require('../config/mongodb.js');
-//const utilities = require('../config/utils.js');
+const utilities = require('../config/utils.js');
 
 function router() {
   defaultRouter.route('/')
@@ -18,7 +18,7 @@ function router() {
         client = mongoDB.get();
         const db = client.db(global.gConfig.database);
         const col = db.collection(global.gConfig.collection);
-
+        console.log("***** Get monthly charges****");
         // Get current dollars to the budget spent as of today
         const date = new Date();
         const monthlyCharges = await col.find({
@@ -28,21 +28,27 @@ function router() {
           }
         }).toArray();
 
-        // Get vendor list for auto-complete in the form
+        //Get vendor list for auto-complete in the form
         const allVendors = await col.find({
           "chargeDate" : {
             $lt: new Date(),
             $gte: new Date(new Date().setDate(new Date().getDate()-365))
           }
-        }).project({ _id : 0, vendor : 1 }).toArray();
-        //const vendorList = utilities.getVendorsList(col);
+        }).project({ _id : 0, vendor : 1 , comments: 1 }).toArray();
+
+        //const vendorList = utilities.getVendorsList();
         const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-        // Sort the vendor list alphabetically
+        //Sort the vendor list alphabetically
         vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
 
+        const commentsList = [...new Set(allVendors.map(item => item.comments))];
+        commentsList.sort(function(a, b) {
+          return a.toLowerCase().localeCompare(b.toLowerCase());
+        });
+        console.log(commentsList);
         // Perform current budget performance
         var totalMonthlyCharges = 0;
         var allMonthlyCharges = 0;
@@ -232,6 +238,7 @@ function router() {
         totalMonthlyFillColor,
         totalSpentFillColor,
         pageTitle,
+        commentsList,
         topVendors
       }
     );

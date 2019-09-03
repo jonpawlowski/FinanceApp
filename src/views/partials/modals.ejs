@@ -47,7 +47,12 @@
                 </div>
                 <div class="form-group">
                   <label for="comments" style="margin-left:10px;">Comments:</label>
-                  <input class="form-control" name="comments" id="comments" type="text"/>
+                  <input class="form-control" name="comments" required id="comments" type="text" list="allComments"/>
+                    <datalist id="allComments">
+                      <%for(let i=0; i<commentsList.length; i++) {%>
+                        <option><%=commentsList[i]%></option>
+                      <%}%>
+                    </datalist>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary">Submit</button>
