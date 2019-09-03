@@ -7,12 +7,6 @@ const ObjectID = require('mongodb').ObjectID;
 
 function router() {
   chargeRouter.route('/newCharges')
-  // .get((req, res) => {
-  //     res.render(
-  //     'newChargesView'
-  //   );
-  //
-  // })
 
   .post((req, res) => {
     const { formChargeDate, vendor, formAmount, comments, paymentType, category } = req.body;
