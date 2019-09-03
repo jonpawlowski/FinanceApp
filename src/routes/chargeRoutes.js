@@ -171,18 +171,24 @@ function router() {
             return dateB - dateA;
           });
 
-          // Get vendor list for auto-complete in the form
+          //Get vendor list for auto-complete in the form
           const allVendors = await col.find({
             "chargeDate" : {
               $lt: new Date(),
               $gte: new Date(new Date().setDate(new Date().getDate()-365))
             }
-          }).project({ _id : 0, vendor : 1 }).toArray();
-          //const vendorList = utilities.getVendorsList(col);
+          }).project({ _id : 0, vendor : 1 , comments: 1 }).toArray();
+
+          //const vendorList = utilities.getVendorsList();
           const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
-          // Sort the vendor list alphabetically
+          //Sort the vendor list alphabetically
           vendorList.sort(function(a, b) {
+            return a.toLowerCase().localeCompare(b.toLowerCase());
+          });
+
+          const commentsList = [...new Set(allVendors.map(item => item.comments))];
+          commentsList.sort(function(a, b) {
             return a.toLowerCase().localeCompare(b.toLowerCase());
           });
 
@@ -193,7 +199,8 @@ function router() {
           charges,
           pageTitle,
           todaysDate,
-          vendorList
+          vendorList,
+          commentsList
         }
       );
     } catch(err) {

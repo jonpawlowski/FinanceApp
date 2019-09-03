@@ -48,7 +48,7 @@ function router() {
         commentsList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });
-        console.log(commentsList);
+
         // Perform current budget performance
         var totalMonthlyCharges = 0;
         var allMonthlyCharges = 0;
