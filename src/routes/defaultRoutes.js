@@ -29,25 +29,26 @@ function router() {
         }).toArray();
 
         //Get vendor list for auto-complete in the form
-        const allVendors = await col.find({
+        const vendorList = await utilities.getVendorsList();
+        /*const allVendors = await col.find({
           "chargeDate" : {
             $lt: new Date(),
             $gte: new Date(new Date().setDate(new Date().getDate()-365))
           }
-        }).project({ _id : 0, vendor : 1 , comments: 1 }).toArray();
+        }).project({ _id : 0, vendor : 1 , comments: 1 }).toArray();*/
 
         //const vendorList = utilities.getVendorsList();
-        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
+        //const vendorList = [...new Set(allVendors.map(item => item.vendor))];
 
         //Sort the vendor list alphabetically
-        vendorList.sort(function(a, b) {
+        /*vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
-        });
-
-        const commentsList = [...new Set(allVendors.map(item => item.comments))];
+        });*/
+        const commentsList = ['yes'];
+        /*const commentsList = [...new Set(allVendors.map(item => item.comments))];
         commentsList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
-        });
+        });*/
 
         // Perform current budget performance
         var totalMonthlyCharges = 0;
@@ -218,7 +219,7 @@ function router() {
           // behind for the month so show red
           totalMonthlyFillColor = "FF0000";
         }
-
+        console.log("We TOTS have " + vendorList.length + " unique vendors.");
     res.render(
       'index',
       {
