@@ -3,7 +3,7 @@ const mongoDB = require('../config/mongodb.js');
 const debug = require('debug')('app:chargeRoutes');
 const chargeRouter = express.Router();
 const ObjectID = require('mongodb').ObjectID;
-//const utilities = require('../config/utils.js');
+const utilities = require('../config/utils.js');
 
 function router() {
   chargeRouter.route('/newCharges')
@@ -166,25 +166,10 @@ function router() {
           });
 
           //Get vendor list for auto-complete in the form
-          const allVendors = await col.find({
-            "chargeDate" : {
-              $lt: new Date(),
-              $gte: new Date(new Date().setDate(new Date().getDate()-365))
-            }
-          }).project({ _id : 0, vendor : 1 , comments: 1 }).toArray();
+          const vendorList = await utilities.getVendorsList();
 
-          //const vendorList = utilities.getVendorsList();
-          const vendorList = [...new Set(allVendors.map(item => item.vendor))];
-
-          //Sort the vendor list alphabetically
-          vendorList.sort(function(a, b) {
-            return a.toLowerCase().localeCompare(b.toLowerCase());
-          });
-
-          const commentsList = [...new Set(allVendors.map(item => item.comments))];
-          commentsList.sort(function(a, b) {
-            return a.toLowerCase().localeCompare(b.toLowerCase());
-          });
+          // Get all comments entered in the last year
+          const commentsList = await utilities.getCommentsList();
 
       // render the charges page
       res.render(

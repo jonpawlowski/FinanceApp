@@ -44,7 +44,8 @@ function router() {
         /*vendorList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
         });*/
-        const commentsList = ['yes'];
+        const commentsList = await utilities.getCommentsList();
+        console.log("There are TOTS " + commentsList.length + " in the system.")
         /*const commentsList = [...new Set(allVendors.map(item => item.comments))];
         commentsList.sort(function(a, b) {
           return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -204,7 +205,8 @@ function router() {
         else {
           // under budget color
           monthlyFillColor = "66B334";
-          totalSpentFillColor = "92B6C7"
+
+          FillColor = "92B6C7"
         }
 
         // Show green bubble if ahead for the month

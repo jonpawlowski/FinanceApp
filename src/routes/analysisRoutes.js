@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoDB = require('../config/mongodb.js');
 const debug = require('debug')('app:analysisRoutes');
+const utilities = require('../config/utils.js');
 const analysisRouter = express.Router();
 
 function router() {
@@ -52,15 +53,11 @@ function router() {
           }
         }).toArray();
 
-        // Get vendor list for auto-complete in the form
-        const allVendors = await col.find({
-          "chargeDate" : {
-            $lt: new Date(),
-            $gte: new Date(new Date().setDate(new Date().getDate()-365))
-          }
-        }).project({ _id : 0, vendor : 1 }).toArray();
-        //const vendorList = utilities.getVendorsList(col);
-        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
+        //Get vendor list for auto-complete in the form
+        const vendorList = await utilities.getVendorsList();
+
+        // Get all comments entered in the last year
+        const commentsList = await utilities.getCommentsList();
 
         // Sort the vendor list alphabetically
         vendorList.sort(function(a, b) {
@@ -186,10 +183,12 @@ function router() {
         if (Number(totalMonthlyCharges) > Number(currentOnBudget)) {
           // over budget color
           monthlyFillColor = "#FF0000";
+          totalSpentFillColor = "FF0000";
         }
         else {
           // under budget color
           monthlyFillColor = "#8FB7CA";
+          totalSpentFillColor = "92B6C7"
         }
 
         // Show green bubble if ahead for the month
@@ -218,10 +217,12 @@ function router() {
             chartRecurringCharges,
             chartOneTimeCharges,
             monthlyFillColor,
+            totalSpentFillColor,
             pageTitle,
             totalMonthlyFillColor,
             todaysDate,
             vendorList,
+            commentsList,
             topVendors
           }
         );
@@ -278,19 +279,11 @@ function router() {
           }
         }).toArray();
 
-        // Get vendor list for auto-complete in the form
-        const allVendors = await col.find({
-          "chargeDate" : {
-            $lt: new Date(),
-            $gte: new Date(new Date().setDate(new Date().getDate()-365))
-          }
-        }).project({ _id : 0, vendor : 1 }).toArray();
-        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
+        //Get vendor list for auto-complete in the form
+        const vendorList = await utilities.getVendorsList();
 
-        // Sort the vendor list alphabetically
-        vendorList.sort(function(a, b) {
-          return a.toLowerCase().localeCompare(b.toLowerCase());
-        });
+        // Get all comments entered in the last year
+        const commentsList = await utilities.getCommentsList();
 
         // Perform final budget performance
         var totalMonthlyCharges = 0;
@@ -447,6 +440,7 @@ function router() {
             totalMonthlyFillColor,
             todaysDate,
             vendorList,
+            commentsList,
             topVendors
           }
         );
@@ -500,20 +494,11 @@ function router() {
           }
         }).toArray();
 
-        // Get vendor list for auto-complete in the form
-        const allVendors = await col.find({
-          "chargeDate" : {
-            $lt: new Date(),
-            $gte: new Date(new Date().setDate(new Date().getDate()-365))
-          }
-        }).project({ _id : 0, vendor : 1 }).toArray();
-        //const vendorList = utilities.getVendorsList(col);
-        const vendorList = [...new Set(allVendors.map(item => item.vendor))];
+        //Get vendor list for auto-complete in the form
+        const vendorList = await utilities.getVendorsList();
 
-        // Sort the vendor list alphabetically
-        vendorList.sort(function(a, b) {
-          return a.toLowerCase().localeCompare(b.toLowerCase());
-        });
+        // Get all comments entered in the last year
+        const commentsList = await utilities.getCommentsList();
 
         // Perform final budget performance
         var totalMonthlyCharges = 0;
@@ -606,12 +591,7 @@ function router() {
 
         // Final total monthly spend calculation
         allMonthlyCharges = allMonthlyCharges.toFixed(2); //all monthly charges
-        totalMonthlyCharges = totalMonthlyCharges.toFixed(2);  //anything that goes against the monthly budget
-
-        // Calculate number of days in the month
-        //const lastOfMonth = new Date( analysisYear, analysisMonth, 0 );
-        //const numDays = lastOfMonth.getDate();
-        //var currentOnBudget = 1500.00;
+        totalMonthlyCharges = totalMonthlyCharges.toFixed(2);  //anything that goes against the monthly budget644444
 
         // get today's date for max date and default value in new charges form
         var todaysDate = new Date();
@@ -672,6 +652,7 @@ function router() {
             todaysDate,
             vendorList,
             topVendors,
+            commentsList,
             requestDate
           }
         );
