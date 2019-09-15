@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title id="index">P Financial App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="../jp/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="../css/select.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="../jp/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="../jp/css/fontastic.css">
+    <!-- Google fonts - Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <!-- jQuery Circle-->
+    <link rel="stylesheet" href="../jp/css/grasp_mobile_progress_circle-1.0.0.min.css">
+    <!-- Custom Scrollbar-->
+    <link rel="stylesheet" href="../jp/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="../jp/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="../jp/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="../jp/img/favicon.ico">
+    <!-- Charge form CSS -->
+    <!--<link href="css/Payment.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">-->
+
+    <!-- Bootstrap Datepicker CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css"/>
+    <!--<link href="css/colors.css" rel="stylesheet">-->
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  </head>
+  <body>
+
+      <form name="newChargesForm" action="/charges/newCharges" method="post">
+        <div class="form-group">
+          <label for="chargeDate" style="margin-left:10px;">Charge Date:</label>
+          <input class="form-control" name="formChargeDate" required id="formChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
+        </div>
+        <div class="form-group">
+          <label for="vendor" style="margin-left:10px;">Vendor:</label>
+          <input class="form-control" name="vendor" required id="vendor" type="text" list="vendors"/>
+            <datalist id="vendors">
+              <%for(let i=0; i<vendorList.length; i++) {%>
+                <option><%=vendorList[i]%></option>
+              <%}%>
+            </datalist>
+        </div>
+        <div class="form-group">
+          <label for="amount" style="margin-left:10px;">Amount:</label>
+          <input class="form-control" name="formAmount" required id="formAmount" type="number" step=".01"/>
+        </div>
+        <div class="form-group">
+          <label for="paymentType" style="margin-left:10px;">Payment Type:</label>
+          <select class="form-control" required name="paymentType" id="paymentType">
+            <option value="AmEx Platinum">AmEx Platinum</option>
+            <option value="Cash">Cash</option>
+            <option value="Chase Sapphire">Chase Sapphire</option>
+            <option value="Credit">Credit</option>
+            <option value="Debit">Debit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="category" style="margin-left:10px;">Category:</label>
+          <select class="form-control" required name="category" id="category">
+            <option value="Monthly">Monthly</option>
+            <option value="One-time">One-time</option>
+            <option value="Recurring">Recurring</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="comments" style="margin-left:10px;">Comments:</label>
+          <input class="form-control" name="comments" id="comments" type="text" list="allComments"/>
+            <datalist id="allComments">
+              <%for(let i=0; i<commentsList.length; i++) {%>
+                <option><%=commentsList[i]%></option>
+              <%}%>
+            </datalist>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+
+      <!-- /#wrapper -->
+      <footer class="main-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <p>Jon Pawlowski &copy; 2019</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    <!-- JavaScript files-->
+    <!-- JQuery JS Files -->
+    <script src="../vendor/jquery/jquery.js"></script>
+    <script src="../jp/vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="../jp/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../jp/js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
+    <script src="../jp/vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <!--<script src="jp/vendor/chart.js/Chart.min.js"></script>-->
+    <script src="../jp/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="../jp/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Main File-->
+    <script src="../jp/js/front.js"></script>
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+      $(document).ready(function(){
+        var currentURL = document.location.href;
+        var dateOptions = {};
+        if (currentURL.includes("monthlyAnalysis")) {
+          dateOptions = {
+            format: "MM yyyy",
+            minViewMode: 1,
+            autoclose: true,
+            startDate: new Date(new Date().getFullYear(), '0', '01'),
+            endDate: "0d"
+          };
+        } else {
+          dateOptions = {
+            format: " yyyy",
+            minViewMode: 2,
+            autoclose: true,
+            startDate: '2019',
+            endDate: new Date().getFullYear().toString()
+          };
+        }
+
+        var date_input=$('input[name="date"]'); //our date input has the name "date"
+        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        var options=dateOptions;
+        date_input.datepicker(options);
+      })
+    </script>
+  </body>
+</html>

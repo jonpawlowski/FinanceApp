@@ -123,6 +123,44 @@ function router() {
     }());
   })
 
+  chargeRouter.route('/mobile')
+
+  .get((req, res) => {
+
+    (async function getMobileForm() {
+      //Get vendor list for auto-complete in the form
+      const vendorList = await utilities.getVendorsList();
+
+      // Get all comments entered in the last year
+      const commentsList = await utilities.getCommentsList();
+
+      // get today's date for max date and default value in new charges form
+      var todaysDate = new Date();
+      var dd = todaysDate.getDate();
+      var mm = todaysDate.getMonth()+1; //January is 0!
+      var yyyy = todaysDate.getFullYear();
+
+      if ( dd < 10 ) {
+        dd = '0' + dd;
+      }
+
+      if ( mm < 10 ) {
+        mm = '0' + mm;
+      }
+
+      todaysDate = yyyy + '-' + mm + '-' + dd;
+
+      res.render(
+        'mobileChargeFormView',
+        {
+          vendorList,
+          commentsList,
+          todaysDate
+        }
+      );
+    }());
+  })
+
   chargeRouter.route('/')
     .get((req, res) => {
 
