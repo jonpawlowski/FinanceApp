@@ -203,7 +203,7 @@ function router() {
           // behind for the month so show red
           totalMonthlyFillColor = "FF0000";
         }
-        console.log("We TOTS have " + vendorList.length + " unique vendors.");
+        
     res.render(
       'index',
       {
