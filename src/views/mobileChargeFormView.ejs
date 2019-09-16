@@ -39,57 +39,61 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
   </head>
   <body>
-
-      <form name="newChargesForm" action="/charges/newCharges" method="post">
-        <div class="form-group">
-          <label for="chargeDate" style="margin-left:10px;">Charge Date:</label>
-          <input class="form-control" name="formChargeDate" required id="formChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <form name="newChargesForm" action="/charges/newCharges" method="post">
+            <div class="form-group">
+              <label for="chargeDate" style="margin-left:10px;">Charge Date:</label>
+              <input class="form-control" name="formChargeDate" required id="formChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
+            </div>
+            <div class="form-group">
+              <label for="vendor" style="margin-left:10px;">Vendor:</label>
+              <input class="form-control" name="vendor" required id="vendor" type="text" list="vendors"/>
+                <datalist id="vendors">
+                  <%for(let i=0; i<vendorList.length; i++) {%>
+                    <option><%=vendorList[i]%></option>
+                  <%}%>
+                </datalist>
+            </div>
+            <div class="form-group">
+              <label for="amount" style="margin-left:10px;">Amount:</label>
+              <input class="form-control" name="formAmount" required id="formAmount" type="number" step=".01"/>
+            </div>
+            <div class="form-group">
+              <label for="paymentType" style="margin-left:10px;">Payment Type:</label>
+              <select class="form-control" required name="paymentType" id="paymentType">
+                <option value="AmEx Platinum">AmEx Platinum</option>
+                <option value="Cash">Cash</option>
+                <option value="Chase Sapphire">Chase Sapphire</option>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="category" style="margin-left:10px;">Category:</label>
+              <select class="form-control" required name="category" id="category">
+                <option value="Monthly">Monthly</option>
+                <option value="One-time">One-time</option>
+                <option value="Recurring">Recurring</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="comments" style="margin-left:10px;">Comments:</label>
+              <input class="form-control" name="comments" id="comments" type="text" list="allComments"/>
+                <datalist id="allComments">
+                  <%for(let i=0; i<commentsList.length; i++) {%>
+                    <option><%=commentsList[i]%></option>
+                  <%}%>
+                </datalist>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <label for="vendor" style="margin-left:10px;">Vendor:</label>
-          <input class="form-control" name="vendor" required id="vendor" type="text" list="vendors"/>
-            <datalist id="vendors">
-              <%for(let i=0; i<vendorList.length; i++) {%>
-                <option><%=vendorList[i]%></option>
-              <%}%>
-            </datalist>
-        </div>
-        <div class="form-group">
-          <label for="amount" style="margin-left:10px;">Amount:</label>
-          <input class="form-control" name="formAmount" required id="formAmount" type="number" step=".01"/>
-        </div>
-        <div class="form-group">
-          <label for="paymentType" style="margin-left:10px;">Payment Type:</label>
-          <select class="form-control" required name="paymentType" id="paymentType">
-            <option value="AmEx Platinum">AmEx Platinum</option>
-            <option value="Cash">Cash</option>
-            <option value="Chase Sapphire">Chase Sapphire</option>
-            <option value="Credit">Credit</option>
-            <option value="Debit">Debit</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="category" style="margin-left:10px;">Category:</label>
-          <select class="form-control" required name="category" id="category">
-            <option value="Monthly">Monthly</option>
-            <option value="One-time">One-time</option>
-            <option value="Recurring">Recurring</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="comments" style="margin-left:10px;">Comments:</label>
-          <input class="form-control" name="comments" id="comments" type="text" list="allComments"/>
-            <datalist id="allComments">
-              <%for(let i=0; i<commentsList.length; i++) {%>
-                <option><%=commentsList[i]%></option>
-              <%}%>
-            </datalist>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
-
+      </div>
+    </div>
       <!-- /#wrapper -->
       <footer class="main-footer">
         <div class="container-fluid">
