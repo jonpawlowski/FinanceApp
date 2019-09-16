@@ -18,7 +18,7 @@ function router() {
         client = mongoDB.get();
         const db = client.db(global.gConfig.database);
         const col = db.collection(global.gConfig.collection);
-        console.log("***** Get monthly charges****");
+
         // Get current dollars to the budget spent as of today
         const date = new Date();
         const monthlyCharges = await col.find({
@@ -30,26 +30,8 @@ function router() {
 
         //Get vendor list for auto-complete in the form
         const vendorList = await utilities.getVendorsList();
-        /*const allVendors = await col.find({
-          "chargeDate" : {
-            $lt: new Date(),
-            $gte: new Date(new Date().setDate(new Date().getDate()-365))
-          }
-        }).project({ _id : 0, vendor : 1 , comments: 1 }).toArray();*/
 
-        //const vendorList = utilities.getVendorsList();
-        //const vendorList = [...new Set(allVendors.map(item => item.vendor))];
-
-        //Sort the vendor list alphabetically
-        /*vendorList.sort(function(a, b) {
-          return a.toLowerCase().localeCompare(b.toLowerCase());
-        });*/
         const commentsList = await utilities.getCommentsList();
-        console.log("There are TOTS " + commentsList.length + " in the system.")
-        /*const commentsList = [...new Set(allVendors.map(item => item.comments))];
-        commentsList.sort(function(a, b) {
-          return a.toLowerCase().localeCompare(b.toLowerCase());
-        });*/
 
         // Perform current budget performance
         var totalMonthlyCharges = 0;

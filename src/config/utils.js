@@ -27,7 +27,7 @@ const util = require('util');
       vendorList.sort(function(a, b) {
         return a.toLowerCase().localeCompare(b.toLowerCase());
       });
-      console.log("We have " + vendorList.length + " unique vendors.");
+
       return vendorList;
   }
 
@@ -48,7 +48,6 @@ const util = require('util');
         }
       }).project({ _id : 0, comments : 1 }).toArray();
 
-      console.log("There are " + allComments.length + " comments in the system.")
       // Use JS ES6 Set function to only get unique vendors
       var commentsList = [...new Set(allComments.map(item => item.comments))];
 
