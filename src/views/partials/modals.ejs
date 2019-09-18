@@ -114,6 +114,11 @@
 					<div class="form-group">
 					  <label for="editFormComments" style="margin-left:10px;">Comments:</label>
 					  <input class="form-control" name="editFormComments" id="editFormComments" type="text"/>
+            <datalist id="allEditComments">
+              <%for(let i=0; i<commentsList.length; i++) {%>
+                <option><%=commentsList[i]%></option>
+              <%}%>
+            </datalist>
 					</div>
 					<div class="form-group">
 					  <button type="Submit" class="btn btn-primary" id="btnEdit">Update</button>
