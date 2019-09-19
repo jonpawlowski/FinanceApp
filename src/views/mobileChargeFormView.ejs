@@ -30,7 +30,8 @@
     <!-- Charge form CSS -->
     <!--<link href="css/Payment.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">-->
-
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="../jp/css/toastr.css">
     <!-- Bootstrap Datepicker CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css"/>
     <!--<link href="css/colors.css" rel="stylesheet">-->
@@ -119,11 +120,18 @@
     <script src="../jp/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
     <!-- Main File-->
     <script src="../jp/js/front.js"></script>
+    <!-- Toastr js File -->
+    <script src="../jp/js/toastr.js"></script>
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 
     <script>
       $(document).ready(function(){
+
+        if ("<%=notificationMessage%>" !== "") {
+          toastr.success('<%=notificationMessage%>');
+        }
+
         var currentURL = document.location.href;
         var dateOptions = {};
         if (currentURL.includes("monthlyAnalysis")) {

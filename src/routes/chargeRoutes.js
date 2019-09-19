@@ -37,6 +37,9 @@ function router() {
         } else if (pageReferrer.includes("yearlyAnalysis")) {
           res.redirect(307, '/analysis/yearlyAnalysis');
         } else if (pageReferrer.includes("mobile")) {
+          req.session['notificationDate'] = chargeDate;
+          req.session['notificationVendor'] = req.body.vendor;
+          req.session['notificationAmount'] = amount;
           res.redirect('/charges/mobile');
         } else if (pageReferrer.includes("charges")) {
           res.redirect('/charges')
@@ -136,6 +139,17 @@ function router() {
       // Get all comments entered in the last year
       const commentsList = await utilities.getCommentsList();
 
+      var notificationMessage = '';
+
+      if (typeof req.session.notificationVendor !== 'undefined') {
+
+        notificationMessage = req.session.notificationVendor + " charge for $" + req.session.notificationAmount + " on " + req.session.notificationDate + " successfully added!";
+
+        delete req.session.notificationDate;
+        delete req.session.notificationVendor;
+        delete req.session.notificationAmount;
+      }
+
       // get today's date for max date and default value in new charges form
       var todaysDate = new Date();
       var dd = todaysDate.getDate();
@@ -157,7 +171,8 @@ function router() {
         {
           vendorList,
           commentsList,
-          todaysDate
+          todaysDate,
+          notificationMessage
         }
       );
     }());
