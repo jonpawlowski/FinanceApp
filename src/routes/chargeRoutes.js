@@ -143,7 +143,22 @@ function router() {
 
       if (typeof req.session.notificationVendor !== 'undefined') {
 
-        notificationMessage = req.session.notificationVendor + " charge for $" + req.session.notificationAmount + " on " + req.session.notificationDate + " successfully added!";
+        var enteredDate = new Date(req.session.notificationDate);
+        var dd = enteredDate.getDate();
+        var mm = enteredDate.getMonth()+1; //January is 0!
+        var yyyy = enteredDate.getFullYear();
+
+        if ( dd < 10 ) {
+          dd = '0' + dd;
+        }
+
+        if ( mm < 10 ) {
+          mm = '0' + mm;
+        }
+
+        enteredDate = mm + '/' + dd + '/' + yyyy;
+
+        notificationMessage = req.session.notificationVendor + " charge for $" + req.session.notificationAmount + " on " + enteredDate + " successfully added!";
 
         delete req.session.notificationDate;
         delete req.session.notificationVendor;
