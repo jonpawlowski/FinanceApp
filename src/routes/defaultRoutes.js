@@ -187,8 +187,7 @@ function router() {
         else {
           // under budget color
           monthlyFillColor = "66B334";
-
-          FillColor = "92B6C7"
+          monthlyFillColor = "66B334"
         }
 
         // Show green bubble if ahead for the month
@@ -203,7 +202,7 @@ function router() {
           // behind for the month so show red
           totalMonthlyFillColor = "FF0000";
         }
-        
+
     res.render(
       'index',
       {
