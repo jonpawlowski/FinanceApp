@@ -187,7 +187,7 @@ function router() {
         else {
           // under budget color
           monthlyFillColor = "66B334";
-          monthlyFillColor = "66B334"
+          monthlyFillColor = "66B334";
         }
 
         // Show green bubble if ahead for the month
