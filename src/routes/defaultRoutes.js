@@ -56,6 +56,7 @@ function router() {
             }
           }
         }
+
         //Calculate the top 5 vendors based on spending amount
         var topVendors = [];
 
@@ -187,7 +188,7 @@ function router() {
         else {
           // under budget color
           monthlyFillColor = "66B334";
-          monthlyFillColor = "66B334";
+          totalSpentFillColor = "66B334";
         }
 
         // Show green bubble if ahead for the month
@@ -203,6 +204,7 @@ function router() {
           totalMonthlyFillColor = "FF0000";
         }
 
+        console.log("GOT HERE********");
     res.render(
       'index',
       {
