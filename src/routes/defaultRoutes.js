@@ -204,7 +204,6 @@ function router() {
           totalMonthlyFillColor = "FF0000";
         }
 
-        console.log("GOT HERE********");
     res.render(
       'index',
       {
