@@ -222,11 +222,11 @@ function router() {
           const db = client.db(global.gConfig.database);
           const col = db.collection(global.gConfig.collection);
 
-          // Get charges from the last 180 days
+          // Get charges from the last 365 days
           const charges = await col.find({
             "chargeDate" : {
               $lt: new Date(),
-              $gte: new Date(new Date().setDate(new Date().getDate()-180))
+              $gte: new Date(new Date().setDate(new Date().getDate()-365))
             }
           }).toArray();
           charges.sort(function compare(a, b) {
