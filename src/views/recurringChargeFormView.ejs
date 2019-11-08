@@ -75,7 +75,7 @@
                           <td><input class="form-control" name="formChargeDate" required id="formChargeDate" type="date" value="<%=recurringCharges[i].chargeDate%>" max="<%=todaysDate%>"/></td>
                           <td><input class="form-control" name="vendor" required id="vendor" type="text" list="vendors" value="<%=recurringCharges[i].vendor%>"/></td>
                           <td><input class="form-control" name="formAmount" required id="formAmount" type="number" step=".01" value=<%=recurringCharges[i].amount %> /></td>
-                          <td><select class="form-control" required name="paymentType" id="paymentType" value="<%=recurringCharges[i].paymentType%>">
+                          <td><select class="form-control" required name="paymentType" id="paymentType">
                                 <option value="AmEx Platinum">AmEx Platinum</option>
                                 <option value="Cash">Cash</option>
                                 <option value="Chase Sapphire">Chase Sapphire</option>
