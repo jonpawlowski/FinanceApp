@@ -1,3 +1,4 @@
+
 // All charges table shown on the /charges page
 $(document).ready(function() {
   $('#allChargesTable').DataTable( {

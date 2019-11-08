@@ -59,7 +59,23 @@ const util = require('util');
       return commentsList;
   }
 
+  async function getRecurringCharges() {
+    // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+    let client
+    client = mongoDB.get();
+    const db = client.db(global.gConfig.database);
+    const col = db.collection(global.gConfig.recurring_collection);
+
+      // Get list of vendors from the last year for auto-complete in the form.
+      // The DB query grabs all vendors from the last year getting only the vendor field.
+
+      const allRecurring = await col.find({}).toArray();
+
+      return allRecurring;
+  }
+
   module.exports = {
     getVendorsList,
-    getCommentsList
+    getCommentsList,
+    getRecurringCharges
   };

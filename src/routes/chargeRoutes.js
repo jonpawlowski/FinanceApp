@@ -31,7 +31,7 @@ function router() {
         //Grab referrer page to redirect page to originating page. I needed to do some magic here
         //in order to make a post request back to the Analysis page.
         const pageReferrer = req.headers.referer;
-        //console.log("This came from " + pageReferrer);
+
         if (pageReferrer.includes("monthlyAnalysis")) {
           res.redirect(307, '/analysis/monthlyAnalysis');
         } else if (pageReferrer.includes("yearlyAnalysis")) {
@@ -191,6 +191,104 @@ function router() {
         }
       );
     }());
+  })
+
+  chargeRouter.route('/recurring')
+
+  .get((req, res) => {
+
+    (async function getRecurringForm() {
+
+      // Get all comments entered in the last year
+      const commentsList = await utilities.getCommentsList();
+
+      // Get all recurring charges from the collection populated by python script
+      const recurringCharges = await utilities.getRecurringCharges();
+
+      var dd;  // used to hold day of recurring charge
+      var recurringDate;  // used to hold date of recurring charge
+
+      // get today's date for max date and default value in new charges form
+      var todaysDate = new Date();
+
+      var current_dd = todaysDate.getDate();
+      var current_mm = todaysDate.getMonth()+1; //January is 0!
+      var current_yyyy = todaysDate.getFullYear();
+
+      // format day and month to be 2 characters and set todays Date in proper
+      // format
+      if ( current_dd < 10 ) {
+        current_dd = '0' + current_dd;
+      }
+
+      if ( current_mm < 10 ) {
+        current_mm = '0' + current_mm;
+      }
+
+      todaysDate = current_yyyy + '-' + current_mm + '-' + current_dd;
+
+      // loop through recurring charges and format the date to be current month
+      // and year as well as format amount to have 2 decimal points
+      for (i = 0; i < recurringCharges.length; i++) {
+        recurringDate = new Date(recurringCharges[i].chargeDate);
+
+        dd = recurringDate.getDate();
+
+        if ( dd < 10 ) {
+          dd = '0' + dd;
+        }
+
+        recurringCharges[i].chargeDate = current_yyyy + '-' + current_mm + '-' + dd;
+        recurringCharges[i].amount = parseFloat(recurringCharges[i].amount).toFixed(2);
+
+      }
+
+      res.render(
+        'recurringChargeFormView',
+        {
+          commentsList,
+          todaysDate,
+          recurringCharges
+        }
+      );
+    }());
+  })
+
+  .post((req, res) => {
+
+    const count = Object.keys(req.body.formChargeDate).length
+
+    (async function addRecurringCharge() {
+      let client;
+      try {
+        // Re-use existing connection from app.js file. This creates a MongoDB connection pool
+        client = mongoDB.get();
+        const db = client.db(global.gConfig.database);
+        const col = db.collection(global.gConfig.collection);
+        const recurringCol = db.collection(global.gConfig.recurring_collection);
+
+        for (i = 0; i < count; i++) {
+          const chargeDate = new Date(req.body.formChargeDate[i]);
+          const vendor = req.body.vendor[i];
+          const amount = parseFloat(req.body.formAmount[i]);
+          const paymentType = req.body.paymentType[i];
+          category = "Recurring";
+          const comments = req.body.comments[i];
+
+          const charge = { chargeDate, vendor, amount, paymentType, category, comments };
+
+          const results = await col.insertOne(charge);
+        }
+
+        recurringCol.remove();
+        //console.log(results);
+
+      } catch (err) {
+        debug(err);
+      }
+    }());
+
+    res.redirect('/');
   })
 
   chargeRouter.route('/')
