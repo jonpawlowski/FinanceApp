@@ -256,7 +256,7 @@ function router() {
 
   .post((req, res) => {
 
-    const count = Object.keys(req.body.formChargeDate).length
+    const count = Object.keys(req.body.formChargeDate).length;
 
     (async function addRecurringCharge() {
       let client;
@@ -280,7 +280,7 @@ function router() {
           const results = await col.insertOne(charge);
         }
 
-        recurringCol.remove();
+        recurringCol.deleteMany({});
         //console.log(results);
 
       } catch (err) {
