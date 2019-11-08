@@ -287,7 +287,7 @@ function router() {
           const results = await col.insertOne(charge);
         }
 
-        //recurringCol.deleteMany({});
+        recurringCol.deleteMany({});
         //console.log(results);
 
       } catch (err) {
