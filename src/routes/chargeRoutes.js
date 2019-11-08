@@ -205,52 +205,58 @@ function router() {
       // Get all recurring charges from the collection populated by python script
       const recurringCharges = await utilities.getRecurringCharges();
 
-      var dd;  // used to hold day of recurring charge
-      var recurringDate;  // used to hold date of recurring charge
+      if (recurringCharges.length == 0) {
+        console.log("Redirecting because there are no recurring charges.");
+        res.redirect('/');
+      } else {
 
-      // get today's date for max date and default value in new charges form
-      var todaysDate = new Date();
+        var dd;  // used to hold day of recurring charge
+        var recurringDate;  // used to hold date of recurring charge
 
-      var current_dd = todaysDate.getDate();
-      var current_mm = todaysDate.getMonth()+1; //January is 0!
-      var current_yyyy = todaysDate.getFullYear();
+        // get today's date for max date and default value in new charges form
+        var todaysDate = new Date();
 
-      // format day and month to be 2 characters and set todays Date in proper
-      // format
-      if ( current_dd < 10 ) {
-        current_dd = '0' + current_dd;
-      }
+        var current_dd = todaysDate.getDate();
+        var current_mm = todaysDate.getMonth()+1; //January is 0!
+        var current_yyyy = todaysDate.getFullYear();
 
-      if ( current_mm < 10 ) {
-        current_mm = '0' + current_mm;
-      }
-
-      todaysDate = current_yyyy + '-' + current_mm + '-' + current_dd;
-
-      // loop through recurring charges and format the date to be current month
-      // and year as well as format amount to have 2 decimal points
-      for (i = 0; i < recurringCharges.length; i++) {
-        recurringDate = new Date(recurringCharges[i].chargeDate);
-
-        dd = recurringDate.getDate();
-
-        if ( dd < 10 ) {
-          dd = '0' + dd;
+        // format day and month to be 2 characters and set todays Date in proper
+        // format
+        if ( current_dd < 10 ) {
+          current_dd = '0' + current_dd;
         }
 
-        recurringCharges[i].chargeDate = current_yyyy + '-' + current_mm + '-' + dd;
-        recurringCharges[i].amount = parseFloat(recurringCharges[i].amount).toFixed(2);
-
-      }
-
-      res.render(
-        'recurringChargeFormView',
-        {
-          commentsList,
-          todaysDate,
-          recurringCharges
+        if ( current_mm < 10 ) {
+          current_mm = '0' + current_mm;
         }
-      );
+
+        todaysDate = current_yyyy + '-' + current_mm + '-' + current_dd;
+
+        // loop through recurring charges and format the date to be current month
+        // and year as well as format amount to have 2 decimal points
+        for (i = 0; i < recurringCharges.length; i++) {
+          recurringDate = new Date(recurringCharges[i].chargeDate);
+
+          dd = recurringDate.getDate();
+
+          if ( dd < 10 ) {
+            dd = '0' + dd;
+          }
+
+          recurringCharges[i].chargeDate = current_yyyy + '-' + current_mm + '-' + dd;
+          recurringCharges[i].amount = parseFloat(recurringCharges[i].amount).toFixed(2);
+
+        }
+
+        res.render(
+          'recurringChargeFormView',
+          {
+            commentsList,
+            todaysDate,
+            recurringCharges
+          }
+        );
+      }
     }());
   })
 
@@ -267,6 +273,7 @@ function router() {
         const col = db.collection(global.gConfig.collection);
         const recurringCol = db.collection(global.gConfig.recurring_collection);
 
+        // Loop through the recurring charges and format the input into JSON
         for (i = 0; i < count; i++) {
           const chargeDate = new Date(req.body.formChargeDate[i]);
           const vendor = req.body.vendor[i];
