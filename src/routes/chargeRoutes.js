@@ -262,7 +262,9 @@ function router() {
 
   .post((req, res) => {
 
-    const count = Object.keys(req.body.formChargeDate).length;
+    //const count = Object.keys(req.body.formChargeDate).length;
+    const numItems = req.body.formChargeDate;
+    const count = Object.keys(numItems).length;
 
     (async function addRecurringCharge() {
       let client;
@@ -288,13 +290,12 @@ function router() {
         }
 
         recurringCol.deleteMany({});
-        //console.log(results);
+        console.log(results);
 
       } catch (err) {
         debug(err);
       }
     }());
-
     res.redirect('/');
   })
 
