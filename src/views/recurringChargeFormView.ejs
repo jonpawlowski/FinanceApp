@@ -27,10 +27,6 @@
     <link rel="stylesheet" href="../jp/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="../jp/img/favicon.ico">
-    <!-- DataTables editor CSS -->
-    <link rel="stylesheet" href="../vendor/datatables/editor.dataTables.min.css">
-    <!-- Toastr CSS -->
-    <link rel="stylesheet" href="../jp/css/toastr.css">
     <!-- Bootstrap Datepicker CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css"/>
     <!--<link href="css/colors.css" rel="stylesheet">-->
@@ -45,7 +41,7 @@
         <div class="col">
           <div class="card to-do">
             <div class="card-header d-flex align-items-center">
-              <h4>Charges for the Month of <%=currentMonth%></h4>
+              <h4>Recurring Charges for the Week of <%=currentMonth%> - <%=currentMonth%></h4>
             </div>
           </div>
             <div class="card-body">
@@ -74,10 +70,10 @@
                           <%} else {%>
                           <%for(let i=0; i<recurringCharges.length; i++) {%>
                           <tr>
-                            <td><input class="form-control" name="formChargeDate" required id="formChargeDate" type="date" value="<%=recurringCharges[i].chargeDate%>" max="<%=todaysDate%>"/></td>
-                            <td><input class="form-control" name="vendor" required id="vendor" type="text" list="vendors" value="<%=recurringCharges[i].vendor%>"/></td>
-                            <td><input class="form-control" name="formAmount" required id="formAmount" type="number" step=".01" value=<%=recurringCharges[i].amount %> /></td>
-                            <td><select class="form-control" required name="paymentType" id="paymentType">
+                            <td><input class="form-control" name="formChargeDate" required id="formChargeDate<%=i%>" type="date" value="<%=recurringCharges[i].chargeDate%>" max="<%=todaysDate%>"/></td>
+                            <td><input class="form-control" name="vendor" required id="vendor<%=i%>" type="text" list="vendors" value="<%=recurringCharges[i].vendor%>"/></td>
+                            <td><input class="form-control" name="formAmount" required id="formAmount<%=i%>" type="number" step=".01" value=<%=recurringCharges[i].amount %> /></td>
+                            <td><select class="form-control" required name="paymentType" id="paymentType<%=i%>">
                                   <option value="AmEx Platinum" <%if (recurringCharges[i].paymentType == "AmEx Platinum") {%> selected <%}%>>AmEx Platinum</option>
                                   <option value="Cash" <%if (recurringCharges[i].paymentType == "Cash") {%> selected <%}%>>Cash</option>
                                   <option value="Chase Sapphire" <%if (recurringCharges[i].paymentType == "Chase Sapphire") {%> selected <%}%>>Chase Sapphire</option>
@@ -85,7 +81,7 @@
                                   <option value="Debit" <%if (recurringCharges[i].paymentType == "Debit") {%> selected <%}%>>Debit</option>
                                 </select>
                             </td>
-                            <td><input class="form-control" name="comments" id="comments" type="text" list="allComments" value="<%=recurringCharges[i].comments%>" />
+                            <td><input class="form-control" name="comments" id="comments<%=i%>" type="text" list="allComments" value="<%=recurringCharges[i].comments%>" />
                               <datalist id="allComments">
                                 <%for(let i=0; i<commentsList.length; i++) {%>
                                   <option><%=commentsList[i]%></option>

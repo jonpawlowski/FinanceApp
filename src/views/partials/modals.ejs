@@ -121,7 +121,7 @@
             </datalist>
 					</div>
 					<div class="form-group">
-					  <button type="Submit" class="btn btn-primary" id="btnEdit">Update</button>
+					  <button type="Submit" class="btn btn-primary" id="btnUpdate">Update</button>
             <button type="button" data-dismiss="modal" class="btn btn-primary">Cancel</button>
 					</div>
                 </form>
@@ -183,7 +183,7 @@
 						    <input class="form-control" name="deleteFormComments" id="deleteFormComments" type="text" readonly/>
 					    </div>
               <div class="form-group">
-                <button type="Submit" class="btn btn-info" id="btnEdit">Delete</button>
+                <button type="Submit" class="btn btn-info" id="btnDelete">Delete</button>
                 <button type="button" data-dismiss="modal" class="btn btn-info">Cancel</button>
               </div>
             </form>
@@ -191,3 +191,46 @@
         </div>
       </div>
     </div><!-- End modal for deleting charges -->
+
+    <!-- Modal popup for entering a new Maintenance action -->
+    <div class="modal fade" id="modalNewMaintenanceForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="myModalLabel" class="modal-title">Enter a New Maintenance Activity</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <form name="newChargesForm" action="/charges/newMaintenance" method="post">
+                    <div class="form-group">
+                      <label for="chargeDate" style="margin-left:10px;">Maintenance Date:</label>
+                      <input class="form-control" name="formChargeDate" required id="formChargeDate" type="date" value="<%=todaysDate%>" max="<%=todaysDate%>"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="vendor" style="margin-left:10px;">Vendor:</label>
+                      <input class="form-control" name="vendor" required id="vendor" type="text" list="vendors"/>
+                        <datalist id="vendors">
+                          <%for(let i=0; i<vendorList.length; i++) {%>
+                            <option><%=vendorList[i]%></option>
+                          <%}%>
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                      <label for="comments" style="margin-left:10px;">Comments:</label>
+                      <input class="form-control" name="comments" id="comments" type="text" list="allComments"/>
+                        <datalist id="allComments">
+                          <%for(let i=0; i<commentsList.length; i++) {%>
+                            <option><%=commentsList[i]%></option>
+                          <%}%>
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+      </div> <!-- End modal for new Maintenance actions -->

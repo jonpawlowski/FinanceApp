@@ -514,6 +514,10 @@ nav.navbar a.menu-btn:hover {
   margin-bottom: 10px;
 }
 
+.side-navbar .sidenav-spacing {
+  margin-bottom: 10px;
+}
+
 .side-navbar i[class*='icon-'] {
   -webkit-transform: translateY(2px);
   transform: translateY(2px);

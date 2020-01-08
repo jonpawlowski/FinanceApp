@@ -219,6 +219,8 @@ function router() {
         var current_dd = todaysDate.getDate();
         var current_mm = todaysDate.getMonth()+1; //January is 0!
         var current_yyyy = todaysDate.getFullYear();
+        var beginning_day; // used for displaying the range on the header of the form
+        var ending_day; // used for displaying the range on the header of the form
 
         // format day and month to be 2 characters and set todays Date in proper
         // format
