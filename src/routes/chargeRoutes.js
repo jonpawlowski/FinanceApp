@@ -209,7 +209,6 @@ function router() {
         console.log("Redirecting because there are no recurring charges.");
         res.redirect('/');
       } else {
-
         var dd;  // used to hold day of recurring charge
         var recurringDate;  // used to hold date of recurring charge
 
@@ -219,8 +218,10 @@ function router() {
         var current_dd = todaysDate.getDate();
         var current_mm = todaysDate.getMonth()+1; //January is 0!
         var current_yyyy = todaysDate.getFullYear();
-        var beginning_day; // used for displaying the range on the header of the form
-        var ending_day; // used for displaying the range on the header of the form
+        var beginningDate; // used for displaying the range on the header of the form
+        var endingDate; // used for displaying the range on the header of the form
+        var recurringChargesHeader = "Recurring Charges for the ";
+        const month_ending_day = new Date(current_yyyy, current_mm, 0).getDate();
 
         // format day and month to be 2 characters and set todays Date in proper
         // format
@@ -237,7 +238,20 @@ function router() {
         // loop through recurring charges and format the date to be current month
         // and year as well as format amount to have 2 decimal points
         for (i = 0; i < recurringCharges.length; i++) {
+
           recurringDate = new Date(recurringCharges[i].chargeDate);
+
+          if ( i == 0 ) {
+            beginningDate = recurringDate;
+          } else if ( recurringDate < beginningDate ) {
+            beginningDate = recurringDate;
+          }
+
+          if ( i == 0 ) {
+            endingDate = recurringDate;
+          } else if ( recurringDate > endingDate ) {
+            endingDate = recurringDate;
+          }
 
           dd = recurringDate.getDate();
 
@@ -248,6 +262,34 @@ function router() {
           recurringCharges[i].chargeDate = current_yyyy + '-' + current_mm + '-' + dd;
           recurringCharges[i].amount = parseFloat(recurringCharges[i].amount).toFixed(2);
 
+        }
+
+        var beginningDay = beginningDate.getDate();
+        var endingDay = endingDate.getDate();
+
+        //Determine the beginning and ending day for the page header
+        if ( endingDay < 8 ) {
+          beginningDay = 1;
+          endingDay = 7;
+        } else if ( ( endingDay < 16 ) && ( beginningDay > 7 ) ) {
+          beginningDay = 8;
+          endingDay = 15;
+        } else if ( ( endingDay < 23 ) && ( beginningDay > 15 ) ) {
+          beginningDay = 16;
+          endingDay = 22;
+        } else if ( beginningDay > 22 ) {
+          beginningDay = 23;
+          endingDay = month_ending_day;
+        }
+
+        const dayDifference = endingDay - beginningDay;
+        var weekDisplay;
+
+        // Determine whether the page header will display 'week' or 'weeks'
+        if ( dayDifference < 10 ) {
+          weekDisplay = " Week ";
+        } else {
+          weekDisplay = " Weeks ";
         }
 
         // Get current month to display on index page
@@ -265,15 +307,20 @@ function router() {
         month[9] = "October";
         month[10] = "November";
         month[11] = "December";
+
         const currentMonth = month[d.getMonth()];
 
+        // Complete header information
+        recurringChargesHeader = recurringChargesHeader + weekDisplay + "of " + currentMonth + " " + beginningDay + " - " + currentMonth + " " + endingDay;
+        
         res.render(
           'recurringChargeFormView',
           {
             commentsList,
             todaysDate,
             recurringCharges,
-            currentMonth
+            currentMonth,
+            recurringChargesHeader
           }
         );
       }
