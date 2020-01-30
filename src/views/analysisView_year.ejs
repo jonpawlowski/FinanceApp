@@ -10,7 +10,6 @@
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="../jp/vendor/bootstrap/css/bootstrap.min.css">
     <link href="../css/select.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Font Awesome CSS-->
     <link rel="stylesheet" href="../jp/vendor/font-awesome/css/font-awesome.min.css">
     <!-- Fontastic Custom icon font-->
@@ -27,10 +26,6 @@
     <link rel="stylesheet" href="../jp/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="../jp/img/favicon.ico">
-    <!-- Charge form CSS -->
-    <!--<link href="css/Payment.css" rel="stylesheet">
-    <link href="css/common.css" rel="stylesheet">-->
-    <!--<link href="css/colors.css" rel="stylesheet">-->
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -47,63 +42,57 @@
 
       <!-- Statistics Section-->
       <br>
-      <section class="statistics">
+      <section class="charts">
         <div class="container-fluid">
-          <div class="row d-flex">
+          <div class="row equal">
             <div class="col-lg-4">
-              <!-- Income-->
-              <div class="card income text-center">
-                <strong class="text-primary">Average Budget Analysis for <%=requestDate%></strong>
-                <br>
-                <div class="chart">
-                    <canvas id="monthlyBudgetChart" width="350" height="350"></canvas>
+              <div class="card pie-chart-example h-100">
+                <div class="card-header d-flex align-items-center">
+                  <h4>Average Budget Analysis for <%=requestDate%></h4>
                 </div>
-                <br>
-                <div class="b-dashboard-col70">
-                    <div class="b-dashboard-accounts-balance">Available<span><span><%= currencyFormatted(budgetRemaining) %></span></span>
-                        <div class="b-dashboard-accounts-balance-circle" style="background: rgb(102, 179, 96);"></div>
-                    </div>
-                </div>
-                <div class="b-dashboard-col70">
-                    <div class="b-dashboard-accounts-balance">Spent<span><%= currencyFormatted(totalMonthlyCharges) %></span>
-                      <div class="b-dashboard-accounts-balance-circle" style="background: rgb(146, 182, 199);"></div>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <!-- Total Monthly Spending-->
-              <div class="card income text-center">
-                <strong class="text-primary">Total Spending for <%=requestDate%></strong>
-                <br>
-                <!-- Circle Chart for monthly budget -->
-                <div class="chart">
-                  <canvas id="totalMonthlyChart" width="350" height="350"></canvas>
-                </div>
-                <br>
-                <div class="b-dashboard-accounts-info">
-                  <div class="b-dashboard-col70">
-                      <div class="b-dashboard-accounts-balance">Total Yearly Spend<span><span><%= currencyFormatted(allMonthlyCharges) %></span></span>
-                      <div class="b-dashboard-accounts-balance-circle" style="<%=totalMonthlyFillColor%>"></div>
-                    </div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="monthlyBudgetChart" width="100%" height="350px" class="chart"></canvas>
+                  </div>
+                  <div class="card-text">
+                    <span class="dot-92B6C7"></span>Available <strong><span class="jp-left-margin"><%= currencyFormatted(budgetRemaining) %></span></strong>
+                  </div>
+                  <div class="card-text">
+                    <span class="dot-<%=totalSpentFillColor%>"></span>Spent <strong><span class="jp-left-margin"><%= currencyFormatted(totalMonthlyCharges) %></span></strong>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-lg-4">
-              <!-- Monthly Usage-->
-              <div class="card income text-center">
-                <strong class="text-primary">Top 5 Vendors</strong>
-                <br>
-                <div class="chart">
-                  <canvas id="topVendorChart" width="350px" height="450px"></canvas>
+              <div class="card pie-chart-example h-100">
+                <div class="card-header d-flex align-items-center">
+                  <h4>Total Monthly Spending</h4>
+                </div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="totalMonthlyChart" width="100%" height="350px" class="chart"></canvas>
+                  </div>
+                  <div class="card-text">
+                    <span class="dot-<%=totalMonthlyFillColor%>"></span>Total Monthly Spend <strong><span class="jp-left-margin" style="margin-bottom: 61px"><%= currencyFormatted(allMonthlyCharges) %></span></strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card pie-chart-example h-100">
+                <div class="card-header d-flex align-items-center">
+                  <h4>Top 5 Vendors</h4>
+                </div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="topVendorChart" width="100%" height="443px" class="chart"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <br>
 
       <footer class="main-footer">
         <div class="container-fluid">
@@ -118,16 +107,9 @@
     <!-- JavaScript files-->
     <!-- Datatables JS Files -->
     <script src="../vendor/jquery/jquery.js"></script>
-    <script src="../vendor/datatables/jquery.dataTables.js"></script>
-    <script src="../vendor/datatables/dataTables.bootstrap4.js"></script>
-    <script src="../vendor/datatables/dataTables.responsive.min.js"></script>
-    <script src="../vendor/datatables/dataTables.buttons.min.js"></script>
-    <script src="../vendor/bootstrap/js/responsive.bootstrap.min.js"></script>
-    <script src="../vendor/datatables/dataTables.select.min.js"></script>
     <!-- Page level plugin JavaScript-->
     <script src="../vendor/chart.js/Chart.js"></script>
     <!--<script src="jp/vendor/jquery/jquery.min.js"></script>-->
-
     <script src="../jp/vendor/popper.js/umd/popper.min.js"> </script>
     <script src="../jp/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../jp/js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
@@ -136,10 +118,7 @@
     <script src="../jp/vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="../jp/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
     <!--<script src="jp/js/charts-home.js"></script>-->
-    <script src="../js/moment.min.js"></script>
-    <script src="../js/datetime-moment.js"></script>
-    <!-- Datatables scripts for this page-->
-    <script src="../js/demo/datatables-demo.js"></script>
+
     <!-- Main File-->
     <script src="../jp/js/front.js"></script>
     <!-- script to create total monthly doughnut chart. located in ejs partial monthlyCharts.ejs -->
