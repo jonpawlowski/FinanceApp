@@ -18,4 +18,5 @@ package-lock.json
 # Config Files
 config.js
 config.json
-vendorList.json
+server.cert
+server.key
