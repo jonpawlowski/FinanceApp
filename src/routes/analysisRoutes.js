@@ -24,6 +24,7 @@ function router() {
   .post((req, res) => {
 
     var requestDate;
+
     if (req.session.analysisRequestDate) {
       requestDate = req.session.analysisRequestDate;
     } else {
@@ -98,6 +99,19 @@ function router() {
           res[value.vendor].amount += value.amount
           return res;
         }, {});
+
+        // if the vendor list is less than 5, pad the array so the monthly chart will show properly
+        if (topVendors.length < 5) {
+
+          var startPadding = topVendors.length;
+
+          for (i = startPadding; i < 5; i++) {
+            var tempVendor = "NoData" + i.toString();
+            var paddingToAdd = {vendor: tempVendor, amount: 0.00};
+            topVendors.push(paddingToAdd);
+          }
+        }
+        
         //Sort by the most spent
         topVendors.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
 
