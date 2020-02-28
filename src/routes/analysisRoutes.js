@@ -111,7 +111,7 @@ function router() {
             topVendors.push(paddingToAdd);
           }
         }
-        
+
         //Sort by the most spent
         topVendors.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
 
@@ -254,7 +254,7 @@ function router() {
       req.session.destroy();
 
       res.render(
-        'analysisView_charges',
+        'analysisView',
         {
           pageTitle
         }
