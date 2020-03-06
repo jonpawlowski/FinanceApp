@@ -13,7 +13,7 @@ function router() {
       // Clear out session variable
       req.session.destroy();
 
-      (async function chargesAnalysis() {
+      (async function getMonthlyAnalysis() {
         try {
 
           //Get vendor list for auto-complete in the form
@@ -442,12 +442,44 @@ function router() {
       // Clear out session variable
       req.session.destroy();
 
-      res.render(
-        'analysisView',
-        {
-          pageTitle
-        }
-      );
+      (async function getYearlyAnalysis() {
+        try {
+
+          //Get vendor list for auto-complete in the form
+          const vendorList = await utilities.getVendorsList();
+
+          // Get all comments entered in the last year
+          const commentsList = await utilities.getCommentsList();
+
+          // get today's date for max date and default value in new charges form
+          var todaysDate = new Date();
+          var dd = todaysDate.getDate();
+          var mm = todaysDate.getMonth()+1; //January is 0!
+          var yyyy = todaysDate.getFullYear();
+
+          if ( dd < 10 ) {
+            dd = '0' + dd;
+          }
+
+          if ( mm < 10 ) {
+            mm = '0' + mm;
+          }
+
+          todaysDate = yyyy + '-' + mm + '-' + dd;
+
+          res.render(
+            'analysisView',
+            {
+              vendorList,
+              todaysDate,
+              pageTitle,
+              commentsList
+            }
+          );
+      } catch(err) {
+        debug(err.stack);
+      }
+      }());
     })
 
   .post((req, res) => {
