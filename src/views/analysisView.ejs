@@ -83,7 +83,7 @@
                 <div class="form-group" id="chargeCategory">
                   <label for="chargeAType" style="margin-left:10px;">Category:</label>
                   <select class="form-control" required name="chargeAType" id="chargeAType">
-                    <option value="Choose">Choose</option>
+                    <option value="none" selected disabled hidden>Choose</option>
                     <option value="Vendor">Vendor</option>
                     <option value="paymentType">Payment Type</option>
                   </select>
@@ -156,7 +156,7 @@
     <script>
       $("#chargeAType").change(function () {
         const paymentTypeHTML = '<div class="form-group" id="analysisElement"><label for="paymentType" style="margin-left:10px;">Payment Type:</label><select class="form-control" required name="analysisType" id="analysisType"><option value="AmEx Platinum">AmEx Platinum</option><option value="Cash">Cash</option><option value="Chase Sapphire">Chase Sapphire</option><option value="Credit">Credit</option></select></div>'
-        const vendorHTML = '<div class="form-group" id="analysisElement"><label for="vendors" style="margin-left:10px;">Vendor:</label><input class="form-control" name="analysisType" required id="analysisType" type="text" list="vendors"/><datalist id="vendors"><%for(let i=0; i<vendorList.length; i++) {%><option><%=vendorList[i]%></option><%}%></datalist></div>'
+        const vendorHTML = '<div class="form-group" id="analysisElement"><label for="vendors" style="margin-left:10px;">Vendor:</label><input class="form-control" name="analysisType" required id="analysisType" type="text" list="vendors"/><datalist id="vendors"><option value="none" selected disabled hidden>Choose</option><%for(let i=0; i<vendorList.length; i++) {%><option><%=vendorList[i]%></option><%}%></datalist></div>'
         //var i = 0;
         //$('.input-group').children('input').remove() *for reset the inbox on change*
         //while (i < parseInt($(this).val())) {
