@@ -41,7 +41,7 @@
   <body>
     <!-- Include to display modals -->
     <%- include('partials/sidebarnav') %>
-
+    <%- include('partials/modals') %>
 
     <div class="page">
 
@@ -155,7 +155,7 @@
     </script>
     <script>
       $("#chargeAType").change(function () {
-        const paymentTypeHTML = '<div class="form-group" id="analysisElement"><label for="paymentType" style="margin-left:10px;">Payment Type:</label><select class="form-control" required name="paymentType" id="paymentType"><option value="AmEx Platinum">AmEx Platinum</option><option value="Cash">Cash</option><option value="Chase Sapphire">Chase Sapphire</option><option value="Credit">Credit</option><option value="Debit">Debit</option></select></div>'
+        const paymentTypeHTML = '<div class="form-group" id="analysisElement"><label for="paymentType" style="margin-left:10px;">Payment Type:</label><select class="form-control" required name="paymentType" id="paymentType"><option value="AmEx Platinum">AmEx Platinum</option><option value="Cash">Cash</option><option value="Chase Sapphire">Chase Sapphire</option><option value="Credit">Credit</option></select></div>'
         const vendorHTML = '<div class="form-group" id="analysisElement"><label for="vendors" style="margin-left:10px;">Vendor:</label><input class="form-control" name="vendor" required id="vendor" type="text" list="vendors"/><datalist id="vendors"><%for(let i=0; i<vendorList.length; i++) {%><option><%=vendorList[i]%></option><%}%></datalist></div>'
         //var i = 0;
         //$('.input-group').children('input').remove() *for reset the inbox on change*
