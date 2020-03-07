@@ -326,9 +326,10 @@ function router() {
 
     (async function chargesAnalysis() {
 
-      const reqInfo = req.body.vendor;
+      const reqInfo = req.body.analysisType;
       const reqType = req.body.chargeAType;
       var vendorAnalysis;
+      var monthYear = [];
 
       let client;
       try {
@@ -341,8 +342,6 @@ function router() {
           // Get first of the month date for
           var currentDate = new Date();
           var nextMonth = currentDate.getMonth();
-          //var months = {'0':'Jan', '1':'Feb', '2':'Mar', '3':'Apr', '4':'May', '5':'Jun', '6':'Jul', '7':'Aug', '8':'Sept', '9':'Oct', '10':'Nov', '11':'Dec'};
-          var monthYear = [];
           var monthArrayEntry;
 
           var newDate = new Date();
@@ -364,7 +363,6 @@ function router() {
           for (i = 0; i < 12; i++) {
             currentDate.setMonth( nextMonth );
             monthYear.push( { "month" : (currentDate.toLocaleString('default', { month: 'short' } ) + " " + currentDate.getFullYear()), "total" : 0 } );
-            //console.log(" *********" + monthYear[i].month);
             nextMonth = currentDate.getMonth() - 1;
           }
 
@@ -377,22 +375,50 @@ function router() {
             for (k = 0; k < monthYear.length; k++) {
 
               if ( dateToCheck == monthYear[k].month ) {
-                //console.log("Amount Before: " + monthYear[k].total);
-                //console.log("Amount To Add: " + vendorAnalysis[j].amount);
                 monthYear[k].total = monthYear[k].total + vendorAnalysis[j].amount;
-                //console.log("Amount After: " + monthYear[k].total);
               }
             }
           }
-        } else {
-          // Get current dollars to the budget spent as of today
-          /*const date = new Date();
-          const paymentAnalysis = await col.find({
+        } else { // Analysis of paymentType
+          // Get first of the month date for
+          var currentDate = new Date();
+          var nextMonth = currentDate.getMonth();
+
+          var newDate = new Date();
+          newDate.setFullYear(newDate.getFullYear() - 1);
+          var yearMonth = newDate.getMonth()+1;
+          var yearYear = newDate.getFullYear();
+
+          paymentAnalysis = await col.find({
+            "paymentType" : {
+                $eq: reqInfo
+            },
             "chargeDate" : {
-              $lt: new Date( analysisYear, analysisMonth, 1),
-              $gte: new Date( analysisYear, analysisMonth - 1 , 1 )
+              $lt: new Date(),
+              $gte: new Date ( yearYear, yearMonth, "1")
             }
-          }).toArray();*/
+          }).toArray();
+          console.log
+          // Loop through charges
+          for (i = 0; i < 12; i++) {
+            currentDate.setMonth( nextMonth );
+            monthYear.push( { "month" : (currentDate.toLocaleString('default', { month: 'short' } ) + " " + currentDate.getFullYear()), "total" : 0 } );
+
+            nextMonth = currentDate.getMonth() - 1;
+          }
+
+          for (j = 0; j < paymentAnalysis.length; j++) {
+            var currentChargeDate = paymentAnalysis[j].chargeDate.toString();
+            var currentChargeMonth = currentChargeDate.substring(4,7);
+            var currentYear = currentChargeDate.substring(11,15);
+            var dateToCheck = currentChargeMonth + " " + currentYear;
+
+            for (k = 0; k < monthYear.length; k++) {
+              if ( dateToCheck == monthYear[k].month ) {
+                monthYear[k].total = monthYear[k].total + paymentAnalysis[j].amount;
+              }
+            }
+          }
         }
 
         //Get vendor list for auto-complete in the form
