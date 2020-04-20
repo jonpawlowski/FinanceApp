@@ -127,6 +127,8 @@ $(document).ready(function() {
 
             // remove $ and convert to amount to number
             editAmountTable = editAmountTable.substring(1, editAmountTable.length);
+            // remove commas as it will hose the parseFloat call
+            editAmountTable = editAmountTable.replace(/,/g, "");
             editAmountTable = parseFloat(editAmountTable);
 
             // convert date to proper format for html input type date YYYY-MM-DD
@@ -214,6 +216,8 @@ $(document).ready(function() {
 
               // remove $ and convert to amount to number
               editAmountTable = editAmountTable.substring(1, editAmountTable.length);
+              // remove commas as it will hose the parseFloat call
+              editAmountTable = editAmountTable.replace(/,/g, "");
               editAmountTable = parseFloat(editAmountTable);
 
               // convert date to proper format for html input type date YYYY-MM-DD
