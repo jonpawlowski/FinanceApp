@@ -312,7 +312,7 @@ function router() {
 
         // Complete header information
         recurringChargesHeader = recurringChargesHeader + weekDisplay + "of " + currentMonth + " " + beginningDay + " - " + currentMonth + " " + endingDay;
-        
+
         res.render(
           'recurringChargeFormView',
           {
