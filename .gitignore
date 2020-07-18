@@ -12,8 +12,6 @@ pids
 
 # Dependency directories
 node_modules
-package.json
-package-lock.json
 
 # Config Files
 config.js
