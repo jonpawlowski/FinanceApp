@@ -14,7 +14,7 @@
     "body-parser": "1.18.3",
     "bootstrap": "4.3.1",
     "chalk": "^2.4.1",
-    "chart.js": "2.7.3",
+    "chart.js": "2.9.4",
     "cookie-parser": "1.4.3",
     "debug": "4.0.1",
     "ejs": "2.6.1",
