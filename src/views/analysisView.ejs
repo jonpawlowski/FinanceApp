@@ -158,13 +158,13 @@
       $("#chargeAType").change(function () {
         const paymentTypeHTML = '<div class="form-group" id="analysisElement"><label for="paymentType" style="margin-left:10px;">Payment Type:</label><select class="form-control" required name="analysisType" id="analysisType"><option value="AmEx Platinum">AmEx Platinum</option><option value="Cash">Cash</option><option value="Chase Sapphire">Chase Sapphire</option><option value="Credit">Credit</option></select></div>'
         const vendorHTML = '<div class="form-group" id="analysisElement"><label for="vendors" style="margin-left:10px;">Vendor:</label><select class="form-control" name="analysisType" required id="analysisType"><option value="none" selected disabled hidden>Choose</option><%for(let i=0; i<vendorList.length; i++) {%><option><%=vendorList[i]%></option><%}%></select></div>'
-        const commentHTML = '<div class="form-group" id="analysisElement"><label for="commentType" style="margin-left:10px;">Comment:</label><select class="form-control" name="analysisType" required id="analysisType"><option value="none" selected disabled hidden>Choose</option><%for(let i=0; i<vendorList.length; i++) {%><option><%=vendorList[i]%></option><%}%></select></div>'
+        const commentHTML = '<div class="form-group" id="analysisElement"><label for="commentType" style="margin-left:10px;">Comment:</label><select class="form-control" name="analysisType" required id="analysisType"><option value="none" selected disabled hidden>Choose</option><%for(let i=0; i<commentsList.length; i++) {%><option><%=commentsList[i]%></option><%}%></select></div>'
         //var i = 0;
         //$('.input-group').children('input').remove() *for reset the inbox on change*
         //while (i < parseInt($(this).val())) {
         $("#analysisElement").remove();
         const categoryType = document.getElementById("chargeAType").value;
-
+        // Add a new text box depending on the type of analysis chosen
         if ( categoryType == "Vendor" ) {
           $("#chargeCategory").append(vendorHTML);
         } else if ( categoryType == "paymentType" ) {
